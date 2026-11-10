@@ -265,7 +265,7 @@
 
           <!-- Chat Input -->
           <div id="chat-input-bar" class="hidden pt-2 border-t border-slate-800 flex gap-2">
-            <input type="text" id="chat-input" onkeydown="if(event.key==='Enter') sendChatMessage()" placeholder="Vraag de Gouden W's uit (Wie, wat, waar, waarom, etc.)..." class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
+            <input type="text" id="chat-input" ondown="if(event.==='Enter') sendChatMessage()" placeholder="Vraag de Gouden W's uit (Wie, wat, waar, waarom, etc.)..." class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
             <button onclick="sendChatMessage()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 rounded-xl text-xs transition">
               Vraag
             </button>
@@ -375,7 +375,7 @@
        CONFIGURATIE
        ========================================================================= */
     // ===>>> 1. GROQ API KEY <<<===
-    const GROQ_API_KEY = "HIER_JE_GROQ_API_KEY_INVULLEN"; // <-- PLAK HIER JE GROQ API KEY
+    const GROQ_API_KEY = "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"; // <-- PLAK HIER JE GROQ API KEY
 
     // ===>>> 2. FIREBASE CONFIG <<<===
     const firebaseConfig = {
