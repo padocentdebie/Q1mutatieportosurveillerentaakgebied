@@ -212,7 +212,7 @@
             <span class="text-xs bg-blue-500/20 text-blue-300 border border-blue-500/30 px-2.5 py-1 rounded-lg font-bold">Lopen!</span>
           </div>
 
-          <!-- Casus Inhoud (Alleen direct zichtbaar voor OC of als Taakdrager ter plaatse is) -->
+          <!-- Casus Inhoud (Wordt dynamisch gevuld: OC ziet inhoud, Taakdrager ziet porto-instructie) -->
           <div id="case-content-box">
             <div id="case-body" class="text-xs leading-relaxed text-slate-200 bg-slate-950/70 p-4 rounded-2xl border border-slate-800 whitespace-pre-line">
               Melding inladen...
@@ -265,7 +265,7 @@
 
           <!-- Chat Input -->
           <div id="chat-input-bar" class="hidden pt-2 border-t border-slate-800 flex gap-2">
-            <input type="text" id="chat-input" ondown="if(event.==='Enter') sendChatMessage()" placeholder="Vraag de Gouden W's uit (Wie, wat, waar, waarom, etc.)..." class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
+            <input type="text" id="chat-input" onkeydown="if(event.key==='Enter') sendChatMessage()" placeholder="Vraag de Gouden W's uit (Wie, wat, waar, waarom, etc.)..." class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
             <button onclick="sendChatMessage()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 rounded-xl text-xs transition">
               Vraag
             </button>
@@ -317,21 +317,21 @@
               <label class="block font-bold text-slate-300 mb-1">
                 <span class="text-amber-400 font-mono">A</span> - Aanleiding
               </label>
-              <textarea id="astma-a" rows="2" placeholder="Waarom kwam de politie in actie? (Melding OC, surveillance, toewijzing)" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-500"></textarea>
+              <textarea id="astma-a" rows="2" placeholder="Dag datum tijd, jouw naam, jouw bevoegdheid, jouw hoedanigheid, waar was je mee bezig? Welke melding kreeg je?" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-500"></textarea>
             </div>
 
             <div>
               <label class="block font-bold text-slate-300 mb-1">
                 <span class="text-amber-400 font-mono">S</span> - Situatie ter plaatse
               </label>
-              <textarea id="astma-s" rows="2" placeholder="Wat trof de verbalisant direct aan bij aankomst op de locatie?" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-500"></textarea>
+              <textarea id="astma-s" rows="2" placeholder="Wat zie ter plaatse?" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-500"></textarea>
             </div>
 
             <div>
               <label class="block font-bold text-slate-300 mb-1">
                 <span class="text-amber-400 font-mono">T</span> - Toedracht (De Gouden W's)
               </label>
-              <textarea id="astma-t" rows="3" placeholder="Wie, wat, waar, waarom, wanneer, waarmee, op welke wijze..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-500"></textarea>
+              <textarea id="astma-t" rows="3" placeholder="Noteer in de verleden tijd wat er gebeurde. Geef antwoord op de vragen: Wie, wat, waar, waarom, wanneer, waarmee, op welke wijze..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-500"></textarea>
             </div>
 
             <div>
@@ -375,7 +375,7 @@
        CONFIGURATIE
        ========================================================================= */
     // ===>>> 1. GROQ API KEY <<<===
-    const GROQ_API_KEY = "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"; // <-- PLAK HIER JE GROQ API KEY
+    const GROQ_API_KEY = "HIER_JE_GROQ_API_KEY_INVULLEN"; // <-- PLAK HIER JE GROQ API KEY
 
     // ===>>> 2. FIREBASE CONFIG <<<===
     const firebaseConfig = {
@@ -606,25 +606,41 @@ Toont netjes zijn ID-kaart als de agent professioneel blijft.`
     function setupRoleUI() {
       const btnTerPlaatse = document.getElementById('btn-ter-plaatse');
       const caseRoleTip = document.getElementById('case-role-tip');
+      const caseBody = document.getElementById('case-body');
+      const caseBadge = document.getElementById('case-badge');
 
       if (currentRole === 'MEDEWERKER-OC') {
         // OC ziet de volledige casus direct om door te geven via de porto
+        if (currentCase) {
+          caseBody.textContent = currentCase.text;
+          caseBadge.textContent = `CASUS #${currentCase.id}`;
+        }
         caseRoleTip.textContent = "ℹ️ Als OC-medewerker instrueer je de taakdrager via de C2000-porto over de locatie en casusgegevens.";
         btnTerPlaatse.classList.add('hidden'); // Alleen de agent op straat klikt op ter plaatse
       } else {
-        // Taakdrager
+        // TAAKDRAGER: OC-MELDING VOLLEDIG AFGESCHERMD! Moet via de portofoon vernomen worden.
+        caseBadge.textContent = "BERICHT VIA OC";
+        caseBody.innerHTML = `
+          <div class="space-y-2 py-1">
+            <span class="text-amber-400 font-bold flex items-center gap-2">
+              <span>📻</span> Melding via C2000 portofoon
+            </span>
+            <p class="text-slate-400 italic text-xs leading-relaxed">
+              De inhoud van de casus is afgeschermd voor de taakdrager. Luister goed naar de portofoon: de medewerker van het Operationeel Centrum geeft de toedracht en bijzonderheden mondeling aan jou door!
+            </p>
+          </div>
+        `;
         caseRoleTip.textContent = "ℹ️ Verplaats je naar de academie-locatie. Luister goed naar het OC via de portofoon!";
         btnTerPlaatse.classList.remove('hidden');
       }
     }
 
     function renderAppUI() {
-      document.getElementById('case-badge').textContent = `CASUS #${currentCase.id}`;
-      document.getElementById('case-body').textContent = currentCase.text;
       document.getElementById('academy-location-display').textContent = assignedLocation;
       document.getElementById('bot-character-name').textContent = currentCase.characterName;
       document.getElementById('bot-character-desc').textContent = currentCase.characterRole;
 
+      setupRoleUI();
       updateStatusUI(isTerPlaatse);
     }
 
@@ -661,7 +677,6 @@ Toont netjes zijn ID-kaart als de agent professioneel blijft.`
 
         if (btnTerPlaatse) btnTerPlaatse.classList.add('hidden');
 
-        // Initialiseer chat als die leeg is
         if (chatHistory.length === 0) {
           initChatGreeting();
         }
