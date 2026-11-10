@@ -185,7 +185,7 @@
           </li>
           <li class="flex items-start gap-2.5">
             <span class="bg-blue-700 text-white text-[10px] font-bold px-2 py-0.5 rounded-full mt-0.5">4</span>
-            <span><strong>Ter Plaatse:</strong> Aangekomen klikt de taakdrager op <strong>'🚨 Ik ben Ter Plaatse'</strong> om de betrokkene (chatbot) te spreken.</span>
+            <span><strong>Ter Plaatse:</strong> Aangekomen klikt de taakdrager op <strong>'🚨 Ik ben Ter Plaatse'</strong> om de betrokkene (chatbot) direct te ontgrendelen.</span>
           </li>
           <li class="flex items-start gap-2.5">
             <span class="bg-amber-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full mt-0.5">5</span>
@@ -283,7 +283,7 @@
 
 
         <!-- =========================================================================
-             TER PLAATSE KNOP & STATUS CARD (VERDWIJNT NOOIT MEER!)
+             TER PLAATSE KNOP & STATUS CARD (ONMIDDELLĲKE ONTGRENDELING)
              ========================================================================= -->
         <div id="status-card" class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-3">
           <div class="flex items-center justify-between">
@@ -297,9 +297,13 @@
           </div>
 
 
-          <!-- De Ter Plaatse Knop blijft ALTIJD zichtbaar en klikbaar -->
-          <button type="button" id="btn-ter-plaatse" onclick="setTerPlaatse()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-4 rounded-xl text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2 cursor-pointer">
-            <span>📍</span> IK BEN TER PLAATSE IN HET GEBOUW (ONTGRENDEL BETROKKENE)
+          <!-- De Ontgrendelknop -->
+          <button type="button" 
+                  id="btn-ter-plaatse" 
+                  onclick="setTerPlaatse()" 
+                  class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-4 rounded-xl text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2 cursor-pointer">
+            <span id="btn-ter-plaatse-icon">📍</span>
+            <span id="btn-ter-plaatse-text">IK BEN TER PLAATSE IN HET GEBOUW (ONTGRENDEL BETROKKENE)</span>
           </button>
         </div>
 
@@ -729,31 +733,35 @@ Gouden W's feiten:
        ========================================================================= */
     async function syncCoupleData() {
       if (!db) return;
-      const coupleRef = db.ref(`classes/${currentClass}/couples/${currentCouple}`);
-      const snap = await coupleRef.once('value');
-      let data = snap.val() || {};
+      try {
+        const coupleRef = db.ref(`classes/${currentClass}/couples/${currentCouple}`);
+        const snap = await coupleRef.once('value');
+        let data = snap.val() || {};
 
-      if (!data.caseId || !CASUSSEN[data.caseId]) {
-        data.caseId = Math.floor(Math.random() * 5) + 1;
-      }
-      if (!data.location) {
-        data.location = ACADEMY_LOCATIONS[Math.floor(Math.random() * ACADEMY_LOCATIONS.length)];
-      }
-      if (!data.status) {
-        data.status = 'ONDERWEG';
-      }
-      if (!data.round) {
-        data.round = 1;
-      }
+        if (!data.caseId || !CASUSSEN[data.caseId]) {
+          data.caseId = Math.floor(Math.random() * 5) + 1;
+        }
+        if (!data.location) {
+          data.location = ACADEMY_LOCATIONS[Math.floor(Math.random() * ACADEMY_LOCATIONS.length)];
+        }
+        if (!data.status) {
+          data.status = 'ONDERWEG';
+        }
+        if (!data.round) {
+          data.round = 1;
+        }
 
-      await coupleRef.set(data);
+        await coupleRef.set(data);
 
-      currentCase = CASUSSEN[data.caseId];
-      assignedLocation = data.location;
-      isTerPlaatse = (data.status === 'TER_PLAATSE');
-      currentRound = data.round;
+        currentCase = CASUSSEN[data.caseId];
+        assignedLocation = data.location;
+        isTerPlaatse = (data.status === 'TER_PLAATSE');
+        currentRound = data.round;
 
-      renderAppUI();
+        renderAppUI();
+      } catch (err) {
+        console.warn("syncCoupleData error:", err);
+      }
     }
 
     function listenForCoupleSync() {
@@ -836,23 +844,30 @@ Gouden W's feiten:
     }
 
     /* =========================================================================
-       TER PLAATSE STATUS EN INTERACTIE (TOGGLEBAAR & BLĲFT ALTIJD ZICHTBAAR)
+       TER PLAATSE ONTGRENDELING (ONMIDDELLĲKE UI-REACTIE, GEEN VERTRAGING!)
        ========================================================================= */
-    async function setTerPlaatse() {
-      // Toggle tussen Ter Plaatse en Onderweg zodat je nooit vast komt te zitten
+    function setTerPlaatse() {
+      // Toggle de status
       isTerPlaatse = !isTerPlaatse;
       const newStatus = isTerPlaatse ? 'TER_PLAATSE' : 'ONDERWEG';
 
-      if (db) {
-        try {
-          await db.ref(`classes/${currentClass}/couples/${currentCouple}`).update({
-            status: newStatus
-          });
-        } catch(e) { console.warn("Firebase status update:", e); }
+      // 1. DIRECTE UI-UPDATE (Wacht op helemáál niks!)
+      updateStatusUI(isTerPlaatse);
+
+      if (isTerPlaatse) {
+        setTimeout(initPanorama, 100);
       }
 
-      updateStatusUI(isTerPlaatse);
-      if (isTerPlaatse) initPanorama();
+      // 2. Achtergrondsynchronisatie naar Firebase
+      if (db) {
+        try {
+          db.ref(`classes/${currentClass}/couples/${currentCouple}`).update({
+            status: newStatus
+          }).catch(err => console.warn("Firebase status sync:", err));
+        } catch(e) {
+          console.warn("Firebase update status error:", e);
+        }
+      }
     }
 
     function updateStatusUI(terPlaatse) {
@@ -862,56 +877,92 @@ Gouden W's feiten:
       const chatMessages = document.getElementById('chat-messages');
       const chatInputBar = document.getElementById('chat-input-bar');
       const btnTerPlaatse = document.getElementById('btn-ter-plaatse');
+      const btnIcon = document.getElementById('btn-ter-plaatse-icon');
+      const btnText = document.getElementById('btn-ter-plaatse-text');
 
       if (terPlaatse) {
+        // Status Badge & Tekst
         if (badge) {
           badge.textContent = "TER PLAATSE";
           badge.className = "px-3 py-1 text-xs font-black uppercase rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200";
         }
-        if (text) text.textContent = `Eenheid is gearriveerd op locatie: ${assignedLocation}.`;
-        
-        // Chatbot ontgrendelen
-        if (lockedBox) lockedBox.style.setProperty('display', 'none', 'important');
-        if (chatMessages) chatMessages.style.setProperty('display', 'block', 'important');
-        if (chatInputBar) chatInputBar.style.setProperty('display', 'flex', 'important');
+        if (text) {
+          text.textContent = `Eenheid is gearriveerd op locatie: ${assignedLocation}.`;
+        }
 
-        // Knop blijft ALTIJD zichtbaar als bevestiging en resetmogelijkheid!
+        // ONTGRENDEL CHAT DIRECT
+        if (lockedBox) {
+          lockedBox.style.setProperty('display', 'none', 'important');
+          lockedBox.classList.add('hidden');
+        }
+        if (chatMessages) {
+          chatMessages.style.setProperty('display', 'block', 'important');
+          chatMessages.classList.remove('hidden');
+        }
+        if (chatInputBar) {
+          chatInputBar.style.setProperty('display', 'flex', 'important');
+          chatInputBar.classList.remove('hidden');
+        }
+
+        // Zorg dat de openingsgroet in de chat staat
+        if (chatMessages && chatMessages.children.length === 0) {
+          initChatGreeting();
+        }
+
+        // Knop geeft duidelijke bevestiging
         if (btnTerPlaatse) {
           btnTerPlaatse.style.setProperty('display', 'flex', 'important');
           if (currentRole === 'TAAKDRAGER') {
-            btnTerPlaatse.innerHTML = `<span>✅</span> JE BENT TER PLAATSE GEMELD (KLIK OM STATUS TE RESETTEN NAAR ONDERWEG)`;
             btnTerPlaatse.className = "w-full bg-emerald-700 hover:bg-emerald-800 text-white font-black py-4 rounded-xl text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2 cursor-pointer";
           } else {
-            btnTerPlaatse.innerHTML = `<span>✅</span> EENHEID IS TER PLAATSE (KLIK VOOR RESET)`;
             btnTerPlaatse.className = "w-full bg-blue-700 hover:bg-blue-800 text-white font-black py-4 rounded-xl text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2 cursor-pointer";
           }
         }
-
-        if (chatHistory.length === 0) {
-          initChatGreeting();
+        if (btnIcon) btnIcon.textContent = "✅";
+        if (btnText) {
+          btnText.textContent = (currentRole === 'TAAKDRAGER') 
+            ? "JE BENT TER PLAATSE (KLIK OM STATUS TE RESETTEN NAAR ONDERWEG)" 
+            : "EENHEID IS TER PLAATSE (KLIK VOOR RESET)";
         }
+
       } else {
+        // Status Badge & Tekst
         if (badge) {
           badge.textContent = "ONDERWEG";
           badge.className = "px-3 py-1 text-xs font-black uppercase rounded-full bg-amber-50 text-amber-700 border border-amber-200";
         }
-        if (text) text.textContent = `Onderweg naar ${assignedLocation}... Luister naar de porto!`;
+        if (text) {
+          text.textContent = `Onderweg naar ${assignedLocation}... Luister naar de porto!`;
+        }
 
-        // Chatbot vergrendeld
-        if (lockedBox) lockedBox.style.setProperty('display', 'flex', 'important');
-        if (chatMessages) chatMessages.style.setProperty('display', 'none', 'important');
-        if (chatInputBar) chatInputBar.style.setProperty('display', 'none', 'important');
+        // VERGRENDEL CHAT
+        if (lockedBox) {
+          lockedBox.style.setProperty('display', 'flex', 'important');
+          lockedBox.classList.remove('hidden');
+        }
+        if (chatMessages) {
+          chatMessages.style.setProperty('display', 'none', 'important');
+          chatMessages.classList.add('hidden');
+        }
+        if (chatInputBar) {
+          chatInputBar.style.setProperty('display', 'none', 'important');
+          chatInputBar.classList.add('hidden');
+        }
 
-        // Knop duidelijk zichtbaar om ter plaatse te melden
+        // Knop staat klaar om te ontgrendelen
         if (btnTerPlaatse) {
           btnTerPlaatse.style.setProperty('display', 'flex', 'important');
           if (currentRole === 'TAAKDRAGER') {
-            btnTerPlaatse.innerHTML = `<span>📍</span> IK BEN TER PLAATSE IN HET GEBOUW (ONTGRENDEL BETROKKENE)`;
             btnTerPlaatse.className = "w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-4 rounded-xl text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2 cursor-pointer";
           } else {
-            btnTerPlaatse.innerHTML = `<span>📡</span> OC-REGIE: MELD EENHEID TER PLAATSE`;
             btnTerPlaatse.className = "w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-xl text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2 cursor-pointer";
           }
+        }
+        if (btnIcon) btnIcon.textContent = "📍";
+        if (btnText) {
+          btnText.textContent = (currentRole === 'TAAKDRAGER') 
+            ? "IK BEN TER PLAATSE IN HET GEBOUW (ONTGRENDEL BETROKKENE)" 
+            : "OC-REGIE: MELD EENHEID TER PLAATSE";
         }
       }
     }
@@ -922,7 +973,7 @@ Gouden W's feiten:
       if (currentCase.id === 2) greeting = "Ja hallo agent, wa's er aan de hand? Ik sta hier net een tel hoor!";
       if (currentCase.id === 3) greeting = "Dag politie, goed da' jullie er zijn. Die herrie hier op 't plein is gewon nie meer normaal...";
       if (currentCase.id === 4) greeting = "Pst, agent! Frank hier, ik heb net 't OC gebeld. Ze zitte nu in de koffiezaak, maar die auto me' die tas staat er nog!";
-      if (currentCase.id === 5) greeting = "Wat, wat, wat?! Waarom hou je me aan dan?! Ik fiets hier gewon naar huis man!";
+      if (currentCase.id === 5) greeting = "Wat, wat, what?! Waarom hou je me aan dan?! Ik fiets hier gewon naar huis man!";
 
       addBotMessage(greeting);
     }
@@ -1403,4 +1454,97 @@ Gouden W's feiten:
         document.getElementById('astma-m').value = '';
         document.getElementById('astma-afh').value = '';
 
-        const otherCases = [1, 2, 3, 4, 5].filter(id => id !== curren
+        const otherCases = [1, 2, 3, 4, 5].filter(id => id !== currentCase.id);
+        const nextCaseId = otherCases[Math.floor(Math.random() * otherCases.length)];
+
+        const otherLocations = ACADEMY_LOCATIONS.filter(loc => loc !== assignedLocation);
+        const nextLocation = otherLocations[Math.floor(Math.random() * otherLocations.length)];
+
+        if (db) {
+          await db.ref(`classes/${currentClass}/couples/${currentCouple}`).update({
+            caseId: nextCaseId,
+            location: nextLocation,
+            status: 'ONDERWEG',
+            round: currentRound + 1
+          });
+        }
+      } catch (err) {
+        alert("Fout bij opslaan: " + err.message);
+      }
+    }
+
+    function listenForMutations() {
+      if (!db) return;
+      const mutRef = db.ref(`classes/${currentClass}/mutaties`);
+      mutRef.off();
+      mutRef.on('value', snap => {
+        const container = document.getElementById('mutations-list');
+        if (!container) return;
+        container.innerHTML = '';
+        const data = snap.val();
+
+        if (!data) {
+          container.innerHTML = `<span class="text-slate-400 italic text-[11px]">Nog geen mutaties ingeleverd voor klas ${escapeHtml(currentClass)}.</span>`;
+          return;
+        }
+
+        const entries = Object.keys(data).map(k => data[k]);
+        entries.sort((x, y) => (y.timestamp || 0) - (x.timestamp || 0));
+
+        entries.forEach(item => {
+          if (!item) return;
+          const div = document.createElement('div');
+          div.className = "bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1.5 text-slate-700 shadow-sm";
+          
+          const timeStr = item.timestamp ? new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+
+          div.innerHTML = `
+            <div class="flex justify-between items-center text-[10px] font-bold text-blue-900 border-b border-slate-200/60 pb-1">
+              <span>${escapeHtml(item.koppel || '')} (${escapeHtml(item.rol || '')}) • R${escapeHtml(String(item.ronde || '1'))}</span>
+              <span class="text-slate-500 font-mono">${timeStr ? timeStr + ' • ' : ''}Casus #${escapeHtml(String(item.casusId || ''))}</span>
+            </div>
+            <div class="space-y-1 text-[11px]">
+              <p><strong class="text-blue-900 font-bold">Aanleiding:</strong> <span class="whitespace-pre-line">${escapeHtml(item.astma?.aanleiding || '')}</span></p>
+              <p><strong class="text-blue-900 font-bold">Situatie:</strong> <span class="whitespace-pre-line">${escapeHtml(item.astma?.situatie || '')}</span></p>
+              <p><strong class="text-blue-900 font-bold">Toedracht (W's):</strong> <span class="whitespace-pre-line">${escapeHtml(item.astma?.toedracht || '')}</span></p>
+              <p><strong class="text-blue-900 font-bold">Maatregel:</strong> <span class="whitespace-pre-line">${escapeHtml(item.astma?.maatregel || '')}</span></p>
+              <p><strong class="text-blue-900 font-bold">Afhandeling:</strong> <span class="whitespace-pre-line">${escapeHtml(item.astma?.afhandeling || '')}</span></p>
+            </div>
+          `;
+          container.appendChild(div);
+        });
+      }, err => {
+        console.error("Mutatie livefeed error:", err);
+      });
+    }
+
+    /* =========================================================================
+       RESET KNOP
+       ========================================================================= */
+    async function resetClassData() {
+      const confirmReset = confirm(`Weet je zeker dat je ALLE data voor klas ${currentClass} wilt wissen?\n\nDit verwijdert alle ingeleverde mutaties, gekozen locaties en koppel-casussen voor deze klas.`);
+      if (!confirmReset || !db) return;
+
+      try {
+        await db.ref(`classes/${currentClass}`).remove();
+        await db.ref(`${currentChannel}`).remove();
+        alert(`Klas ${currentClass} is volledig gereset naar Ronde 1.`);
+        currentRound = 1;
+        await syncCoupleData();
+      } catch (err) {
+        alert("Fout bij resetten: " + err.message);
+      }
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+  </script>
+</body>
+</html>
