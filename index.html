@@ -1283,4 +1283,111 @@ Toont netjes zijn ID-bewijs zodra de agent professioneel blijft.`
 
         document.getElementById('astma-a').value = '';
         document.getElementById('astma-s').value = '';
-        document.getElementById('astm
+        document.getElementById('astma-t').value = '';
+        document.getElementById('astma-m').value = '';
+        document.getElementById('astma-afh').value = '';
+
+
+        const otherCases = [1, 2, 3, 4, 5].filter(id => id !== currentCase.id);
+        const nextCaseId = otherCases[Math.floor(Math.random() * otherCases.length)];
+
+
+        const otherLocations = ACADEMY_LOCATIONS.filter(loc => loc !== assignedLocation);
+        const nextLocation = otherLocations[Math.floor(Math.random() * otherLocations.length)];
+
+
+        await db.ref(`classes/${currentClass}/couples/${currentCouple}`).update({
+          caseId: nextCaseId,
+          location: nextLocation,
+          status: 'ONDERWEG',
+          round: currentRound + 1
+        });
+
+
+      } catch (err) {
+        alert("Fout bij opslaan: " + err.message);
+      }
+    }
+
+
+    function listenForMutations() {
+      const mutRef = db.ref(`classes/${currentClass}/mutaties`);
+      mutRef.off();
+      mutRef.on('value', snap => {
+        const container = document.getElementById('mutations-list');
+        if (!container) return;
+        container.innerHTML = '';
+        const data = snap.val();
+
+
+        if (!data) {
+          container.innerHTML = `<span class="text-slate-400 italic text-[11px]">Nog geen mutaties ingeleverd voor klas ${escapeHtml(currentClass)}.</span>`;
+          return;
+        }
+
+
+        const entries = Object.keys(data).map(k => data[k]);
+        entries.sort((x, y) => (y.timestamp || 0) - (x.timestamp || 0));
+
+
+        entries.forEach(item => {
+          if (!item) return;
+          const div = document.createElement('div');
+          div.className = "bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1.5 text-slate-700 shadow-sm";
+          
+          const timeStr = item.timestamp ? new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+
+
+          div.innerHTML = `
+            <div class="flex justify-between items-center text-[10px] font-bold text-blue-900 border-b border-slate-200/60 pb-1">
+              <span>${escapeHtml(item.koppel || '')} (${escapeHtml(item.rol || '')}) • R${escapeHtml(String(item.ronde || '1'))}</span>
+              <span class="text-slate-500 font-mono">${timeStr ? timeStr + ' • ' : ''}Casus #${escapeHtml(String(item.casusId || ''))}</span>
+            </div>
+            <div class="space-y-1 text-[11px]">
+              <p><strong class="text-blue-900 font-bold">Aanleiding:</strong> <span class="whitespace-pre-line">${escapeHtml(item.astma?.aanleiding || '')}</span></p>
+              <p><strong class="text-blue-900 font-bold">Situatie:</strong> <span class="whitespace-pre-line">${escapeHtml(item.astma?.situatie || '')}</span></p>
+              <p><strong class="text-blue-900 font-bold">Toedracht (W's):</strong> <span class="whitespace-pre-line">${escapeHtml(item.astma?.toedracht || '')}</span></p>
+              <p><strong class="text-blue-900 font-bold">Maatregel:</strong> <span class="whitespace-pre-line">${escapeHtml(item.astma?.maatregel || '')}</span></p>
+              <p><strong class="text-blue-900 font-bold">Afhandeling:</strong> <span class="whitespace-pre-line">${escapeHtml(item.astma?.afhandeling || '')}</span></p>
+            </div>
+          `;
+          container.appendChild(div);
+        });
+      }, err => {
+        console.error("Mutatie livefeed error:", err);
+      });
+    }
+
+
+    /* =========================================================================
+       RESET KNOP VOOR DE DOCENT (PER KLAS)
+       ========================================================================= */
+    async function resetClassData() {
+      const confirmReset = confirm(`Weet je zeker dat je ALLE data voor klas ${currentClass} wilt wissen?\n\nDit verwijdert alle ingeleverde mutaties, gekozen locaties en koppel-casussen voor deze klas.`);
+      if (!confirmReset) return;
+
+
+      try {
+        await db.ref(`classes/${currentClass}`).remove();
+        await db.ref(`${currentChannel}`).remove();
+        alert(`Klas ${currentClass} is volledig gereset naar Ronde 1.`);
+        currentRound = 1;
+        await syncCoupleData();
+      } catch (err) {
+        alert("Fout bij resetten: " + err.message);
+      }
+    }
+
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+  </script>
+</body>
+</html>
