@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum/build/pannellum.css"/>
   <script src="https://cdn.jsdelivr.net/npm/pannellum/build/pannellum.js"></script>
   <style>
+    .hidden { display: none !important; }
     .ptt-active { background-color: #dc2626 !important; transform: scale(0.97); }
     .lcd-screen { background-color: #5c7a52; color: #081406; font-family: 'Courier New', Courier, monospace; }
   </style>
@@ -76,7 +77,7 @@
         </div>
 
 
-        <button onclick="goToInstructionMutatie()" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-black py-4 rounded-xl shadow-md hover:shadow-lg transition tracking-wider text-sm flex items-center justify-center gap-2">
+        <button type="button" onclick="goToInstructionMutatie()" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-black py-4 rounded-xl shadow-md hover:shadow-lg transition tracking-wider text-sm flex items-center justify-center gap-2 cursor-pointer">
           <span>VOLGENDE: INSTRUCTIE MUTATIE</span>
           <span>→</span>
         </button>
@@ -128,10 +129,10 @@
 
 
       <div class="flex justify-between items-center pt-4 border-t border-slate-200">
-        <button onclick="backToLogin()" class="text-xs text-slate-500 hover:text-slate-800 font-bold px-3 py-2 transition">
+        <button type="button" onclick="backToLogin()" class="text-xs text-slate-500 hover:text-slate-800 font-bold px-3 py-2 transition cursor-pointer">
           ← Terug naar login
         </button>
-        <button onclick="goToInstructionRoles()" class="bg-blue-700 hover:bg-blue-800 text-white font-black px-6 py-3 rounded-xl text-xs tracking-wider transition shadow-md">
+        <button type="button" onclick="goToInstructionRoles()" class="bg-blue-700 hover:bg-blue-800 text-white font-black px-6 py-3 rounded-xl text-xs tracking-wider transition shadow-md cursor-pointer">
           VOLGENDE: WERKWĲZE &amp; PROCEDURE →
         </button>
       </div>
@@ -190,10 +191,10 @@
 
 
       <div class="flex justify-between items-center pt-4 border-t border-slate-200">
-        <button onclick="goToInstructionMutatie()" class="text-xs text-slate-500 hover:text-slate-800 font-bold px-3 py-2 transition">
+        <button type="button" onclick="goToInstructionMutatie()" class="text-xs text-slate-500 hover:text-slate-800 font-bold px-3 py-2 transition cursor-pointer">
           ← Vorige instructie
         </button>
-        <button onclick="startAppSession()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black px-8 py-3.5 rounded-xl text-xs tracking-wider transition shadow-md">
+        <button type="button" onclick="startAppSession()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black px-8 py-3.5 rounded-xl text-xs tracking-wider transition shadow-md cursor-pointer">
           START DE SIMULATIE (NAAR DASHBOARD) →
         </button>
       </div>
@@ -222,10 +223,10 @@
 
 
       <div class="flex items-center gap-2.5">
-        <button onclick="resetClassData()" class="bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 text-xs font-bold px-3 py-2 rounded-lg transition" title="Wist alle mutaties en opgeslagen casussen voor deze klas">
+        <button type="button" onclick="resetClassData()" class="bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 text-xs font-bold px-3 py-2 rounded-lg transition cursor-pointer" title="Wist alle mutaties en opgeslagen casussen voor deze klas">
           ⚠️ Reset Klas Database
         </button>
-        <button onclick="logoutStudent()" class="bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 text-xs font-bold px-3 py-2 rounded-lg transition">
+        <button type="button" onclick="logoutStudent()" class="bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 text-xs font-bold px-3 py-2 rounded-lg transition cursor-pointer">
           Uitloggen
         </button>
       </div>
@@ -284,7 +285,7 @@
 
 
           <!-- Actieknop voor de Taakdrager -->
-          <button id="btn-ter-plaatse" onclick="setTerPlaatse()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-4 rounded-xl text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2">
+          <button id="btn-ter-plaatse" onclick="setTerPlaatse()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-4 rounded-xl text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2 cursor-pointer">
             <span>📍</span> IK BEN TER PLAATSE IN HET GEBOUW (ONTGRENDEL BETROKKENE)
           </button>
         </div>
@@ -337,7 +338,7 @@
           <!-- Chat Input -->
           <div id="chat-input-bar" class="hidden pt-2 border-t border-slate-100 flex gap-2">
             <input type="text" id="chat-input" onkeydown="if(event.key==='Enter') sendChatMessage()" placeholder="Vraag de Gouden W's uit (Wie, wat, waar, waarom, etc.)..." class="flex-1 bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600">
-            <button onclick="sendChatMessage()" class="bg-blue-700 hover:bg-blue-800 text-white font-bold px-5 rounded-xl text-xs transition shadow-sm">
+            <button type="button" onclick="sendChatMessage()" class="bg-blue-700 hover:bg-blue-800 text-white font-bold px-5 rounded-xl text-xs transition shadow-sm cursor-pointer">
               Vraag
             </button>
           </div>
@@ -365,14 +366,14 @@
 
           <!-- KANAAL EN ROL KEUZE -->
           <div class="grid grid-cols-2 gap-2 text-xs">
-            <button id="role-toggle-btn" onclick="toggleRole()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold p-2.5 rounded-lg col-span-2 transition">
+            <button type="button" id="role-toggle-btn" onclick="toggleRole()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold p-2.5 rounded-lg col-span-2 transition cursor-pointer">
               Handmatige Nood-Wissel Rol
             </button>
           </div>
 
 
           <!-- PTT KNOP -->
-          <button id="btn-ptt" class="w-full bg-amber-600 hover:bg-amber-500 text-white font-black py-6 rounded-2xl text-sm uppercase tracking-wider shadow-lg select-none transition">
+          <button type="button" id="btn-ptt" class="w-full bg-amber-600 hover:bg-amber-500 text-white font-black py-6 rounded-2xl text-sm uppercase tracking-wider shadow-lg select-none transition cursor-pointer">
             <span id="ptt-label">HOUD INGEDRUKT (PTT)</span>
           </button>
         </div>
@@ -430,7 +431,7 @@
             </div>
 
 
-            <button onclick="submitAstmaMutation()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3.5 rounded-xl text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2">
+            <button type="button" onclick="submitAstmaMutation()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3.5 rounded-xl text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2 cursor-pointer">
               <span>💾</span> ASTMA-MUTATIE OPSLAAN &amp; WISSEL VAN ROL
             </button>
           </div>
@@ -472,7 +473,10 @@
       messagingSenderId: "825633841222",
       appId: "1:825633841222:web:15d93d08e2b719285dea47"
     };
-    firebase.initializeApp(firebaseConfig);
+
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
     const db = firebase.database();
 
 
@@ -609,60 +613,75 @@ Toont netjes zijn ID-bewijs zodra de agent professioneel blijft.`
 
 
     /* =========================================================================
-       NAVIGATIE TUSSEN SCHERMEN
+       NAVIGATIE TUSSEN SCHERMEN (100% BETROUWBAAR MET DISPLAY: NONE !IMPORTANT)
        ========================================================================= */
     function goToInstructionMutatie() {
-      currentClass = document.getElementById('select-class').value;
-      currentCouple = document.getElementById('select-couple').value;
-      currentRole = document.getElementById('select-role').value;
-      currentChannel = `${currentClass}_${currentCouple}`;
+      try {
+        const classEl = document.getElementById('select-class');
+        const coupleEl = document.getElementById('select-couple');
+        const roleEl = document.getElementById('select-role');
 
+        if (classEl) currentClass = classEl.value;
+        if (coupleEl) currentCouple = coupleEl.value;
+        if (roleEl) currentRole = roleEl.value;
+        currentChannel = `${currentClass}_${currentCouple}`;
 
-      getAudioContext();
+        try { getAudioContext(); } catch(e) {}
 
+        const viewLogin = document.getElementById('view-login');
+        const viewInst1 = document.getElementById('view-instruction-mutatie');
 
-      document.getElementById('view-login').classList.add('hidden');
-      document.getElementById('view-instruction-mutatie').classList.remove('hidden');
+        if (viewLogin) viewLogin.classList.add('hidden');
+        if (viewInst1) viewInst1.classList.remove('hidden');
+      } catch (err) {
+        console.error("Fout in goToInstructionMutatie:", err);
+      }
     }
 
 
     function backToLogin() {
-      document.getElementById('view-instruction-mutatie').classList.add('hidden');
-      document.getElementById('view-login').classList.remove('hidden');
+      const viewLogin = document.getElementById('view-login');
+      const viewInst1 = document.getElementById('view-instruction-mutatie');
+      if (viewInst1) viewInst1.classList.add('hidden');
+      if (viewLogin) viewLogin.classList.remove('hidden');
     }
 
 
     function goToInstructionRoles() {
-      document.getElementById('view-instruction-mutatie').classList.add('hidden');
-      document.getElementById('view-instruction-roles').classList.remove('hidden');
+      const viewInst1 = document.getElementById('view-instruction-mutatie');
+      const viewInst2 = document.getElementById('view-instruction-roles');
+      if (viewInst1) viewInst1.classList.add('hidden');
+      if (viewInst2) viewInst2.classList.remove('hidden');
     }
 
 
     async function startAppSession() {
-      getAudioContext();
+      try {
+        try { getAudioContext(); } catch(e) {}
 
+        const viewInst2 = document.getElementById('view-instruction-roles');
+        const viewApp = document.getElementById('view-app');
+        if (viewInst2) viewInst2.classList.add('hidden');
+        if (viewApp) viewApp.classList.remove('hidden');
 
-      document.getElementById('view-instruction-roles').classList.add('hidden');
-      document.getElementById('view-app').classList.remove('hidden');
+        document.getElementById('topbar-info').textContent = `KLAS: ${currentClass} | ${currentCouple}`;
+        document.getElementById('topbar-role').textContent = `Rol: ${currentRole}`;
+        document.getElementById('badge-round').textContent = `RONDE ${currentRound}`;
+        document.getElementById('lcd-channel').textContent = `CH: ${currentCouple}`;
+        document.getElementById('lcd-role').textContent = `ROL: ${currentRole}`;
+        document.getElementById('mut-class-label').textContent = currentClass;
 
+        await syncCoupleData();
+        setupRoleUI();
 
-      document.getElementById('topbar-info').textContent = `KLAS: ${currentClass} | ${currentCouple}`;
-      document.getElementById('topbar-role').textContent = `Rol: ${currentRole}`;
-      document.getElementById('badge-round').textContent = `RONDE ${currentRound}`;
-      document.getElementById('lcd-channel').textContent = `CH: ${currentCouple}`;
-      document.getElementById('lcd-role').textContent = `ROL: ${currentRole}`;
-      document.getElementById('mut-class-label').textContent = currentClass;
+        setTimeout(initPanorama, 200);
 
-
-      await syncCoupleData();
-      setupRoleUI();
-
-      // Panorama initialiseren zodra het scherm zichtbaar is
-      initPanorama();
-
-      listenForIncomingRadio();
-      listenForMutations();
-      listenForCoupleSync();
+        listenForIncomingRadio();
+        listenForMutations();
+        listenForCoupleSync();
+      } catch (err) {
+        console.error("Fout in startAppSession:", err);
+      }
     }
 
 
@@ -670,7 +689,6 @@ Toont netjes zijn ID-bewijs zodra de agent professioneel blijft.`
       db.ref(`${currentChannel}/voiceMsg`).off();
       db.ref(`classes/${currentClass}/mutaties`).off();
       db.ref(`classes/${currentClass}/couples/${currentCouple}`).off();
-
 
       document.getElementById('view-app').classList.add('hidden');
       document.getElementById('view-login').classList.remove('hidden');
@@ -740,35 +758,29 @@ Toont netjes zijn ID-bewijs zodra de agent professioneel blijft.`
     }
 
 
-    // Luistert continu naar wijzigingen in de koppel-status én activeert automatische rolwisseling!
     function listenForCoupleSync() {
       db.ref(`classes/${currentClass}/couples/${currentCouple}`).on('value', snap => {
         const data = snap.val();
         if (!data) return;
 
 
-        // Controleer of er een nieuwe ronde is gestart na het inleveren van een mutatie
         if (data.round && data.round !== currentRound) {
           currentRound = data.round;
 
 
-          // Automatisch wisselen van rol voor beide studenten
           currentRole = (currentRole === 'TAAKDRAGER') ? 'MEDEWERKER-OC' : 'TAAKDRAGER';
 
 
-          // Nieuwe casus en locatie laden
           currentCase = CASUSSEN[data.caseId];
           assignedLocation = data.location;
           isTerPlaatse = (data.status === 'TER_PLAATSE');
 
 
-          // Chat resetten voor de nieuwe getuige
           chatHistory = [];
           const chatContainer = document.getElementById('chat-messages');
           if (chatContainer) chatContainer.innerHTML = '';
 
 
-          // UI en LCD bijwerken
           document.getElementById('topbar-role').textContent = `Rol: ${currentRole}`;
           document.getElementById('lcd-role').textContent = `ROL: ${currentRole}`;
           document.getElementById('badge-round').textContent = `RONDE ${currentRound}`;
@@ -783,7 +795,6 @@ Toont netjes zijn ID-bewijs zodra de agent professioneel blijft.`
         }
 
 
-        // Reguliere status update (Onderweg <-> Ter Plaatse)
         isTerPlaatse = (data.status === 'TER_PLAATSE');
         updateStatusUI(isTerPlaatse);
       });
@@ -804,22 +815,24 @@ Toont netjes zijn ID-bewijs zodra de agent professioneel blijft.`
           caseBadge.textContent = `CASUS #${currentCase.id}`;
         }
         caseRoleTip.textContent = "ℹ️ Als OC-medewerker instrueer je de taakdrager via de C2000-porto over de locatie en casusgegevens.";
-        btnTerPlaatse.classList.add('hidden');
-        if (panoramaCard) panoramaCard.classList.add('hidden'); // 360 viewer is voor de taakhouder ter plaatse
+        if (btnTerPlaatse) btnTerPlaatse.classList.add('hidden');
+        if (panoramaCard) panoramaCard.classList.add('hidden');
       } else {
-        caseBadge.textContent = "BERICHT VIA OC";
-        caseBody.innerHTML = `
-          <div class="space-y-2 py-1">
-            <span class="text-blue-900 font-bold flex items-center gap-2">
-              <span>📻</span> Melding via C2000 portofoon
-            </span>
-            <p class="text-slate-600 italic text-xs leading-relaxed">
-              De inhoud van de casus is afgeschermd voor de taakdrager. Luister goed naar de portofoon: de medewerker van het Operationeel Centrum geeft de toedracht en bijzonderheden mondeling aan jou door!
-            </p>
-          </div>
-        `;
-        caseRoleTip.textContent = "ℹ️ Verplaats je naar de academie-locatie. Luister goed naar het OC via de portofoon!";
-        btnTerPlaatse.classList.remove('hidden');
+        if (caseBadge) caseBadge.textContent = "BERICHT VIA OC";
+        if (caseBody) {
+          caseBody.innerHTML = `
+            <div class="space-y-2 py-1">
+              <span class="text-blue-900 font-bold flex items-center gap-2">
+                <span>📻</span> Melding via C2000 portofoon
+              </span>
+              <p class="text-slate-600 italic text-xs leading-relaxed">
+                De inhoud van de casus is afgeschermd voor de taakdrager. Luister goed naar de portofoon: de medewerker van het Operationeel Centrum geeft de toedracht en bijzonderheden mondeling aan jou door!
+              </p>
+            </div>
+          `;
+        }
+        if (caseRoleTip) caseRoleTip.textContent = "ℹ️ Verplaats je naar de academie-locatie. Luister goed naar het OC via de portofoon!";
+        if (btnTerPlaatse) btnTerPlaatse.classList.remove('hidden');
         if (panoramaCard) {
           panoramaCard.classList.remove('hidden');
           initPanorama();
@@ -860,13 +873,15 @@ Toont netjes zijn ID-bewijs zodra de agent professioneel blijft.`
 
 
       if (terPlaatse) {
-        badge.textContent = "TER PLAATSE";
-        badge.className = "px-3 py-1 text-xs font-black uppercase rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200";
-        text.textContent = `Eenheid is gearriveerd op locatie: ${assignedLocation}.`;
+        if (badge) {
+          badge.textContent = "TER PLAATSE";
+          badge.className = "px-3 py-1 text-xs font-black uppercase rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200";
+        }
+        if (text) text.textContent = `Eenheid is gearriveerd op locatie: ${assignedLocation}.`;
         
-        lockedBox.classList.add('hidden');
-        chatMessages.classList.remove('hidden');
-        chatInputBar.classList.remove('hidden');
+        if (lockedBox) lockedBox.classList.add('hidden');
+        if (chatMessages) chatMessages.classList.remove('hidden');
+        if (chatInputBar) chatInputBar.classList.remove('hidden');
 
 
         if (btnTerPlaatse) btnTerPlaatse.classList.add('hidden');
@@ -876,15 +891,17 @@ Toont netjes zijn ID-bewijs zodra de agent professioneel blijft.`
           initChatGreeting();
         }
       } else {
-        badge.textContent = "ONDERWEG";
-        badge.className = "px-3 py-1 text-xs font-black uppercase rounded-full bg-amber-50 text-amber-700 border border-amber-200";
-        text.textContent = `Onderweg naar ${assignedLocation}... Luister naar de porto!`;
+        if (badge) {
+          badge.textContent = "ONDERWEG";
+          badge.className = "px-3 py-1 text-xs font-black uppercase rounded-full bg-amber-50 text-amber-700 border border-amber-200";
+        }
+        if (text) text.textContent = `Onderweg naar ${assignedLocation}... Luister naar de porto!`;
 
 
-        lockedBox.classList.remove('hidden');
-        chatMessages.classList.add('hidden');
-        chatInputBar.classList.add('hidden');
-        if (currentRole === 'TAAKDRAGER') {
+        if (lockedBox) lockedBox.classList.remove('hidden');
+        if (chatMessages) chatMessages.classList.add('hidden');
+        if (chatInputBar) chatInputBar.classList.add('hidden');
+        if (currentRole === 'TAAKDRAGER' && btnTerPlaatse) {
           btnTerPlaatse.classList.remove('hidden');
         }
       }
@@ -1010,15 +1027,25 @@ Toont netjes zijn ID-bewijs zodra de agent professioneel blijft.`
        C2000 PORTO LOGICA (AUDIO / CHIRP / SQUELCH / PTT)
        ========================================================================= */
     function getAudioContext() {
-      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-      return audioCtx;
+      try {
+        if (!audioCtx) {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          if (AudioContextClass) audioCtx = new AudioContextClass();
+        }
+        if (audioCtx && audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        return audioCtx;
+      } catch (e) {
+        return null;
+      }
     }
 
 
     function playRadioChirp() {
       try {
         const ctx = getAudioContext();
+        if (!ctx) return;
         const now = ctx.currentTime;
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
@@ -1044,6 +1071,7 @@ Toont netjes zijn ID-bewijs zodra de agent professioneel blijft.`
     function playSquelchNoise() {
       try {
         const ctx = getAudioContext();
+        if (!ctx) return;
         const duration = 0.11;
         const bufferSize = ctx.sampleRate * duration;
         const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
@@ -1250,121 +1278,9 @@ Toont netjes zijn ID-bewijs zodra de agent professioneel blijft.`
 
 
       try {
-        // 1. Mutatie opslaan in de realtime feed van de klas
         await db.ref(`classes/${currentClass}/mutaties`).push(mutatieData);
 
 
-        // Velden direct leegmaken
         document.getElementById('astma-a').value = '';
         document.getElementById('astma-s').value = '';
-        document.getElementById('astma-t').value = '';
-        document.getElementById('astma-m').value = '';
-        document.getElementById('astma-afh').value = '';
-
-
-        // 2. Kies een ÁNDERE casus dan de huidige
-        const otherCases = [1, 2, 3, 4, 5].filter(id => id !== currentCase.id);
-        const nextCaseId = otherCases[Math.floor(Math.random() * otherCases.length)];
-
-
-        // 3. Kies een andere locatie
-        const otherLocations = ACADEMY_LOCATIONS.filter(loc => loc !== assignedLocation);
-        const nextLocation = otherLocations[Math.floor(Math.random() * otherLocations.length)];
-
-
-        // 4. Update de koppeldata in Firebase -> activeert direct de rolwisseling bij BEIDE studenten!
-        await db.ref(`classes/${currentClass}/couples/${currentCouple}`).update({
-          caseId: nextCaseId,
-          location: nextLocation,
-          status: 'ONDERWEG',
-          round: currentRound + 1
-        });
-
-
-      } catch (err) {
-        alert("Fout bij opslaan: " + err.message);
-      }
-    }
-
-
-    function listenForMutations() {
-      const mutRef = db.ref(`classes/${currentClass}/mutaties`);
-      mutRef.off();
-      mutRef.on('value', snap => {
-        const container = document.getElementById('mutations-list');
-        if (!container) return;
-        container.innerHTML = '';
-        const data = snap.val();
-
-
-        if (!data) {
-          container.innerHTML = `<span class="text-slate-400 italic text-[11px]">Nog geen mutaties ingeleverd voor klas ${escapeHtml(currentClass)}.</span>`;
-          return;
-        }
-
-
-        const entries = Object.keys(data).map(k => data[k]);
-        entries.sort((x, y) => (y.timestamp || 0) - (x.timestamp || 0));
-
-
-        entries.forEach(item => {
-          if (!item) return;
-          const div = document.createElement('div');
-          div.className = "bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1.5 text-slate-700 shadow-sm";
-          
-          const timeStr = item.timestamp ? new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
-
-
-          div.innerHTML = `
-            <div class="flex justify-between items-center text-[10px] font-bold text-blue-900 border-b border-slate-200/60 pb-1">
-              <span>${escapeHtml(item.koppel || '')} (${escapeHtml(item.rol || '')}) • R${escapeHtml(String(item.ronde || '1'))}</span>
-              <span class="text-slate-500 font-mono">${timeStr ? timeStr + ' • ' : ''}Casus #${escapeHtml(String(item.casusId || ''))}</span>
-            </div>
-            <div class="space-y-1 text-[11px]">
-              <p><strong class="text-blue-900 font-bold">Aanleiding:</strong> <span class="whitespace-pre-line">${escapeHtml(item.astma?.aanleiding || '')}</span></p>
-              <p><strong class="text-blue-900 font-bold">Situatie:</strong> <span class="whitespace-pre-line">${escapeHtml(item.astma?.situatie || '')}</span></p>
-              <p><strong class="text-blue-900 font-bold">Toedracht (W's):</strong> <span class="whitespace-pre-line">${escapeHtml(item.astma?.toedracht || '')}</span></p>
-              <p><strong class="text-blue-900 font-bold">Maatregel:</strong> <span class="whitespace-pre-line">${escapeHtml(item.astma?.maatregel || '')}</span></p>
-              <p><strong class="text-blue-900 font-bold">Afhandeling:</strong> <span class="whitespace-pre-line">${escapeHtml(item.astma?.afhandeling || '')}</span></p>
-            </div>
-          `;
-          container.appendChild(div);
-        });
-      }, err => {
-        console.error("Mutatie livefeed error:", err);
-      });
-    }
-
-
-    /* =========================================================================
-       RESET KNOP VOOR DE DOCENT (PER KLAS)
-       ========================================================================= */
-    async function resetClassData() {
-      const confirmReset = confirm(`Weet je zeker dat je ALLE data voor klas ${currentClass} wilt wissen?\n\nDit verwijdert alle ingeleverde mutaties, gekozen locaties en koppel-casussen voor deze klas.`);
-      if (!confirmReset) return;
-
-
-      try {
-        await db.ref(`classes/${currentClass}`).remove();
-        await db.ref(`${currentChannel}`).remove();
-        alert(`Klas ${currentClass} is volledig gereset naar Ronde 1.`);
-        currentRound = 1;
-        await syncCoupleData();
-      } catch (err) {
-        alert("Fout bij resetten: " + err.message);
-      }
-    }
-
-
-    function escapeHtml(text) {
-      if (!text) return '';
-      return String(text)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-  </script>
-</body>
-</html>
+        document.getElementById('astm
