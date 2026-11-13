@@ -8,17 +8,12 @@
   <!-- Firebase Compat SDK's -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-  <!-- Pannellum 360 Viewer CSS & JS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum/build/pannellum.css"/>
-  <script src="https://cdn.jsdelivr.net/npm/pannellum/build/pannellum.js"></script>
   <style>
-    .hidden { display: none !important; }
     .ptt-active { background-color: #dc2626 !important; transform: scale(0.97); }
     .lcd-screen { background-color: #5c7a52; color: #081406; font-family: 'Courier New', Courier, monospace; }
   </style>
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen antialiased flex flex-col justify-between">
-
 
   <!-- =========================================================================
        1. INLOGSCHERM (LICHT & ACADEMISCH)
@@ -33,7 +28,6 @@
         <h1 class="text-2xl font-black text-slate-900 pt-1">Aanmelden Dienst</h1>
         <p class="text-xs text-slate-500">Meld je aan met je klas, koppel en jouw startrol.</p>
       </div>
-
 
       <div class="space-y-4 pt-2">
         <div>
@@ -54,7 +48,6 @@
           </select>
         </div>
 
-
         <div>
           <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Koppeltje</label>
           <select id="select-couple" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition">
@@ -67,7 +60,6 @@
           </select>
         </div>
 
-
         <div>
           <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Startrol Ronde 1</label>
           <select id="select-role" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition">
@@ -76,11 +68,7 @@
           </select>
         </div>
 
-
-        <!-- STARTKNOP MET DIRECTE SCHERMWISSEL -->
-        <button type="button" 
-                onclick="document.getElementById('view-login').style.setProperty('display','none','important'); document.getElementById('view-instruction-mutatie').style.setProperty('display','flex','important'); goToInstructionMutatie();" 
-                class="w-full bg-blue-700 hover:bg-blue-800 text-white font-black py-4 rounded-xl shadow-md hover:shadow-lg transition tracking-wider text-sm flex items-center justify-center gap-2 cursor-pointer">
+        <button onclick="goToInstructionMutatie()" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-black py-4 rounded-xl shadow-md hover:shadow-lg transition tracking-wider text-sm flex items-center justify-center gap-2">
           <span>VOLGENDE: INSTRUCTIE MUTATIE</span>
           <span>→</span>
         </button>
@@ -89,12 +77,10 @@
   </div>
 
 
-
-
   <!-- =========================================================================
        2. INSTRUCTIESCHERM 1: OPSTELLEN MUTATIE & GOUDEN W'S
        ========================================================================= -->
-  <div id="view-instruction-mutatie" class="min-h-screen flex items-center justify-center p-4" style="display: none;">
+  <div id="view-instruction-mutatie" class="hidden min-h-screen flex items-center justify-center p-4">
     <div class="bg-white border border-slate-200 p-8 sm:p-10 rounded-3xl shadow-xl max-w-2xl w-full space-y-6">
       <div class="border-b border-slate-200 pb-4">
         <span class="inline-block text-xs font-black text-blue-700 tracking-wider uppercase bg-blue-50 border border-blue-200 px-3 py-1 rounded-full">Stap 1 van 2</span>
@@ -102,13 +88,11 @@
         <p class="text-xs text-slate-600 mt-1 font-medium">Belangrijk: De mutatie is een <strong>tekst voor intern gebruik</strong> binnen de politiesystemen.</p>
       </div>
 
-
       <div class="space-y-4 text-xs text-slate-700 leading-relaxed">
         <p>
           Een mutatie dient om collega's, wijkagenten en het Operationeel Centrum snel, feitelijk en betrouwbaar te informeren. 
           Alle informatie uit de casus wordt hierbij vastgelegd op basis van de <strong>beantwoorde 7 Gouden W's</strong>:
         </p>
-
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3 bg-blue-50/50 p-4 rounded-2xl border border-blue-100 text-slate-800 font-mono text-[11px]">
           <div class="space-y-2">
@@ -124,22 +108,16 @@
           </div>
         </div>
 
-
         <p class="text-slate-600 text-[11px] bg-slate-50 p-3 rounded-xl border border-slate-200">
           💡 <strong>Tip voor de student:</strong> Vraag tijdens de interactie met de betrokkene gericht door totdat je alle Gouden W's feitelijk kunt verantwoorden.
         </p>
       </div>
 
-
       <div class="flex justify-between items-center pt-4 border-t border-slate-200">
-        <button type="button" 
-                onclick="document.getElementById('view-instruction-mutatie').style.setProperty('display','none','important'); document.getElementById('view-login').style.setProperty('display','flex','important'); backToLogin();" 
-                class="text-xs text-slate-500 hover:text-slate-800 font-bold px-3 py-2 transition cursor-pointer">
+        <button onclick="backToLogin()" class="text-xs text-slate-500 hover:text-slate-800 font-bold px-3 py-2 transition">
           ← Terug naar login
         </button>
-        <button type="button" 
-                onclick="document.getElementById('view-instruction-mutatie').style.setProperty('display','none','important'); document.getElementById('view-instruction-roles').style.setProperty('display','flex','important'); goToInstructionRoles();" 
-                class="bg-blue-700 hover:bg-blue-800 text-white font-black px-6 py-3 rounded-xl text-xs tracking-wider transition shadow-md cursor-pointer">
+        <button onclick="goToInstructionRoles()" class="bg-blue-700 hover:bg-blue-800 text-white font-black px-6 py-3 rounded-xl text-xs tracking-wider transition shadow-md">
           VOLGENDE: WERKWĲZE &amp; PROCEDURE →
         </button>
       </div>
@@ -147,18 +125,15 @@
   </div>
 
 
-
-
   <!-- =========================================================================
        3. INSTRUCTIESCHERM 2: ROLVERDELING & ROLWISSELING
        ========================================================================= -->
-  <div id="view-instruction-roles" class="min-h-screen flex items-center justify-center p-4" style="display: none;">
+  <div id="view-instruction-roles" class="hidden min-h-screen flex items-center justify-center p-4">
     <div class="bg-white border border-slate-200 p-8 sm:p-10 rounded-3xl shadow-xl max-w-2xl w-full space-y-6">
       <div class="border-b border-slate-200 pb-4">
         <span class="inline-block text-xs font-black text-blue-700 tracking-wider uppercase bg-blue-50 border border-blue-200 px-3 py-1 rounded-full">Stap 2 van 2</span>
         <h2 class="text-2xl font-black text-slate-900 mt-2">Werkwijze &amp; Rolwisseling</h2>
       </div>
-
 
       <div class="space-y-4 text-xs text-slate-700 leading-relaxed">
         <ul class="space-y-3 bg-slate-50 p-5 rounded-2xl border border-slate-200">
@@ -185,7 +160,7 @@
           </li>
           <li class="flex items-start gap-2.5">
             <span class="bg-blue-700 text-white text-[10px] font-bold px-2 py-0.5 rounded-full mt-0.5">4</span>
-            <span><strong>Ter Plaatse:</strong> Aangekomen klikt de taakdrager op <strong>'🚨 Ik ben Ter Plaatse'</strong> om de betrokkene (chatbot) direct te ontgrendelen.</span>
+            <span><strong>Ter Plaatse:</strong> Aangekomen klikt de taakdrager op <strong>'🚨 Ik ben Ter Plaatse'</strong> om de betrokkene (chatbot) te spreken.</span>
           </li>
           <li class="flex items-start gap-2.5">
             <span class="bg-amber-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full mt-0.5">5</span>
@@ -196,16 +171,11 @@
         </ul>
       </div>
 
-
       <div class="flex justify-between items-center pt-4 border-t border-slate-200">
-        <button type="button" 
-                onclick="document.getElementById('view-instruction-roles').style.setProperty('display','none','important'); document.getElementById('view-instruction-mutatie').style.setProperty('display','flex','important'); goToInstructionMutatie();" 
-                class="text-xs text-slate-500 hover:text-slate-800 font-bold px-3 py-2 transition cursor-pointer">
+        <button onclick="goToInstructionMutatie()" class="text-xs text-slate-500 hover:text-slate-800 font-bold px-3 py-2 transition">
           ← Vorige instructie
         </button>
-        <button type="button" 
-                onclick="document.getElementById('view-instruction-roles').style.setProperty('display','none','important'); document.getElementById('view-app').style.setProperty('display','flex','important'); startAppSession();" 
-                class="bg-emerald-600 hover:bg-emerald-700 text-white font-black px-8 py-3.5 rounded-xl text-xs tracking-wider transition shadow-md cursor-pointer">
+        <button onclick="startAppSession()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black px-8 py-3.5 rounded-xl text-xs tracking-wider transition shadow-md">
           START DE SIMULATIE (NAAR DASHBOARD) →
         </button>
       </div>
@@ -213,13 +183,11 @@
   </div>
 
 
-
-
   <!-- =========================================================================
        4. HOOFDSCHERM (LICHTE ACADEMISCHE LAY-OUT)
        ========================================================================= -->
-  <div id="view-app" class="min-h-screen flex flex-col bg-slate-100" style="display: none;">
-    <!-- Header -->
+  <div id="view-app" class="hidden min-h-screen flex flex-col bg-slate-100">
+    <!-- Professionele Witte Header met Actieve Ronde Indicator -->
     <header class="bg-white border-b border-slate-200 px-6 py-3.5 flex flex-wrap items-center justify-between gap-4 shadow-sm sticky top-0 z-20">
       <div class="flex items-center gap-3">
         <div class="h-3 w-3 rounded-full bg-emerald-500 animate-pulse"></div>
@@ -232,22 +200,20 @@
         </div>
       </div>
 
-
       <div class="flex items-center gap-2.5">
-        <button type="button" onclick="resetClassData()" class="bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 text-xs font-bold px-3 py-2 rounded-lg transition cursor-pointer" title="Wist alle mutaties en opgeslagen casussen voor deze klas">
+        <button onclick="resetClassData()" class="bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 text-xs font-bold px-3 py-2 rounded-lg transition" title="Wist alle mutaties en opgeslagen casussen voor deze klas">
           ⚠️ Reset Klas Database
         </button>
-        <button type="button" onclick="logoutStudent()" class="bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 text-xs font-bold px-3 py-2 rounded-lg transition cursor-pointer">
+        <button onclick="logoutStudent()" class="bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 text-xs font-bold px-3 py-2 rounded-lg transition">
           Uitloggen
         </button>
       </div>
     </header>
 
-
     <!-- Main Grid -->
     <main class="flex-1 p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 max-w-7xl mx-auto w-full">
       
-      <!-- LINKERKANT: OC REGIE, STATUS, 360 PANORAMA & CHATBOT (7 kolommen) -->
+      <!-- LINKERKANT: OC REGIE, STATUS & CHATBOT (7 kolommen) -->
       <section class="lg:col-span-7 space-y-6">
         
         <!-- OC / Locatie Card -->
@@ -259,7 +225,6 @@
             <span id="case-badge" class="bg-blue-50 text-[10px] px-2.5 py-1 rounded-full font-mono font-bold text-blue-800 border border-blue-200">CASUS #?</span>
           </div>
 
-
           <!-- Locatie in het Academiegebouw -->
           <div class="bg-blue-50/70 border border-blue-200 p-3.5 rounded-xl flex items-center justify-between">
             <div>
@@ -269,8 +234,7 @@
             <span class="text-xs bg-blue-700 text-white font-bold px-3 py-1.5 rounded-lg shadow-sm">Beweeg Hierheen</span>
           </div>
 
-
-          <!-- Casus Inhoud -->
+          <!-- Casus Inhoud (OC ziet inhoud, Taakdrager ziet afgeschermde instructie) -->
           <div id="case-content-box">
             <div id="case-body" class="text-xs leading-relaxed text-slate-800 bg-slate-50 p-4 rounded-xl border border-slate-200 whitespace-pre-line font-medium">
               Melding inladen...
@@ -281,10 +245,7 @@
           </div>
         </div>
 
-
-        <!-- =========================================================================
-             TER PLAATSE KNOP & STATUS CARD (ONMIDDELLĲKE ONTGRENDELING)
-             ========================================================================= -->
+        <!-- Ter Plaatse Knop & Status Card -->
         <div id="status-card" class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-3">
           <div class="flex items-center justify-between">
             <div>
@@ -296,35 +257,11 @@
             </span>
           </div>
 
-
-          <!-- De Ontgrendelknop -->
-          <button type="button" 
-                  id="btn-ter-plaatse" 
-                  onclick="setTerPlaatse()" 
-                  class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-4 rounded-xl text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2 cursor-pointer">
-            <span id="btn-ter-plaatse-icon">📍</span>
-            <span id="btn-ter-plaatse-text">IK BEN TER PLAATSE IN HET GEBOUW (ONTGRENDEL BETROKKENE)</span>
+          <!-- Actieknop voor de Taakdrager -->
+          <button id="btn-ter-plaatse" onclick="setTerPlaatse()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-4 rounded-xl text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2">
+            <span>📍</span> IK BEN TER PLAATSE IN HET GEBOUW (ONTGRENDEL BETROKKENE)
           </button>
         </div>
-
-
-        <!-- =========================================================================
-             PANNELLUM 360 VIEWER
-             ========================================================================= -->
-        <div id="panorama-card" class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-3">
-          <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-            <div>
-              <h3 class="text-xs font-black uppercase tracking-wider text-blue-900 flex items-center gap-1.5">
-                <span>🔄</span> 360° Werkgebied (Situatie Ter Plaatse)
-              </h3>
-              <p class="text-[11px] text-slate-500 font-medium">Kijk rond in het winkelgebied om de situatie nauwkeurig in de mutatie te verwerken</p>
-            </div>
-            <span class="text-[10px] bg-blue-50 text-blue-800 border border-blue-200 px-2.5 py-1 rounded-full font-bold">Interactief 360°</span>
-          </div>
-
-          <div id="panorama" class="rounded-xl overflow-hidden shadow-inner border border-slate-300" style="width: 100%; height: 350px;"></div>
-        </div>
-
 
         <!-- Chatbot Betrokkene -->
         <div id="chatbot-container" class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex flex-col h-[500px]">
@@ -336,39 +273,35 @@
             <span class="text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-2.5 py-1 rounded-full font-bold">Interactieve Getuige</span>
           </div>
 
-
-          <!-- Vergrendeld scherm -->
+          <!-- Vergrendeld scherm als taakdrager nog onderweg is -->
           <div id="chatbot-locked" class="flex-1 flex flex-col items-center justify-center text-center p-6 space-y-3 bg-slate-50/50 rounded-xl my-2 border border-dashed border-slate-300">
             <span class="text-4xl">🚶‍♂️</span>
             <h4 class="text-sm font-bold text-slate-800">Taakdrager is nog onderweg</h4>
             <p class="text-xs text-slate-500 max-w-xs leading-relaxed">
-              Beweeg je naar de aangewezen locatie in het academiegebouw. Klik op <strong>'Ik ben Ter Plaatse'</strong> hierboven zodra je er bent om de getuige te spreken.
+              Beweeg je naar de aangewezen locatie in het academiegebouw. Klik pas op <strong>'Ik ben Ter Plaatse'</strong> zodra je er bent om de getuige te spreken.
             </p>
           </div>
 
-
           <!-- Chat Berichten -->
-          <div id="chat-messages" class="hidden flex-1 overflow-y-auto p-3 space-y-3 text-xs my-2 pr-2 bg-slate-50 rounded-xl border border-slate-200" style="display: none;"></div>
-
+          <div id="chat-messages" class="hidden flex-1 overflow-y-auto p-3 space-y-3 text-xs my-2 pr-2 bg-slate-50 rounded-xl border border-slate-200"></div>
 
           <!-- Chat Input -->
-          <div id="chat-input-bar" class="hidden pt-2 border-t border-slate-100 flex gap-2" style="display: none;">
+          <div id="chat-input-bar" class="hidden pt-2 border-t border-slate-100 flex gap-2">
             <input type="text" id="chat-input" onkeydown="if(event.key==='Enter') sendChatMessage()" placeholder="Vraag de Gouden W's uit (Wie, wat, waar, waarom, etc.)..." class="flex-1 bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600">
-            <button type="button" onclick="sendChatMessage()" class="bg-blue-700 hover:bg-blue-800 text-white font-bold px-5 rounded-xl text-xs transition shadow-sm cursor-pointer">
+            <button onclick="sendChatMessage()" class="bg-blue-700 hover:bg-blue-800 text-white font-bold px-5 rounded-xl text-xs transition shadow-sm">
               Vraag
             </button>
           </div>
         </div>
 
-
       </section>
-
 
       <!-- RECHTERKANT: C2000 PORTOFOON & ASTMA MUTATIE (5 kolommen) -->
       <section class="lg:col-span-5 space-y-6">
         
         <!-- PORTO BEHUIZING -->
         <div class="bg-slate-900 p-5 rounded-3xl border-4 border-slate-700 shadow-xl w-full space-y-4">
+          <!-- LCD DISPLAY -->
           <div class="lcd-screen p-3 rounded-xl border-2 border-slate-600 flex flex-col justify-between h-24 shadow-inner">
             <div class="flex justify-between text-xs font-bold">
               <span id="lcd-channel">CH: ALPHA-K01</span>
@@ -378,19 +311,18 @@
             <div id="lcd-role" class="text-[10px] font-bold">ROL: TAAKDRAGER</div>
           </div>
 
-
+          <!-- KANAAL EN ROL KEUZE -->
           <div class="grid grid-cols-2 gap-2 text-xs">
-            <button type="button" id="role-toggle-btn" onclick="toggleRole()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold p-2.5 rounded-lg col-span-2 transition cursor-pointer">
+            <button id="role-toggle-btn" onclick="toggleRole()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold p-2.5 rounded-lg col-span-2 transition">
               Handmatige Nood-Wissel Rol
             </button>
           </div>
 
-
-          <button type="button" id="btn-ptt" class="w-full bg-amber-600 hover:bg-amber-500 text-white font-black py-6 rounded-2xl text-sm uppercase tracking-wider shadow-lg select-none transition cursor-pointer">
+          <!-- PTT KNOP -->
+          <button id="btn-ptt" class="w-full bg-amber-600 hover:bg-amber-500 text-white font-black py-6 rounded-2xl text-sm uppercase tracking-wider shadow-lg select-none transition">
             <span id="ptt-label">HOUD INGEDRUKT (PTT)</span>
           </button>
         </div>
-
 
         <!-- MUTATIE FORMULIER (JOUW EXACTE PLACEHOLDERS) -->
         <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-4">
@@ -402,7 +334,6 @@
             <span class="text-[10px] bg-blue-50 text-blue-800 border border-blue-200 px-2 py-0.5 rounded font-mono font-bold">BVH Standaard</span>
           </div>
 
-
           <div class="space-y-3.5 text-xs">
             <div>
               <label class="block font-bold text-slate-800 mb-1">
@@ -411,14 +342,12 @@
               <textarea id="astma-a" rows="2" placeholder="Dag datum tijd, jouw naam, jouw bevoegdheid, jouw hoedanigheid, waar was je mee bezig? Welke melding kreeg je?" class="w-full bg-slate-50 focus:bg-white border border-slate-300 rounded-xl p-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 transition"></textarea>
             </div>
 
-
             <div>
               <label class="block font-bold text-slate-800 mb-1">
                 <span class="bg-blue-100 text-blue-900 px-1.5 py-0.5 rounded font-mono mr-1">S</span> Situatie ter plaatse
               </label>
-              <textarea id="astma-s" rows="2" placeholder="Wat zie je ter plaatse?" class="w-full bg-slate-50 focus:bg-white border border-slate-300 rounded-xl p-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 transition"></textarea>
+              <textarea id="astma-s" rows="2" placeholder="Wat zie ter plaatse?" class="w-full bg-slate-50 focus:bg-white border border-slate-300 rounded-xl p-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 transition"></textarea>
             </div>
-
 
             <div>
               <label class="block font-bold text-slate-800 mb-1">
@@ -427,14 +356,12 @@
               <textarea id="astma-t" rows="3" placeholder="Noteer in de verleden tijd wat er gebeurde. Geef antwoord op de vragen: Wie, wat, waar, waarom, wanneer, waarmee, op welke wijze..." class="w-full bg-slate-50 focus:bg-white border border-slate-300 rounded-xl p-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 transition"></textarea>
             </div>
 
-
             <div>
               <label class="block font-bold text-slate-800 mb-1">
                 <span class="bg-blue-100 text-blue-900 px-1.5 py-0.5 rounded font-mono mr-1">M</span> Maatregelen
               </label>
               <textarea id="astma-m" rows="2" placeholder="Ondernomen acties: vermaning, waarschuwingsgesprek, ID-controle..." class="w-full bg-slate-50 focus:bg-white border border-slate-300 rounded-xl p-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 transition"></textarea>
             </div>
-
 
             <div>
               <label class="block font-bold text-slate-800 mb-1">
@@ -443,14 +370,12 @@
               <textarea id="astma-afh" rows="2" placeholder="Vervolg: heenzending, terugkoppeling OC, afspraken wijkagent..." class="w-full bg-slate-50 focus:bg-white border border-slate-300 rounded-xl p-3 text-slate-900 focus:outline-none focus:border-blue-600 transition"></textarea>
             </div>
 
-
-            <button type="button" onclick="submitAstmaMutation()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3.5 rounded-xl text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2 cursor-pointer">
+            <button onclick="submitAstmaMutation()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3.5 rounded-xl text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2">
               <span>💾</span> ASTMA-MUTATIE OPSLAAN &amp; WISSEL VAN ROL
             </button>
           </div>
 
-
-          <!-- Livefeed -->
+          <!-- Realtime Ingediende Mutaties Livefeed -->
           <div class="pt-3 border-t border-slate-100">
             <h4 class="text-[11px] font-bold text-slate-700 mb-2">Ingevoerde mutaties binnen klas <span id="mut-class-label" class="text-blue-700"></span></h4>
             <div id="mutations-list" class="space-y-2 max-h-48 overflow-y-auto text-xs pr-1">
@@ -459,100 +384,15 @@
           </div>
         </div>
 
-
       </section>
     </main>
   </div>
-
-
 
 
   <!-- =========================================================================
        JAVASCRIPT LOGICA
        ========================================================================= -->
   <script>
-    /* =========================================================================
-       NAVIGATIE TUSSEN SCHERMEN
-       ========================================================================= */
-    function goToInstructionMutatie() {
-      try {
-        var elClass = document.getElementById('select-class');
-        var elCouple = document.getElementById('select-couple');
-        var elRole = document.getElementById('select-role');
-
-        if (elClass) currentClass = elClass.value;
-        if (elCouple) currentCouple = elCouple.value;
-        if (elRole) currentRole = elRole.value;
-        currentChannel = currentClass + '_' + currentCouple;
-
-        try { getAudioContext(); } catch(e) {}
-
-        var vLogin = document.getElementById('view-login');
-        var vMutatie = document.getElementById('view-instruction-mutatie');
-
-        if (vLogin) vLogin.style.setProperty('display', 'none', 'important');
-        if (vMutatie) vMutatie.style.setProperty('display', 'flex', 'important');
-      } catch(err) {
-        console.error("Fout in goToInstructionMutatie:", err);
-      }
-    }
-
-    function backToLogin() {
-      var vLogin = document.getElementById('view-login');
-      var vMutatie = document.getElementById('view-instruction-mutatie');
-      if (vMutatie) vMutatie.style.setProperty('display', 'none', 'important');
-      if (vLogin) vLogin.style.setProperty('display', 'flex', 'important');
-    }
-
-    function goToInstructionRoles() {
-      var vMutatie = document.getElementById('view-instruction-mutatie');
-      var vRoles = document.getElementById('view-instruction-roles');
-      if (vMutatie) vMutatie.style.setProperty('display', 'none', 'important');
-      if (vRoles) vRoles.style.setProperty('display', 'flex', 'important');
-    }
-
-    async function startAppSession() {
-      try {
-        try { getAudioContext(); } catch(e) {}
-
-        var vRoles = document.getElementById('view-instruction-roles');
-        var vApp = document.getElementById('view-app');
-        if (vRoles) vRoles.style.setProperty('display', 'none', 'important');
-        if (vApp) vApp.style.setProperty('display', 'flex', 'important');
-
-        document.getElementById('topbar-info').textContent = `KLAS: ${currentClass} | ${currentCouple}`;
-        document.getElementById('topbar-role').textContent = `Rol: ${currentRole}`;
-        document.getElementById('badge-round').textContent = `RONDE ${currentRound}`;
-        document.getElementById('lcd-channel').textContent = `CH: ${currentCouple}`;
-        document.getElementById('lcd-role').textContent = `ROL: ${currentRole}`;
-        document.getElementById('mut-class-label').textContent = currentClass;
-
-        await syncCoupleData();
-        setupRoleUI();
-
-        setTimeout(initPanorama, 200);
-
-        listenForIncomingRadio();
-        listenForMutations();
-        listenForCoupleSync();
-      } catch (err) {
-        console.error("Fout in startAppSession:", err);
-      }
-    }
-
-    function logoutStudent() {
-      if (db) {
-        db.ref(`${currentChannel}/voiceMsg`).off();
-        db.ref(`classes/${currentClass}/mutaties`).off();
-        db.ref(`classes/${currentClass}/couples/${currentCouple}`).off();
-      }
-
-      var vApp = document.getElementById('view-app');
-      var vLogin = document.getElementById('view-login');
-      if (vApp) vApp.style.setProperty('display', 'none', 'important');
-      if (vLogin) vLogin.style.setProperty('display', 'flex', 'important');
-    }
-
     /* =========================================================================
        CONFIGURATIE & KEYS
        ========================================================================= */
@@ -567,18 +407,8 @@
       messagingSenderId: "825633841222",
       appId: "1:825633841222:web:15d93d08e2b719285dea47"
     };
-
-    let db = null;
-    try {
-      if (typeof firebase !== 'undefined') {
-        if (!firebase.apps.length) {
-          firebase.initializeApp(firebaseConfig);
-        }
-        db = firebase.database();
-      }
-    } catch (e) {
-      console.warn("Firebase status:", e);
-    }
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
 
     /* =========================================================================
        ACADEMIE LOCATIES & CASUSSEN
@@ -599,16 +429,16 @@
         characterName: "Meneer Van Dijk (Eigenaar DA)",
         characterRole: "Winkeleigenaar DA Leusderweg",
         systemPrompt: `Je bent meneer Henk van Dijk (56 jaar), eigenaar van de DA-drogist aan de Leusderweg in Amersfoort.
-Taalstijl: Plat Utrechts/Amersfoorts zonder slot-'t' (nie, da's, hebbie, wee'k nie, krag, wa zeggie, gaa, kom, zitte).
-Houding: Meewerkend en bezorgd over je winkel. Antwoord kort en direct in 2 tot 3 zinnen per beurt.
-Gouden W's feiten:
-- Wie: 4 tot 5 jongeren van 15-17 jaar. Eentje met een rode The North Face jas op een zwarte scooter.
-- Wat: Hangen voor de deur, blowen, schelden klanten uit, trappen fietsen omver.
+Taalstijl: Je praat plat Utrechts/Amersfoorts. Je slikt consequent de letter 't' in aan het einde van woorden en werkwoorden (bijv: "nie", "da's", "hebbie", "wee'k nie", "krag", "wa zeggie", "gaa", "kom", "zitte").
+Houding: Je bent meewerkend en bezorgd over je winkel. Spreek kort en direct in 2 tot 3 zinnen per beurt, precies zoals op straat.
+Inhoudelijke gegevens die je weet als de agent er gestructureerd naar vraagt (Gouden W's):
+- Wie: Een groep van 4 tot 5 jongeren van 15-17 jaar. Eentje heeft een rode The North Face jas en een zwarte scooter.
+- Wat: Hangen voor de deur, blowen (sterke wietlucht), schelden klanten uit, trappen fietsen omver.
 - Waar: Direct voor de ingang en bij de fietsenrekken van de DA Leusderweg.
-- Waarom: Pure verveling. Schelden Henk uit voor 'ouwe lul'.
-- Wanneer: Elke doordeweekse middag tussen 15:30 en 18:00 uur.
-- Waarmee: Zwarte snorscooter, fatbikes, wiet.
-- Op welke wijze: Blokkeren het trottoir en blazen rook naar binnen.`
+- Waarom: Pure verveling. Als ik er wat van zeg roepen ze "Bemoei je met je eigen zake, ouwe!".
+- Wanneer: Elke doordeweekse dag tussen 15:30 en 18:00 uur (wanneer scholen uitgaan).
+- Waarmee: Zwarte snorscooter, fatbikes, zakjes wiet.
+- Op welke wijze: Ze blokkeren het trottoir en blazen rook naar binnen.`
       },
       2: {
         id: 2,
@@ -616,17 +446,17 @@ Gouden W's feiten:
         text: "Winkeliers en bezoekers hebben geklaagd over foutgeparkeerde auto’s rondom het winkelgebied. Dit zorgt voor onveilige situaties voor het winkelend publiek. De winkeliersvereniging heeft samen met de wijkagent een plan gemaakt. De wijkagent heeft afgesproken dat de politie vier weken lang extra aandacht zal besteden aan foutparkeren rondom het winkelgebied. Hierbij zal vier weken lang waarschuwend worden opgetreden. Vandaag is de eerste dag van het plan. Je krijgt de volgende IGP-opdracht mee:\nControleer op foutparkeren rondom het winkelgebied en voer waar nodig een waarschuwingsgesprek.",
         characterName: "Bestuurder Gerard (Foutparkeerder)",
         characterRole: "Aangesproken bestuurder op het trottoir",
-        systemPrompt: `Je bent Gerard (48 jaar), automobilist die zojuist zijn grijze Volkswagen Golf half op de stoep heeft gezet.
-Taalstijl: Plat Amersfoorts/Utrechts zonder slot-'t' (da's, nie, wou'k, hebbie, wee'je, kom).
-Houding: Eerst gehaast en licht gepikeerd, daarna meewerkend als de agent kalm de waarschuwingsactie uitlegt.
-Gouden W's feiten:
-- Wie: Gerard van Veen (48), Amersfoort-Zuid.
-- Wat/Waarom: Snel een zwaar pakket ophalen bij de Primera.
-- Waar: Trottoir voor de hoofdingang winkelpromenade.
+        systemPrompt: `Je bent Gerard (48 jaar), een automobilist die zojuist zijn grijze Volkswagen Golf half op de stoep en laad-en-losstrook heeft gezet.
+Taalstijl: Plat Amersfoorts/Utrechts (laat consequent de laatste 't' vallen: "da's", "nie", "wou'k", "hebbie", "wee'je", "kom", "nie zo moeilijk doen jochie").
+Houding: Eerst gehaast en licht gepikeerd ("ik sta hier net een minuutje hoor!"). Als de agent kalm vraagt naar de reden, werk je mee. Spreek kort en direct (2 tot 3 zinnen).
+Inhoudelijke gegevens:
+- Wie: Gerard van Veen, woont in Amersfoort-Zuid.
+- Wat/Waarom: Moest met spoed een zwaar pakket ophalen bij de Primera. Kon geen leeg vak vinden.
+- Waar: Trottoir voor de hoofdingang van de winkelpromenade.
 - Wanneer: Zojuist op de middag.
 - Waarmee: Grijze VW Golf, kenteken 12-TFD-4.
-- Op welke wijze: Met twee wielen op de stoep waardoor kinderwagens er niet langs kunnen.
-- Afhandeling: Begrijpt de waarschuwingsactie en zet de auto direct in een parkeervak.`
+- Op welke wijze: Met twee wielen hoog op de stoep waardoor kinderwagens moeten uitwijken.
+Als de agent een waarschuwend gesprek voert, toon je begrip en parkeer je hem netjes om.`
       },
       3: {
         id: 3,
@@ -635,15 +465,15 @@ Gouden W's feiten:
         characterName: "Buurtbewoner Wim",
         characterRole: "Omwonende / Melder van de overlast",
         systemPrompt: `Je bent Wim (62 jaar), bewoner boven het plein.
-Taalstijl: Plat Amersfoorts/Utrechts (da kenne we nie hebbe, ze zitte maar, hebbie da gezien).
-Houding: Blij dat de politie er is.
-Nuanceer etniciteit: Buurlui zeggen dat het Turkse jongens zijn, maar het zijn gewoon jongens van allerlei afkomst door elkaar in trainingspakken.
-Gouden W's feiten:
+Taalstijl: Plat Amersfoorts/Utrechts (geen 't' op het einde: "da kenne we nie hebbe", "ze zitte maar", "hebbie da gezien").
+Houding: Blij dat de politie er is. Spreek in 2 tot 3 zinnen per beurt.
+Let op bij etniciteit: Als de agent doorvraagt naar de groep ('Turkse jongeren'), nuanceer je direct: "Nou ja, buurlui zeie da 't Turkse jonges ware, maar ik wee't nie heur! Het zijn gewon jonges van allerlei afkoms' door elkaar. Ze drage allemaal donkere trainingspakkies."
+Gouden W's gegevens:
 - Wie: 6 tot 8 jongeren van 16-20 jaar.
-- Wat: Keiharde muziek, zonnebloempitten en energyblikjes op de grond, hard optrekken.
-- Waar: Bankjes bij het fonteintje op het plein.
-- Wanneer: Elke avond van 19:00 tot 22:30 uur.
-- Waarmee: Grote JBL bluetooth speaker, blauwe Piaggio Zip scooter zonder achterlicht.
+- Wat: Keiharde muziek, zonnebloempitten en energyblikjes op de grond, hard optrekken met scooters.
+- Waar: De bankjes bij het fonteintje midden op het plein.
+- Wanneer: Vrijwel elke avond van 19:00 tot 22:30 uur.
+- Waarmee: Grote JBL bluetooth speaker, een blauwe Piaggio Zip scooter zonder achterlicht.
 - Op welke wijze: Scheuren over de stoep en intimideren voorbijgangers.`
       },
       4: {
@@ -653,31 +483,35 @@ Gouden W's feiten:
         characterName: "Getuige Frank",
         characterRole: "Winkelend publiek ter plaatse",
         systemPrompt: `Je bent getuige Frank (39 jaar).
-Taalstijl: Amersfoorts dialect (ik zag 't nie zitte, da's nie pluis, hebbie hem gezien).
-Houding: Zenuwachtig maar uiterst behulpzaam.
-Gouden W's feiten:
-- Wie: Persoon 1: man, ~25 jr, 1.85m, licht getint, zwarte bontkraagjas, grijze joggingbroek. Persoon 2: man, ~20 jr, 1.75m, blank, blond opgeschoren haar, spijkerjas.
-- Wat: Persoon 1 gaf zware zwarte Nike sportrugtas aan Persoon 2, die deze in de kofferbak legde.
-- Waar: Parkeerdek B, vak 42. Persoon 2 zit nu in de koffiezaak.
-- Waarmee: Zwarte Audi A3, kenteken begint met 8-KZX-..
-- Wanneer: Zojuist, hooguit 7 minuten geleden.
-- Op welke wijze: Heimelijk en schichtig om zich heen kijkend.`
+Taalstijl: Amersfoorts dialect (laat 't' weg: "ik zag 't nie zitte", "da's nie pluis", "hebbie hem gezien", "da's gewon link").
+Houding: Zenuwachtig maar uiterst behulpzaam. Geef korte, alerte antwoorden (2 à 3 zinnen).
+Gouden W's gegevens:
+- Wie (Signalement 2 personen):
+  Persoon 1: Man, circa 25 jaar, 1.85m, licht getint, zwarte gewatteerde jas met bontkraag, grijze joggingbroek.
+  Persoon 2: Man, circa 20 jaar, 1.75m, blank, blond opgeschoren haar, donkerblauwe spijkerjas.
+- Wat: Persoon 1 gaf een zware zwarte Nike sportrugtas aan Persoon 2. Persoon 2 dropte die direct in de achterbak van een auto.
+- Waar: Parkeerdek B, vak 42.
+- Waarmee (Auto): Zwarte Audi A3, kenteken begint met '8-KZX-..'.
+- Wanneer: Zojuist, hooguit 6 minuten geleden.
+- Op welke wijze: Heimelijk en schichtig om zich heen kijkend. Persoon 2 zit nu binnen in het koffiezaakje!`
       },
       5: {
         id: 5,
         title: "IGP Fietsendiefstallen & Aanspreken Jongere",
-        text: "Tijdens je middagdienst geeft de OPCO je de opdracht om te gaan surveilleren in het centrum van je werkgebied. Het is jou bekend dat er in dat centrum veel Marokkaanse jongeren rondhangen*. De laatste tijd worden er veel fietsen weggenomen in het centrum. Er zijn diverse aangiftes van fietsdiefstal geweest. Je hebt een IGP-opdracht gekregen met summiere informatie. De fietsdiefstallen vinden vooral plaats tussen 14 en 19 uur.\n\nJe surveilleert samen met je collega (uit elkaar met zicht op elkaar). Jij ziet een jongen aan komen fietsen. Hij heeft zijn muts van zijn hoodie over zijn hoofd getrokken. Als hij dichterbij komt, zie je dat hij een licht getinte huidskleur heeft. Jij wil hem aanspreken, omdat hij daar niet mag fietsen.\n\nOp het moment dat jij hem een stopteken geeft, roept de jongen naar jou: ”Wat, wat, what?” Je controleert de persoon en de fiets. Na zijn ID-bewijs gezien te hebben en hem een waarschuwing te hebben gegeven, mag hij verder lopen met zijn fiets. Je zet niets in het politiesysteem.\n\n(*hier wordt bewust een etniciteit genoemd om vragen op te roepen m.b.t. het optreden van de agent).",
+        text: "Tijdens je middagdienst geeft de OPCO je de opdracht om te gaan surveilleren in het centrum van je werkgebied. Het is jou bekend dat er in dat centrum veel Marokkaanse jongeren rondhangen*. De laatste tijd worden er veel fietsen weggenomen in het centrum. Er zijn diverse aangiftes van fietsdiefstal geweest. Je hebt een IGP-opdracht gekregen met summiere informatie. De fietsdiefstallen vinden vooral plaats tussen 14 en 19 uur.\n\nJe surveilleert samen met je collega (uit elkaar met zicht op elkaar). Jij ziet een jongen aan komen fietsen. Hij heeft zijn muts van zijn hoodie over zijn hoofd getrokken. Als hij dichterbij komt, zie je dat hij een licht getinte huidskleur heeft. Jij wil hem aanspreken, omdat hij daar niet mag fietsen.\n\nOp het moment dat jij hem een stopteken geeft, roept de jongen naar jou: ”Wat, wat, wat?” Je controleert de persoon en de fiets. Na zijn ID-bewijs gezien te hebben en hem een waarschuwing te hebben gegeven, mag hij verder lopen met zijn fiets. Je zet niets in het politiesysteem.\n\n(*hier wordt bewust een etniciteit genoemd om vragen op te roepen m.b.t. het optreden van de agent).",
         characterName: "Jongere Tarik",
         characterRole: "Aangesproken jongere op de fiets",
-        systemPrompt: `Je bent Tarik (17 jaar), fietste met capuchon op door de voetgangerszone.
-Taalstijl: Straattaal gemengd met Amersfoorts (wrm hou je me aan dan, ik doe tog niks verkeerd, da's me vaders fies ja).
-Houding: Eerst verontwaardigd (Wat, wat, wat?!), bedaart als de agent rustig uitlegt dat fietsen er verboden is.
-Gouden W's feiten:
-- Wie: Tarik el-Idrissi (17), MBO scholier. Toont netjes ID.
-- Wat: Fietste in voetgangersgebied waar dat niet mag.
-- Waar: Midden in het winkelcentrum.
-- Waarom: Haast om voor het eten thuis te zijn.
-- Waarmee: Zwarte Gazelle Esprit van zijn vader. Heeft gewoon de fietssleutel die op het slot past.`
+        systemPrompt: `Je bent Tarik (17 jaar). Je fietste door de voetgangerszone met je capuchon op tegen de regen.
+Taalstijl: Straattaal gemengd met Amersfoorts ("wrm hou je me aan dan?", "ik doe tog niks verkeerd", "da's me vaders fies ja").
+Houding: Eerst verontwaardigd ("Wat, wat, wat?! Waarom pak je mij?!"). Als de agent rustig blijft en uitlegt dat het om het fietsverbod in het voetgangersgebied gaat, kalmeer je. Korte reacties (2 tot 3 zinnen).
+Gouden W's gegevens:
+- Wie: Tarik el-Idrissi, 17 jaar, scholier aan het MBO.
+- Wat: Fietste door voetgangersgebied waar dat verboden is.
+- Waar: Midden in het voetgangersgebied.
+- Waarom: Had haast om thuis te eten voor zessen.
+- Waarmee: Zwarte Gazelle Esprit van zijn vader. Hij heeft de fietssleutel en kan aantonen dat de fiets van zijn familie is.
+- Op welke wijze: Negeerde het bord voetgangerszone uit gemakzucht.
+Toont netjes zijn ID-bewijs zodra de agent professioneel blijft.`
       }
     };
 
@@ -688,14 +522,14 @@ Gouden W's feiten:
     let currentCouple = 'KOPPEL-01';
     let currentRole = 'TAAKDRAGER';
     let currentChannel = 'ALPHA_KOPPEL-01';
-    let currentCase = CASUSSEN[1];
+    let currentCase = null;
     let assignedLocation = '';
     let isTerPlaatse = false;
     let currentRound = 1;
     let chatHistory = [];
     let lastVoiceTimestamp = Date.now();
 
-    let panoViewer = null;
+    // Porto State
     let audioCtx = null;
     let micStream = null;
     let mediaRecorder = null;
@@ -703,85 +537,115 @@ Gouden W's feiten:
     let isRecording = false;
 
     /* =========================================================================
-       PANNELLUM 360 VIEWER
+       NAVIGATIE TUSSEN SCHERMEN
        ========================================================================= */
-    function initPanorama() {
-      const container = document.getElementById('panorama');
-      if (!container || typeof pannellum === 'undefined') return;
+    function goToInstructionMutatie() {
+      currentClass = document.getElementById('select-class').value;
+      currentCouple = document.getElementById('select-couple').value;
+      currentRole = document.getElementById('select-role').value;
+      currentChannel = `${currentClass}_${currentCouple}`;
 
-      if (!panoViewer) {
-        try {
-          panoViewer = pannellum.viewer('panorama', {
-            type: 'equirectangular',
-            panorama: 'werkgebied.jpg',
-            autoLoad: true,
-            compass: false,
-            showZoomCtrl: true
-          });
-        } catch (err) {
-          console.warn("Pannellum info:", err);
-        }
-      } else {
-        setTimeout(() => {
-          try { panoViewer.resize(); } catch(e) {}
-        }, 150);
-      }
+      getAudioContext();
+
+      document.getElementById('view-login').classList.add('hidden');
+      document.getElementById('view-instruction-mutatie').classList.remove('hidden');
+    }
+
+    function backToLogin() {
+      document.getElementById('view-instruction-mutatie').classList.add('hidden');
+      document.getElementById('view-login').classList.remove('hidden');
+    }
+
+    function goToInstructionRoles() {
+      document.getElementById('view-instruction-mutatie').classList.add('hidden');
+      document.getElementById('view-instruction-roles').classList.remove('hidden');
+    }
+
+    async function startAppSession() {
+      getAudioContext();
+
+      document.getElementById('view-instruction-roles').classList.add('hidden');
+      document.getElementById('view-app').classList.remove('hidden');
+
+      document.getElementById('topbar-info').textContent = `KLAS: ${currentClass} | ${currentCouple}`;
+      document.getElementById('topbar-role').textContent = `Rol: ${currentRole}`;
+      document.getElementById('badge-round').textContent = `RONDE ${currentRound}`;
+      document.getElementById('lcd-channel').textContent = `CH: ${currentCouple}`;
+      document.getElementById('lcd-role').textContent = `ROL: ${currentRole}`;
+      document.getElementById('mut-class-label').textContent = currentClass;
+
+      await syncCoupleData();
+      setupRoleUI();
+
+      listenForIncomingRadio();
+      listenForMutations();
+      listenForCoupleSync();
+    }
+
+    function logoutStudent() {
+      db.ref(`${currentChannel}/voiceMsg`).off();
+      db.ref(`classes/${currentClass}/mutaties`).off();
+      db.ref(`classes/currentClass/couples/{currentCouple}`).off();
+
+      document.getElementById('view-app').classList.add('hidden');
+      document.getElementById('view-login').classList.remove('hidden');
     }
 
     /* =========================================================================
-       KOPPEL SYNCHRONISATIE
+       KOPPEL SYNCHRONISATIE (CASUS, LOCATIE & REALTIME ROLWISSELING)
        ========================================================================= */
     async function syncCoupleData() {
-      if (!db) return;
-      try {
-        const coupleRef = db.ref(`classes/${currentClass}/couples/${currentCouple}`);
-        const snap = await coupleRef.once('value');
-        let data = snap.val() || {};
+      const coupleRef = db.ref(`classes/currentClass/couples/{currentCouple}`);
+      const snap = await coupleRef.once('value');
+      let data = snap.val() || {};
 
-        if (!data.caseId || !CASUSSEN[data.caseId]) {
-          data.caseId = Math.floor(Math.random() * 5) + 1;
-        }
-        if (!data.location) {
-          data.location = ACADEMY_LOCATIONS[Math.floor(Math.random() * ACADEMY_LOCATIONS.length)];
-        }
-        if (!data.status) {
-          data.status = 'ONDERWEG';
-        }
-        if (!data.round) {
-          data.round = 1;
-        }
-
-        await coupleRef.set(data);
-
-        currentCase = CASUSSEN[data.caseId];
-        assignedLocation = data.location;
-        isTerPlaatse = (data.status === 'TER_PLAATSE');
-        currentRound = data.round;
-
-        renderAppUI();
-      } catch (err) {
-        console.warn("syncCoupleData error:", err);
+      if (!data.caseId || !CASUSSEN[data.caseId]) {
+        data.caseId = Math.floor(Math.random() * 5) + 1;
       }
+      if (!data.location) {
+        data.location = ACADEMY_LOCATIONS[Math.floor(Math.random() * ACADEMY_LOCATIONS.length)];
+      }
+      if (!data.status) {
+        data.status = 'ONDERWEG';
+      }
+      if (!data.round) {
+        data.round = 1;
+      }
+
+      await coupleRef.set(data);
+
+      currentCase = CASUSSEN[data.caseId];
+      assignedLocation = data.location;
+      isTerPlaatse = (data.status === 'TER_PLAATSE');
+      currentRound = data.round;
+
+      renderAppUI();
     }
 
+    // Luistert continu naar wijzigingen in de koppel-status én activeert automatische rolwisseling!
     function listenForCoupleSync() {
-      if (!db) return;
-      db.ref(`classes/${currentClass}/couples/${currentCouple}`).on('value', snap => {
+      db.ref(`classes/currentClass/couples/{currentCouple}`).on('value', snap => {
         const data = snap.val();
         if (!data) return;
 
+        // Controleer of er een nieuwe ronde is gestart na het inleveren van een mutatie
         if (data.round && data.round !== currentRound) {
           currentRound = data.round;
+
+          // Automatisch wisselen van rol voor beide studenten
           currentRole = (currentRole === 'TAAKDRAGER') ? 'MEDEWERKER-OC' : 'TAAKDRAGER';
 
+          // Nieuwe casus en locatie laden
           currentCase = CASUSSEN[data.caseId];
           assignedLocation = data.location;
           isTerPlaatse = (data.status === 'TER_PLAATSE');
 
+          // Chat resetten voor de nieuwe getuige
           chatHistory = [];
           const chatContainer = document.getElementById('chat-messages');
           if (chatContainer) chatContainer.innerHTML = '';
 
+          // UI en LCD bijwerken
           document.getElementById('topbar-role').textContent = `Rol: ${currentRole}`;
           document.getElementById('lcd-role').textContent = `ROL: ${currentRole}`;
           document.getElementById('badge-round').textContent = `RONDE ${currentRound}`;
@@ -793,16 +657,17 @@ Gouden W's feiten:
           return;
         }
 
+        // Reguliere status update (Onderweg <-> Ter Plaatse)
         isTerPlaatse = (data.status === 'TER_PLAATSE');
         updateStatusUI(isTerPlaatse);
       });
     }
 
     function setupRoleUI() {
+      const btnTerPlaatse = document.getElementById('btn-ter-plaatse');
       const caseRoleTip = document.getElementById('case-role-tip');
       const caseBody = document.getElementById('case-body');
       const caseBadge = document.getElementById('case-badge');
-      const panoramaCard = document.getElementById('panorama-card');
 
       if (currentRole === 'MEDEWERKER-OC') {
         if (currentCase) {
@@ -810,26 +675,21 @@ Gouden W's feiten:
           caseBadge.textContent = `CASUS #${currentCase.id}`;
         }
         caseRoleTip.textContent = "ℹ️ Als OC-medewerker instrueer je de taakdrager via de C2000-porto over de locatie en casusgegevens.";
-        if (panoramaCard) panoramaCard.classList.add('hidden');
+        btnTerPlaatse.classList.add('hidden');
       } else {
-        if (caseBadge) caseBadge.textContent = "BERICHT VIA OC";
-        if (caseBody) {
-          caseBody.innerHTML = `
-            <div class="space-y-2 py-1">
-              <span class="text-blue-900 font-bold flex items-center gap-2">
-                <span>📻</span> Melding via C2000 portofoon
-              </span>
-              <p class="text-slate-600 italic text-xs leading-relaxed">
-                De inhoud van de casus is afgeschermd voor de taakdrager. Luister goed naar de portofoon: de medewerker van het Operationeel Centrum geeft de toedracht en bijzonderheden mondeling aan jou door!
-              </p>
-            </div>
-          `;
-        }
-        if (caseRoleTip) caseRoleTip.textContent = "ℹ️ Verplaats je naar de academie-locatie. Luister goed naar het OC via de portofoon!";
-        if (panoramaCard) {
-          panoramaCard.classList.remove('hidden');
-          initPanorama();
-        }
+        caseBadge.textContent = "BERICHT VIA OC";
+        caseBody.innerHTML = `
+          <div class="space-y-2 py-1">
+            <span class="text-blue-900 font-bold flex items-center gap-2">
+              <span>📻</span> Melding via C2000 portofoon
+            </span>
+            <p class="text-slate-600 italic text-xs leading-relaxed">
+              De inhoud van de casus is afgeschermd voor de taakdrager. Luister goed naar de portofoon: de medewerker van het Operationeel Centrum geeft de toedracht en bijzonderheden mondeling aan jou door!
+            </p>
+          </div>
+        `;
+        caseRoleTip.textContent = "ℹ️ Verplaats je naar de academie-locatie. Luister goed naar het OC via de portofoon!";
+        btnTerPlaatse.classList.remove('hidden');
       }
     }
 
@@ -843,31 +703,12 @@ Gouden W's feiten:
       updateStatusUI(isTerPlaatse);
     }
 
-    /* =========================================================================
-       TER PLAATSE ONTGRENDELING (ONMIDDELLĲKE UI-REACTIE, GEEN VERTRAGING!)
-       ========================================================================= */
-    function setTerPlaatse() {
-      // Toggle de status
-      isTerPlaatse = !isTerPlaatse;
-      const newStatus = isTerPlaatse ? 'TER_PLAATSE' : 'ONDERWEG';
-
-      // 1. DIRECTE UI-UPDATE (Wacht op helemáál niks!)
-      updateStatusUI(isTerPlaatse);
-
-      if (isTerPlaatse) {
-        setTimeout(initPanorama, 100);
-      }
-
-      // 2. Achtergrondsynchronisatie naar Firebase
-      if (db) {
-        try {
-          db.ref(`classes/${currentClass}/couples/${currentCouple}`).update({
-            status: newStatus
-          }).catch(err => console.warn("Firebase status sync:", err));
-        } catch(e) {
-          console.warn("Firebase update status error:", e);
-        }
-      }
+    async function setTerPlaatse() {
+      isTerPlaatse = true;
+      await db.ref(`classes/currentClass/couples/{currentCouple}`).update({
+        status: 'TER_PLAATSE'
+      });
+      updateStatusUI(true);
     }
 
     function updateStatusUI(terPlaatse) {
@@ -877,92 +718,31 @@ Gouden W's feiten:
       const chatMessages = document.getElementById('chat-messages');
       const chatInputBar = document.getElementById('chat-input-bar');
       const btnTerPlaatse = document.getElementById('btn-ter-plaatse');
-      const btnIcon = document.getElementById('btn-ter-plaatse-icon');
-      const btnText = document.getElementById('btn-ter-plaatse-text');
 
       if (terPlaatse) {
-        // Status Badge & Tekst
-        if (badge) {
-          badge.textContent = "TER PLAATSE";
-          badge.className = "px-3 py-1 text-xs font-black uppercase rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200";
-        }
-        if (text) {
-          text.textContent = `Eenheid is gearriveerd op locatie: ${assignedLocation}.`;
-        }
+        badge.textContent = "TER PLAATSE";
+        badge.className = "px-3 py-1 text-xs font-black uppercase rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200";
+        text.textContent = `Eenheid is gearriveerd op locatie: ${assignedLocation}.`;
+        
+        lockedBox.classList.add('hidden');
+        chatMessages.classList.remove('hidden');
+        chatInputBar.classList.remove('hidden');
 
-        // ONTGRENDEL CHAT DIRECT
-        if (lockedBox) {
-          lockedBox.style.setProperty('display', 'none', 'important');
-          lockedBox.classList.add('hidden');
-        }
-        if (chatMessages) {
-          chatMessages.style.setProperty('display', 'block', 'important');
-          chatMessages.classList.remove('hidden');
-        }
-        if (chatInputBar) {
-          chatInputBar.style.setProperty('display', 'flex', 'important');
-          chatInputBar.classList.remove('hidden');
-        }
+        if (btnTerPlaatse) btnTerPlaatse.classList.add('hidden');
 
-        // Zorg dat de openingsgroet in de chat staat
-        if (chatMessages && chatMessages.children.length === 0) {
+        if (chatHistory.length === 0) {
           initChatGreeting();
         }
-
-        // Knop geeft duidelijke bevestiging
-        if (btnTerPlaatse) {
-          btnTerPlaatse.style.setProperty('display', 'flex', 'important');
-          if (currentRole === 'TAAKDRAGER') {
-            btnTerPlaatse.className = "w-full bg-emerald-700 hover:bg-emerald-800 text-white font-black py-4 rounded-xl text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2 cursor-pointer";
-          } else {
-            btnTerPlaatse.className = "w-full bg-blue-700 hover:bg-blue-800 text-white font-black py-4 rounded-xl text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2 cursor-pointer";
-          }
-        }
-        if (btnIcon) btnIcon.textContent = "✅";
-        if (btnText) {
-          btnText.textContent = (currentRole === 'TAAKDRAGER') 
-            ? "JE BENT TER PLAATSE (KLIK OM STATUS TE RESETTEN NAAR ONDERWEG)" 
-            : "EENHEID IS TER PLAATSE (KLIK VOOR RESET)";
-        }
-
       } else {
-        // Status Badge & Tekst
-        if (badge) {
-          badge.textContent = "ONDERWEG";
-          badge.className = "px-3 py-1 text-xs font-black uppercase rounded-full bg-amber-50 text-amber-700 border border-amber-200";
-        }
-        if (text) {
-          text.textContent = `Onderweg naar ${assignedLocation}... Luister naar de porto!`;
-        }
+        badge.textContent = "ONDERWEG";
+        badge.className = "px-3 py-1 text-xs font-black uppercase rounded-full bg-amber-50 text-amber-700 border border-amber-200";
+        text.textContent = `Onderweg naar ${assignedLocation}... Luister naar de porto!`;
 
-        // VERGRENDEL CHAT
-        if (lockedBox) {
-          lockedBox.style.setProperty('display', 'flex', 'important');
-          lockedBox.classList.remove('hidden');
-        }
-        if (chatMessages) {
-          chatMessages.style.setProperty('display', 'none', 'important');
-          chatMessages.classList.add('hidden');
-        }
-        if (chatInputBar) {
-          chatInputBar.style.setProperty('display', 'none', 'important');
-          chatInputBar.classList.add('hidden');
-        }
-
-        // Knop staat klaar om te ontgrendelen
-        if (btnTerPlaatse) {
-          btnTerPlaatse.style.setProperty('display', 'flex', 'important');
-          if (currentRole === 'TAAKDRAGER') {
-            btnTerPlaatse.className = "w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-4 rounded-xl text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2 cursor-pointer";
-          } else {
-            btnTerPlaatse.className = "w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-xl text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2 cursor-pointer";
-          }
-        }
-        if (btnIcon) btnIcon.textContent = "📍";
-        if (btnText) {
-          btnText.textContent = (currentRole === 'TAAKDRAGER') 
-            ? "IK BEN TER PLAATSE IN HET GEBOUW (ONTGRENDEL BETROKKENE)" 
-            : "OC-REGIE: MELD EENHEID TER PLAATSE";
+        lockedBox.classList.remove('hidden');
+        chatMessages.classList.add('hidden');
+        chatInputBar.classList.add('hidden');
+        if (currentRole === 'TAAKDRAGER') {
+          btnTerPlaatse.classList.remove('hidden');
         }
       }
     }
@@ -973,13 +753,13 @@ Gouden W's feiten:
       if (currentCase.id === 2) greeting = "Ja hallo agent, wa's er aan de hand? Ik sta hier net een tel hoor!";
       if (currentCase.id === 3) greeting = "Dag politie, goed da' jullie er zijn. Die herrie hier op 't plein is gewon nie meer normaal...";
       if (currentCase.id === 4) greeting = "Pst, agent! Frank hier, ik heb net 't OC gebeld. Ze zitte nu in de koffiezaak, maar die auto me' die tas staat er nog!";
-      if (currentCase.id === 5) greeting = "Wat, wat, what?! Waarom hou je me aan dan?! Ik fiets hier gewon naar huis man!";
+      if (currentCase.id === 5) greeting = "Wat, wat, wat?! Waarom hou je me aan dan?! Ik fiets hier gewon naar huis man!";
 
       addBotMessage(greeting);
     }
 
     /* =========================================================================
-       CHATBOT LOGICA MET INTELLIGENTE DUO-MOTOR (GROQ AI + DIRECTE SCENARIO-MOTOR)
+       CHATBOT LOGICA MET GROQ API (VLOEIENDE CONVERSATIES)
        ========================================================================= */
     async function sendChatMessage() {
       const input = document.getElementById('chat-input');
@@ -989,197 +769,46 @@ Gouden W's feiten:
       addUserMessage(text);
       input.value = '';
 
+      if (!GROQ_API_KEY || GROQ_API_KEY.includes("HIER_JE_GROQ")) {
+        addBotMessage("⚠️ Systeem: Vul eerst de geldige Groq API Key in de code in.");
+        return;
+      }
+
       const typingId = addTypingIndicator();
-      let botReply = null;
 
-      // 1. Probeer Groq AI
-      if (GROQ_API_KEY && !GROQ_API_KEY.includes("HIER_JE_GROQ")) {
-        try {
-          const messagesPayload = [
-            { role: "system", content: currentCase.systemPrompt },
-            ...chatHistory
-          ];
+      try {
+        const messagesPayload = [
+          { role: "system", content: currentCase.systemPrompt },
+          ...chatHistory
+        ];
 
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 4500);
+        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${GROQ_API_KEY.trim()}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            model: "llama-3.3-70b-versatile",
+            messages: messagesPayload,
+            temperature: 0.65,
+            max_tokens: 250
+          })
+        });
 
-          const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-            method: "POST",
-            signal: controller.signal,
-            headers: {
-              "Authorization": `Bearer ${GROQ_API_KEY.trim()}`,
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              model: "llama-3.3-70b-versatile",
-              messages: messagesPayload,
-              temperature: 0.65,
-              max_tokens: 250
-            })
-          });
-          clearTimeout(timeoutId);
+        const data = await response.json();
+        removeTypingIndicator(typingId);
 
-          const data = await response.json();
-          if (data && data.choices && data.choices[0] && data.choices[0].message) {
-            botReply = data.choices[0].message.content;
-          }
-        } catch (err) {
-          console.warn("Groq stand-by, schakel direct over op scenario dialoogmotor.");
+        if (data.choices && data.choices[0]) {
+          const reply = data.choices[0].message.content;
+          addBotMessage(reply);
+        } else {
+          addBotMessage("... (De betrokkene kijkt je vragend aan)");
         }
+      } catch (err) {
+        removeTypingIndicator(typingId);
+        addBotMessage("⚠️ Fout bij verbinden met Groq: " + err.message);
       }
-
-      // 2. Als Groq offline/bezet is: ALTIJD direct en authentiek antwoord op de Gouden W's!
-      if (!botReply) {
-        botReply = getScenarioResponse(currentCase.id, text);
-      }
-
-      removeTypingIndicator(typingId);
-      addBotMessage(botReply);
-    }
-
-    function getScenarioResponse(caseId, question) {
-      const q = question.toLowerCase();
-
-      // Begroetingen
-      if (q.includes("hallo") || q.includes("goedendag") || q.includes("goededag") || q.includes("morgen") || q.includes("middag") || q.includes("hoi")) {
-        if (caseId === 1) return "Mogguh agent, fijn da'k u tref. Vraag maar raak hoor, ik wil die overlas' hier echt kwijt.";
-        if (caseId === 2) return "Dag agent, ja ik sta hier effe verkeerd geparkeerd maar ik ben alweer weg heur.";
-        if (caseId === 3) return "Dag politie, goed da' jullie er zijn. Die herrie hier op 't plein moe' echt ophouwe.";
-        if (caseId === 4) return "Hee agent, Frank hier. Goed da' je er bent, die auto me' die tas staat er nog steeds!";
-        if (caseId === 5) return "Ja hallo, wat moet je van me dan agent?";
-      }
-
-      // Casus 1: Henk van Dijk (DA Drogisterij Leusderweg)
-      if (caseId === 1) {
-        if (q.includes("wie") || q.includes("wie zijn") || q.includes("signalement") || q.includes("dader") || q.includes("leeftijd") || q.includes("jas") || q.includes("kleding")) {
-          return "Nou, 't is een groepie van 4 à 5 jonges van een jaar of 15 tot 17. Eentje val' erug op: die draag' een opvallende rooie The North Face jas en rijd' op een zwarte scooter.";
-        }
-        if (q.includes("wat") || q.includes("overlast") || q.includes("gebeurd") || q.includes("gedaan") || q.includes("probleem")) {
-          return "Ze hange hier dagelijks voor de zaak, blowe heel de straa' blauw, schelde me klante uit en trappe fietse omver in 't rek!";
-        }
-        if (q.includes("waar") || q.includes("locatie") || q.includes("plek")) {
-          return "Direct voor de ingang en bij de fietseklemme van me DA-drogis' hier aan de Leusderweg.";
-        }
-        if (q.includes("wanneer") || q.includes("tijd") || q.includes("hoe laat") || q.includes("dagen") || q.includes("vaak")) {
-          return "Vrijwel elke doordeweekse middag, zo tussen half vier en zes uur as de schole uitkome.";
-        }
-        if (q.includes("waarom") || q.includes("reden") || q.includes("motief")) {
-          return "Puur verveling jochie! En as ik er wa' van zeg, roepe ze: 'Bemoei je me' je eige zake, ouwe!' Geen enkel respek meer.";
-        }
-        if (q.includes("waarmee") || q.includes("voertuig") || q.includes("scooter") || q.includes("wapen") || q.includes("middel")) {
-          return "Ze hebbe een zwarte snorscooter en van die dikke fatbikes. En zakkies wiet, die lucht trekt gewon me hele winkel in.";
-        }
-        if (q.includes("hoe") || q.includes("wijze") || q.includes("manier") || q.includes("gedrag")) {
-          return "Ze blokkere doelbewus' 't trottoir zoda' klante er nie langs durve, en blaze expres rook naar binne as de deur opengaat.";
-        }
-        if (q.includes("naam") || q.includes("u bent") || q.includes("wie bent u")) {
-          return "Ik ben Henk van Dijk (56), eigenaar van deze DA-drogisterij hier aan de Leusderweg.";
-        }
-        return "Vraag me gerus' wie 't zijn, wa' ze precies doen, wanneer 't gebeur' of waarmee ze rijje agent, dan kenne we dit aanpakke!";
-      }
-
-      // Casus 2: Bestuurder Gerard (Foutparkeerder)
-      if (caseId === 2) {
-        if (q.includes("wie") || q.includes("naam") || q.includes("rijbewijs") || q.includes("id") || q.includes("legitimatie") || q.includes("persoon")) {
-          return "Ik ben Gerard van Veen (48), ik woon gewon hier in Amersfoor'-Zuid. Hier hebbie me rijbewijs effe.";
-        }
-        if (q.includes("waarom") || q.includes("reden") || q.includes("wat doet u") || q.includes("wat deed")) {
-          return "Ik moest alleen effe snel een zwaar pakkie ophalen bij de Primera! Alle parkeervakkies stonde vol, dus ik dac': da' kan wel effe voor een minuutje.";
-        }
-        if (q.includes("waar") || q.includes("stoep") || q.includes("plek")) {
-          return "Ja, ik sta hier half op 't trottoir en de laad-en-losstrook voor de hoofdingang van de promenade. Nie zo netjes, weet ik wel.";
-        }
-        if (q.includes("wanneer") || q.includes("tijd") || q.includes("hoelang")) {
-          return "Nou net pas twee minute! Ik ben metteen doorgelope en heb me pakkie gepak'.";
-        }
-        if (q.includes("waarmee") || q.includes("auto") || q.includes("kenteken") || q.includes("golf") || q.includes("voertuig")) {
-          return "In die grijze Volkswagen Golf van me daaro, kenteken 12-TFD-4.";
-        }
-        if (q.includes("hoe") || q.includes("wijze") || q.includes("geparkeerd")) {
-          return "Nou ja, met twee wiele hoog op de stoeprand geparkeerd. Ik zag nie da' kinderwages er nie meer langs konne.";
-        }
-        if (q.includes("waarschuwing") || q.includes("boete") || q.includes("actie") || q.includes("plan") || q.includes("afspraak") || q.includes("gesprek")) {
-          return "Is da' zo van die waarschuwingsaksie van de wijkagent en de winkeliers? Nou, dan snap ik 't wel heur. Excuus hoor agent, ik zet 'm metteen netjes in een vak verderop!";
-        }
-        return "Luister agent, vraag me gewon wa' je wil wete over me auto, me pakkie of waarom ik hier sta, dan rijd ik 'm gelijk weg.";
-      }
-
-      // Casus 3: Wim (Overlast Hangplek Plein)
-      if (caseId === 3) {
-        if (q.includes("turk") || q.includes("afkomst") || q.includes("buitenlands") || q.includes("etniciteit") || q.includes("wie")) {
-          return "Kijk agent, de buurlui zegge steeds da' 't Turkse jonges zijn, maar eerlijk gezegd wee'k 't nie heur! 'T zijn gewon jonges van allerlei afkoms' door elkaar, stuk of 6 tot 8 man in donkere trainingspakkies.";
-        }
-        if (q.includes("wat") || q.includes("overlast") || q.includes("doen") || q.includes("probleem") || q.includes("gebeurt")) {
-          return "Keiharde muziek draaie, zonnebloempitte en energyblikkies op de grond gooie, en gevaarlijk hard scheure me' scooters!";
-        }
-        if (q.includes("waar") || q.includes("locatie") || q.includes("plek")) {
-          return "Hier op de houte bankies bij 't fonteintje midden op 't winkelplein, recht onder me balkon.";
-        }
-        if (q.includes("wanneer") || q.includes("tijd") || q.includes("hoe laat") || q.includes("vaak") || q.includes("avonden")) {
-          return "Bijna elke avond van een uur of zeve' to' half elf 's avonds. We kenne d'r nie van slape door die bassen.";
-        }
-        if (q.includes("waarmee") || q.includes("scooter") || q.includes("speaker") || q.includes("muziek") || q.includes("brommer")) {
-          return "Ze hebbe zo'n grote JBL bluetooth speaker en er rijd' steeds een blauwe Piaggio Zip scooter rond zonder achterlich'.";
-        }
-        if (q.includes("hoe") || q.includes("wijze") || q.includes("manier") || q.includes("gedrag")) {
-          return "Ze scheure keihard over de stoep vlak langs wandelend publiek, en as je er wa' van zegt beginne ze te joelen en te schelde.";
-        }
-        if (q.includes("naam") || q.includes("wie bent u")) {
-          return "Ik ben Wim (62), ik woon hier al twaalf jaar boven 't plein.";
-        }
-        return "Vraag me gerus' wie 't zijn, wa' ze precies uitspoke op 't plein of wanneer ze er zitte, dan ken je 't in je rappor' zette.";
-      }
-
-      // Casus 4: Frank (Getuige verdachte rugtas & auto)
-      if (caseId === 4) {
-        if (q.includes("wie") || q.includes("signalement") || q.includes("dader") || q.includes("personen") || q.includes("uiterlijk") || q.includes("kleding") || q.includes("leeftijd")) {
-          return "Twee manne! Persoon 1 was licht getint, rond 25 jaar, 1.85m me' een zwarte gewatteerde bontkraagjas en grijze joggingbroek. Persoon 2 was blank, blond opgeschore koppie, jaar of 20, 1.75m in een spijkerjas.";
-        }
-        if (q.includes("wat") || q.includes("tas") || q.includes("rugtas") || q.includes("gebeurd") || q.includes("gezien") || q.includes("kofferbak")) {
-          return "Persoon 1 kwam uit 't winkelcentrum en gaf een zware zwarte Nike sportrugtas aan Persoon 2. Die liep d'r gelijk mee naar die auto en mikte 'm achterin de kofferbak!";
-        }
-        if (q.includes("waar") || q.includes("locatie") || q.includes("plek") || q.includes("auto")) {
-          return "Parkeerdek B, parkeervak 42! En Persoon 2 zit nu binnen in 't koffiezaakje te wachte, die auto staat er nog!";
-        }
-        if (q.includes("waarmee") || q.includes("kenteken") || q.includes("auto") || q.includes("audi") || q.includes("merk")) {
-          return "Het is een zwarte Audi A3! 'T kenteken begon me' 8-KZX, de res' kon ik nie zo gauw leze.";
-        }
-        if (q.includes("wanneer") || q.includes("tijd") || q.includes("hoe laat") || q.includes("minuten")) {
-          return "Hoogui' zeve' minute geleje! Net voor'k 't OC belde gebeurde 't.";
-        }
-        if (q.includes("waarom") || q.includes("hoe") || q.includes("verdacht") || q.includes("wijze")) {
-          return "Heel schichtig om zich heen kijke, alsof er wiet of gestole spulle in die tas zitte. Da' was écht foute boel.";
-        }
-        if (q.includes("naam") || q.includes("wie bent u")) {
-          return "Ik ben Frank (39), ik was gewon aan 't winkele toen 'k 't zag gebeure.";
-        }
-        return "Pst agent, vraag me gerus' naar 't signalement, de zwarte Audi of wa' er precies in die kofferbak ging!";
-      }
-
-      // Casus 5: Tarik el-Idrissi (Jongere op de fiets)
-      if (caseId === 5) {
-        if (q.includes("wie") || q.includes("naam") || q.includes("id") || q.includes("legitimatie") || q.includes("paspoort") || q.includes("school")) {
-          return "Ik ben Tarik el-Idrissi man, 17 jaar, ik zit op 't MBO Amersfoort. Hier, kijk me ID-kaart maar as je me nie geloof'.";
-        }
-        if (q.includes("wat") || q.includes("waarom") || q.includes("fietsen") || q.includes("reden") || q.includes("voetganger")) {
-          return "Ik fietste gewon naar huis man! 'T regende hard en ik had me capuchon op. Ik weet wel da' je hier nie mag fietse, maar ik had haas' om voor zesse thuis te zijn voor 't ete.";
-        }
-        if (q.includes("waar") || q.includes("locatie") || q.includes("bord")) {
-          return "Hier in de winkelstraa' in 't centrum. Ik zag 't bord voetgangerszone wel, maar 't was rustig dus dacht da' kan wel effe.";
-        }
-        if (q.includes("waarmee") || q.includes("fiets") || q.includes("gestolen") || q.includes("slot") || q.includes("sleutel")) {
-          return "Ewa da's gewon me vaders fiets ja! Zwarte Gazelle Esprit. Kijk, ik heb gewon de fietssleutel en hij pas' op 't ringslot, check zelf maar!";
-        }
-        if (q.includes("wanneer") || q.includes("hoe laat") || q.includes("tijd")) {
-          return "Nou net tog! Je geeft me net 'n stopteken terwil ik naar huis fiets.";
-        }
-        if (q.includes("wat wat wat") || q.includes("waarom roep") || q.includes("etniciteit") || q.includes("marokkaan") || q.includes("profileren")) {
-          return "Ja omdat jullie altijd mij aanhouwe man! Maar oké, as 't gewon om da' fietsverbod gaa' snap ik 't wel. Sorry agent, ik stap al af en ga wel lope.";
-        }
-        return "Ewa wat wil je nog meer van me wete dan agent? Vraag maar, want me ma wacht me' 't ete.";
-      }
-
-      return "Ik luister naar u agent. Vraag me gerust wie, wat, waar, wanneer of waarmee, dan geef ik u antwoord!";
     }
 
     function addUserMessage(msg) {
@@ -1219,9 +848,15 @@ Gouden W's feiten:
       if (el) el.remove();
     }
 
-     /* =========================================================================
-       GEOPTIMALSEERDE C2000 PORTO LOGICA (AUDIO / CHIRP / SQUELCH / PTT)
+   /* =========================================================================
+       ROBUUSTE C2000 PORTO LOGICA (UNIVERSEEL VOOR IPAD / SAFARI / CHROME)
        ========================================================================= */
+    let audioCtx = null;
+    let micStream = null;
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let isRecording = false;
+
     function getAudioContext() {
       if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1247,9 +882,7 @@ Gouden W's feiten:
         gain.connect(ctx.destination);
         osc.start(now);
         osc.stop(now + 0.18);
-      } catch(e) {
-        console.log("Chirp error:", e);
-      }
+      } catch(e) {}
     }
 
     function playSquelchNoise() {
@@ -1273,9 +906,7 @@ Gouden W's feiten:
         filter.connect(gain);
         gain.connect(ctx.destination);
         noise.start();
-      } catch(e) {
-        console.log("Squelch error:", e);
-      }
+      } catch(e) {}
     }
 
     async function initMicrophone() {
@@ -1293,7 +924,7 @@ Gouden W's feiten:
       try {
         await initMicrophone();
       } catch (err) {
-        alert("Microfoonstoegang geweigerd of niet beschikbaar: " + err.message);
+        alert("Microfoonvereiste geblokkeerd of niet beschikbaar: " + err.message);
         return;
       }
 
@@ -1308,26 +939,25 @@ Gouden W's feiten:
       
       playRadioChirp();
 
-      let options = {};
-      if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) {
-        options = { mimeType: 'audio/webm;codecs=opus' };
-      } else if (MediaRecorder.isTypeSupported('audio/webm')) {
-        options = { mimeType: 'audio/webm' };
-      } else if (MediaRecorder.isTypeSupported('audio/mp4')) {
-        options = { mimeType: 'audio/mp4' };
+      // Bepaal het beste ondersteunde mimeType (cruciaal voor iOS/Safari vs Android/Chrome)
+      let mimeType = 'audio/webm';
+      if (MediaRecorder.isTypeSupported('audio/mp4')) {
+        mimeType = 'audio/mp4'; // Werkt uitstekend op Apple / Safari / iPad
+      } else if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) {
+        mimeType = 'audio/webm;codecs=opus';
       }
 
       try {
-        mediaRecorder = new MediaRecorder(micStream, options);
+        mediaRecorder = new MediaRecorder(micStream, { mimeType });
         mediaRecorder.ondataavailable = (event) => {
           if (event.data && event.data.size > 0) {
             audioChunks.push(event.data);
           }
         };
         mediaRecorder.onstop = uploadVoicePayload;
-        mediaRecorder.start(100); // Vangt data op in behapbare brokken van 100ms
+        mediaRecorder.start(100);
       } catch (err) {
-        console.error("MediaRecorder start error:", err);
+        console.error("MediaRecorder fout:", err);
         isRecording = false;
       }
     }
@@ -1348,10 +978,10 @@ Gouden W's feiten:
 
       if (mediaRecorder && mediaRecorder.state !== 'inactive') {
         try {
-          mediaRecorder.requestData(); // Forceer het flushen van de laatste audio data
+          mediaRecorder.requestData();
           mediaRecorder.stop();
         } catch (err) {
-          console.error("MediaRecorder stop error:", err);
+          console.error("Stop error:", err);
         }
       }
     }
@@ -1367,7 +997,7 @@ Gouden W's feiten:
           audio: reader.result,
           senderRole: currentRole,
           timestamp: Date.now()
-        }).catch(err => console.error("Firebase upload error:", err));
+        }).catch(err => console.error("Firebase upload fout:", err));
       };
     }
 
@@ -1379,26 +1009,34 @@ Gouden W's feiten:
         if (!data) return;
         if (data.timestamp > lastVoiceTimestamp && data.senderRole !== currentRole) {
           lastVoiceTimestamp = data.timestamp;
-          playIncomingAudio(data.audio);
+          playIncomingAudio(data.audio, data.senderRole);
         }
       });
     }
 
-    function playIncomingAudio(base64Audio) {
+    function playIncomingAudio(base64Audio, senderRole) {
       playRadioChirp();
-      setTimeout(() => {
-        const audio = new Audio(base64Audio);
-        document.getElementById('lcd-status').textContent = "● RX (SPRAAK)";
-        document.getElementById('lcd-title').textContent = "BERICHT ONTVANGEN";
-        
-        audio.play().catch(e => console.log("Autoplay preventie geblokkeerd:", e));
-        
-        audio.onended = () => {
-          playSquelchNoise();
-          document.getElementById('lcd-status').textContent = "● STAND-BY";
-          document.getElementById('lcd-title').textContent = "KANAAL OPEN";
-        };
-      }, 200);
+      document.getElementById('lcd-status').textContent = "● RX (SPRAAK)";
+      document.getElementById('lcd-title').textContent = "BERICHT ONTVANGEN";
+
+      // Maak een audio-element aan en voeg toe aan het scherm zodat het altijd afspeelt (bypass autoplay block)
+      const audio = new Audio(base64Audio);
+      
+      // Probeer direct af te spelen
+      audio.play().then(() => {
+        // Gelukt
+      }).catch(e => {
+        console.log("Browser blokkeerde autoplay, toon interactieve speler:", e);
+        // Fallback: Als de browser het blokkeert, tonen we een melding met een 'Luister' knop in het LCD of scherm
+        alert(`📻 Nieuw portobericht ontvangen van de ${senderRole}! Tik op OK om te beluisteren.`);
+        audio.play().catch(err => console.log("Handmatige play mislukt:", err));
+      });
+
+      audio.onended = () => {
+        playSquelchNoise();
+        document.getElementById('lcd-status').textContent = "● STAND-BY";
+        document.getElementById('lcd-title').textContent = "KANAAL OPEN";
+      };
     }
 
     function toggleRole() {
@@ -1409,18 +1047,16 @@ Gouden W's feiten:
       playRadioChirp();
     }
 
-    // Solide event listeners zonder dubbele touch/mouse conflicten
+    // Pointer events koppelen aan de PTT knop
     const pttBtn = document.getElementById('btn-ptt');
     if (pttBtn) {
       pttBtn.addEventListener('pointerdown', startVoiceRecording);
       pttBtn.addEventListener('pointerup', stopVoiceRecording);
       pttBtn.addEventListener('pointercancel', stopVoiceRecording);
-      pttBtn.addEventListener('pointerleave', stopVoiceRecording);
-    }
-
+      pttBtn.addEventListener('pointerleave', 
 
     /* =========================================================================
-       ASTMA MUTATIE OPSLAAN & REALTIME ROLWISSELING
+       ASTMA MUTATIE OPSLAAN & AUTOMATISCHE ROLWISSELING
        ========================================================================= */
     async function submitAstmaMutation() {
       const a = document.getElementById('astma-a').value.trim();
@@ -1452,37 +1088,38 @@ Gouden W's feiten:
       };
 
       try {
-        if (db) {
-          await db.ref(`classes/${currentClass}/mutaties`).push(mutatieData);
-        }
+        // 1. Mutatie opslaan in de realtime feed van de klas
+        await db.ref(`classes/${currentClass}/mutaties`).push(mutatieData);
 
+        // Velden direct leegmaken
         document.getElementById('astma-a').value = '';
         document.getElementById('astma-s').value = '';
         document.getElementById('astma-t').value = '';
         document.getElementById('astma-m').value = '';
         document.getElementById('astma-afh').value = '';
 
+        // 2. Kies een ÁNDERE casus dan de huidige
         const otherCases = [1, 2, 3, 4, 5].filter(id => id !== currentCase.id);
         const nextCaseId = otherCases[Math.floor(Math.random() * otherCases.length)];
 
+        // 3. Kies een andere locatie
         const otherLocations = ACADEMY_LOCATIONS.filter(loc => loc !== assignedLocation);
         const nextLocation = otherLocations[Math.floor(Math.random() * otherLocations.length)];
 
-        if (db) {
-          await db.ref(`classes/${currentClass}/couples/${currentCouple}`).update({
-            caseId: nextCaseId,
-            location: nextLocation,
-            status: 'ONDERWEG',
-            round: currentRound + 1
-          });
-        }
+        // 4. Update de koppeldata in Firebase -> activeert direct de rolwisseling bij BEIDE studenten!
+        await db.ref(`classes/currentClass/couples/{currentCouple}`).update({
+          caseId: nextCaseId,
+          location: nextLocation,
+          status: 'ONDERWEG',
+          round: currentRound + 1
+        });
+
       } catch (err) {
         alert("Fout bij opslaan: " + err.message);
       }
     }
 
     function listenForMutations() {
-      if (!db) return;
       const mutRef = db.ref(`classes/${currentClass}/mutaties`);
       mutRef.off();
       mutRef.on('value', snap => {
@@ -1508,8 +1145,8 @@ Gouden W's feiten:
 
           div.innerHTML = `
             <div class="flex justify-between items-center text-[10px] font-bold text-blue-900 border-b border-slate-200/60 pb-1">
-              <span>${escapeHtml(item.koppel || '')} (${escapeHtml(item.rol || '')}) • R${escapeHtml(String(item.ronde || '1'))}</span>
-              <span class="text-slate-500 font-mono">${timeStr ? timeStr + ' • ' : ''}Casus #${escapeHtml(String(item.casusId || ''))}</span>
+              <span>escapeHtml(item.koppel||'')({escapeHtml(item.rol || '')}) • R${escapeHtml(String(item.ronde || '1'))}</span>
+              <span class="text-slate-500 font-mono">timeStr?timeStr+'•':''Casus#{escapeHtml(String(item.casusId || ''))}</span>
             </div>
             <div class="space-y-1 text-[11px]">
               <p><strong class="text-blue-900 font-bold">Aanleiding:</strong> <span class="whitespace-pre-line">${escapeHtml(item.astma?.aanleiding || '')}</span></p>
@@ -1527,11 +1164,11 @@ Gouden W's feiten:
     }
 
     /* =========================================================================
-       RESET KNOP
+       RESET KNOP VOOR DE DOCENT (PER KLAS)
        ========================================================================= */
     async function resetClassData() {
       const confirmReset = confirm(`Weet je zeker dat je ALLE data voor klas ${currentClass} wilt wissen?\n\nDit verwijdert alle ingeleverde mutaties, gekozen locaties en koppel-casussen voor deze klas.`);
-      if (!confirmReset || !db) return;
+      if (!confirmReset) return;
 
       try {
         await db.ref(`classes/${currentClass}`).remove();
@@ -1556,3 +1193,1084 @@ Gouden W's feiten:
   </script>
 </body>
 </html>
+
+
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Politieacademie - C2000 & Casuïstiek Simulator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Firebase Compat SDK's -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  <style>
+    .ptt-active { background-color: #dc2626 !important; transform: scale(0.97); }
+    .lcd-screen { background-color: #648259; color: #0b1709; font-family: monospace; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen">
+
+  <!-- =========================================================================
+       1. INLOGSCHERM
+       ========================================================================= -->
+  <div id="view-login" class="min-h-screen flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl shadow-2xl max-w-md w-full space-y-6">
+      <div class="text-center space-y-2">
+        <span class="text-xs font-black tracking-widest text-amber-500 uppercase bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">Politieacademie Training</span>
+        <h1 class="text-2xl font-black text-white">Aanmelden Dienst</h1>
+        <p class="text-xs text-slate-400">Selecteer je klas, koppel en rolverdeling.</p>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">Klas</label>
+          <select id="select-class" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm font-bold text-white focus:outline-none focus:border-amber-500">
+            <option value="ALPHA">ALPHA</option>
+            <option value="BRAVO">BRAVO</option>
+            <option value="CHARLIE">CHARLIE</option>
+            <option value="DELTA">DELTA</option>
+            <option value="ECHO">ECHO</option>
+            <option value="FOXTROT">FOXTROT</option>
+            <option value="GOLF">GOLF</option>
+            <option value="HOTEL">HOTEL</option>
+            <option value="JULIETT">JULIETT</option>
+            <option value="KILO">KILO</option>
+            <option value="LIMA">LIMA</option>
+            <option value="MIKE">MIKE</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">Koppeltje</label>
+          <select id="select-couple" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm font-bold text-white focus:outline-none focus:border-amber-500">
+            <option value="KOPPEL-01">Koppel 01</option>
+            <option value="KOPPEL-02">Koppel 02</option>
+            <option value="KOPPEL-03">Koppel 03</option>
+            <option value="KOPPEL-04">Koppel 04</option>
+            <option value="KOPPEL-05">Koppel 05</option>
+            <option value="KOPPEL-06">Koppel 06</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">Jouw Rol</label>
+          <select id="select-role" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm font-bold text-white focus:outline-none focus:border-amber-500">
+            <option value="TAAKDRAGER">Taakdrager (Uitvoerende agent ter plaatse)</option>
+            <option value="MEDEWERKER-OC">Medewerker Operationeel Centrum (OC)</option>
+          </select>
+        </div>
+
+        <button onclick="goToInstructionMutatie()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-4 rounded-xl shadow-lg transition tracking-wider">
+          VOLGENDE: INSTRUCTIE MUTATIE →
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =========================================================================
+       2. INSTRUCTIESCHERM 1: OPSTELLEN MUTATIE & GOUDEN W'S
+       ========================================================================= -->
+  <div id="view-instruction-mutatie" class="hidden min-h-screen flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl shadow-2xl max-w-2xl w-full space-y-6">
+      <div class="border-b border-slate-800 pb-4">
+        <span class="text-xs font-bold text-amber-500 tracking-wider uppercase">Stap 1 van 2</span>
+        <h2 class="text-2xl font-black text-white mt-1">Instructie: Opstellen van een Dienstmutatie</h2>
+        <p class="text-xs text-slate-400 mt-1">Belangrijk: De mutatie is een <strong>tekst voor intern gebruik</strong> binnen de politiesystemen.</p>
+      </div>
+
+      <div class="space-y-4 text-xs text-slate-300 leading-relaxed">
+        <p>
+          Een mutatie dient om collega's, wijkagenten en leidinggevenden snel, feitelijk en betrouwbaar te informeren. 
+          Alle informatie uit de casus wordt hierbij vastgelegd op basis van de <strong>beantwoorde 7 Gouden W's</strong>:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 bg-slate-950 p-4 rounded-2xl border border-slate-800 font-mono text-[11px]">
+          <div class="space-y-1.5">
+            <p><strong class="text-blue-400">1. WIE:</strong> Betrokkenen, getuigen, melders, verdachten (inclusief personalia/signalement).</p>
+            <p><strong class="text-blue-400">2. WAT:</strong> Wat is er precies gebeurd of wat trof je aan?</p>
+            <p><strong class="text-blue-400">3. WAAR:</strong> De exacte locatie (adres, plein, etage, markante punten).</p>
+            <p><strong class="text-blue-400">4. WAAROM:</strong> Wat was de aanleiding, het motief of de achtergrond?</p>
+          </div>
+          <div class="space-y-1.5">
+            <p><strong class="text-blue-400">5. WANNEER:</strong> Tijdstip, datum, frequentie van de overlast/het feit.</p>
+            <p><strong class="text-blue-400">6. WAARMEE:</strong> Gebruikte middelen, voertuigen (merk/kenteken), voorwerpen.</p>
+            <p><strong class="text-blue-400">7. OP WELKE WIJZE:</strong> De handelwijze of werkwijze (modus operandi).</p>
+          </div>
+        </div>
+
+        <p class="text-slate-400 text-[11px]">
+          Zorg dat je tijdens de ondervraging van de betrokkene gericht doorvraagt tot je alle W's helder in kaart hebt.
+        </p>
+      </div>
+
+      <div class="flex justify-between items-center pt-4 border-t border-slate-800">
+        <button onclick="backToLogin()" class="text-xs text-slate-400 hover:text-white font-bold px-3 py-2">
+          ← Terug naar login
+        </button>
+        <button onclick="goToInstructionRoles()" class="bg-blue-600 hover:bg-blue-500 text-white font-black px-6 py-3 rounded-xl text-xs tracking-wider transition">
+          VOLGENDE: WERKWĲZE &amp; PROCEDURE →
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =========================================================================
+       3. INSTRUCTIESCHERM 2: ROLVERDELING, LOCATIES & ASTMA-MODEL
+       ========================================================================= -->
+  <div id="view-instruction-roles" class="hidden min-h-screen flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl shadow-2xl max-w-2xl w-full space-y-6">
+      <div class="border-b border-slate-800 pb-4">
+        <span class="text-xs font-bold text-amber-500 tracking-wider uppercase">Stap 2 van 2</span>
+        <h2 class="text-2xl font-black text-white mt-1">Werkwijze Koppel &amp; Procedure</h2>
+      </div>
+
+      <div class="space-y-4 text-xs text-slate-300 leading-relaxed">
+        <ul class="space-y-2.5 list-disc list-inside bg-slate-950 p-4 rounded-2xl border border-slate-800">
+          <li><strong>Koppels van twee:</strong> Eén student is <em>Taakdrager</em>, de ander is <em>Medewerker Operationeel Centrum (OC)</em>.</li>
+          <li><strong>Locatieopdracht:</strong> De OC-medewerker stuurt de taakdrager naar één van de locaties in het academiegebouw:
+            <div class="ml-6 mt-1.5 grid grid-cols-1 sm:grid-cols-2 gap-1 text-[11px] font-mono text-amber-400 font-bold">
+              <span>a) De receptie</span>
+              <span>b) Hal 5e etage</span>
+              <span>c) Ronde leerruimte 4e etage</span>
+              <span>d) Hal Onderwijs Ondersteuning</span>
+              <span>e) De balie (2e etage)</span>
+            </div>
+          </li>
+          <li><strong>Onderweg over de C2000-Porto:</strong> Terwijl de taakdrager naar de locatie loopt, verstrekt de OC-medewerker via de ingebouwde porto de casusinformatie.</li>
+          <li><strong>Ter Plaatse:</strong> Aangekomen op de locatie drukt de taakdrager op <strong>'🚨 Ik ben Ter Plaatse'</strong>. Pas dan verschijnt de Chatbot (de getuige/betrokkene).</li>
+          <li><strong>Ondervraging:</strong> Vraag de 7 Gouden W's uit bij de chatbot en meld de situatie terug via de porto.</li>
+          <li><strong>Vastlegging:</strong> De definitieve mutatie wordt opgesteld conform het <strong>ASTMA-model</strong>:
+            <span class="block text-emerald-400 font-mono mt-1">Aanleiding - Situatie ter plaatse - Toedracht - Maatregelen - Afhandeling</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="flex justify-between items-center pt-4 border-t border-slate-800">
+        <button onclick="goToInstructionMutatie()" class="text-xs text-slate-400 hover:text-white font-bold px-3 py-2">
+          ← Vorige instructie
+        </button>
+        <button onclick="startAppSession()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-8 py-3.5 rounded-xl text-xs tracking-wider transition">
+          START DE SIMULATIE (NAAR DASHBOARD) →
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =========================================================================
+       4. HOOFDSCHERM (DASHBOARD)
+       ========================================================================= -->
+  <div id="view-app" class="hidden min-h-screen flex flex-col">
+    <!-- Topbar -->
+    <header class="bg-slate-900 border-b border-slate-800 px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="h-3 w-3 rounded-full bg-emerald-500 animate-pulse"></div>
+        <div>
+          <h2 class="font-black text-sm tracking-wide" id="topbar-info">KLAS ALPHA | KOPPEL-01</h2>
+          <p class="text-[11px] text-slate-400" id="topbar-role">Rol: TAAKDRAGER</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button onclick="resetClassData()" class="bg-red-950/60 hover:bg-red-800 border border-red-700 text-red-200 text-xs font-bold px-3 py-2 rounded-lg transition" title="Wist alle mutaties en opgeslagen casussen voor deze klas">
+          ⚠️ Reset Klas Database
+        </button>
+        <button onclick="logoutStudent()" class="bg-slate-800 hover:bg-slate-700 text-xs font-bold px-3 py-2 rounded-lg transition">
+          Uitloggen
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Grid -->
+    <main class="flex-1 p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 max-w-7xl mx-auto w-full">
+      
+      <!-- LINKERKANT: OC MELDING, STATUS & CHATBOT (7 kolommen) -->
+      <section class="lg:col-span-7 space-y-6">
+        
+        <!-- OC / Locatie Card -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-xl space-y-3">
+          <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+            <span class="text-xs font-black text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+              <span>🚨</span> Operationeel Centrum (OC) Regie
+            </span>
+            <span id="case-badge" class="bg-slate-800 text-[10px] px-2 py-0.5 rounded font-mono font-bold text-slate-300">CASUS #?</span>
+          </div>
+
+          <!-- Locatie in het Academiegebouw -->
+          <div class="bg-blue-950/40 border border-blue-800/60 p-3 rounded-xl flex items-center justify-between">
+            <div>
+              <span class="text-[10px] uppercase font-bold text-blue-400 tracking-wider">Aangewezen Academie Locatie:</span>
+              <p class="text-sm font-black text-white" id="academy-location-display">Wordt bepaald...</p>
+            </div>
+            <span class="text-xs bg-blue-500/20 text-blue-300 border border-blue-500/30 px-2.5 py-1 rounded-lg font-bold">Lopen!</span>
+          </div>
+
+          <!-- Casus Inhoud (Wordt dynamisch gevuld: OC ziet inhoud, Taakdrager ziet porto-instructie) -->
+          <div id="case-content-box">
+            <div id="case-body" class="text-xs leading-relaxed text-slate-200 bg-slate-950/70 p-4 rounded-2xl border border-slate-800 whitespace-pre-line">
+              Melding inladen...
+            </div>
+            <p id="case-role-tip" class="text-[11px] text-amber-400 mt-2 italic font-medium">
+              * OC-medewerker: Geef deze gegevens tijdens het lopen via de C2000-porto door aan je collega.
+            </p>
+          </div>
+        </div>
+
+        <!-- Ter Plaatse Knop & Status Card (Cruciaal voor Taakdrager) -->
+        <div id="status-card" class="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-xl space-y-3">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-xs font-black uppercase text-slate-300 tracking-wider">Status Taakdrager op Locatie</h3>
+              <p class="text-[11px] text-slate-400" id="unit-status-text">Onderweg naar locatie in het academiegebouw...</p>
+            </div>
+            <span id="unit-status-badge" class="px-3 py-1 text-xs font-black uppercase rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
+              ONDERWEG
+            </span>
+          </div>
+
+          <!-- Actieknop voor de Taakdrager -->
+          <button id="btn-ter-plaatse" onclick="setTerPlaatse()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-4 rounded-2xl text-xs uppercase tracking-wider transition shadow-lg flex items-center justify-center gap-2">
+            <span>📍</span> IK BEN TER PLAATSE IN HET GEBOUW (START ONDERVRAAG)
+          </button>
+        </div>
+
+        <!-- Chatbot Betrokkene (Ontgrendelt pas NA aankomst ter plaatse) -->
+        <div id="chatbot-container" class="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-xl flex flex-col h-[480px]">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div>
+              <h3 class="text-xs font-black uppercase tracking-wider text-blue-400" id="bot-character-name">Betrokkene / Melder</h3>
+              <p class="text-[10px] text-slate-400" id="bot-character-desc">Aanwezig ter plaatse</p>
+            </div>
+            <span class="text-[10px] bg-blue-500/10 text-blue-400 px-2 py-1 rounded-full border border-blue-500/20 font-bold">Groq AI</span>
+          </div>
+
+          <!-- Vergrendeld scherm als taakdrager nog onderweg is -->
+          <div id="chatbot-locked" class="flex-1 flex flex-col items-center justify-center text-center p-6 space-y-3">
+            <span class="text-4xl">🚶‍♂️</span>
+            <h4 class="text-sm font-bold text-slate-300">Taakdrager is nog onderweg</h4>
+            <p class="text-xs text-slate-500 max-w-xs">
+              Beweeg je naar de aangewezen academie-locatie. Klik pas op <strong>'Ik ben Ter Plaatse'</strong> zodra je er bent om de betrokkene te ontmoeten.
+            </p>
+          </div>
+
+          <!-- Chat Berichten (zichtbaar na ter plaatse) -->
+          <div id="chat-messages" class="hidden flex-1 overflow-y-auto p-3 space-y-3 text-xs my-2 pr-2"></div>
+
+          <!-- Chat Input -->
+          <div id="chat-input-bar" class="hidden pt-2 border-t border-slate-800 flex gap-2">
+            <input type="text" id="chat-input" onkeydown="if(event.key==='Enter') sendChatMessage()" placeholder="Vraag de Gouden W's uit (Wie, wat, waar, waarom, etc.)..." class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
+            <button onclick="sendChatMessage()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 rounded-xl text-xs transition">
+              Vraag
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- RECHTERKANT: C2000 PORTOFOON & ASTMA MUTATIE (5 kolommen) -->
+      <section class="lg:col-span-5 space-y-6">
+        
+        <!-- PORTO BEHUIZING -->
+        <div class="bg-slate-800 p-5 rounded-3xl border-4 border-slate-700 shadow-2xl w-full space-y-4">
+          <!-- LCD DISPLAY -->
+          <div class="lcd-screen p-3 rounded-xl border-2 border-slate-600 flex flex-col justify-between h-24 shadow-inner">
+            <div class="flex justify-between text-xs font-bold">
+              <span id="lcd-channel">CH: ALPHA-K01</span>
+              <span id="lcd-status">● STAND-BY</span>
+            </div>
+            <div id="lcd-title" class="text-center font-bold text-sm tracking-wider uppercase">KANAAL OPEN</div>
+            <div id="lcd-role" class="text-[10px] font-bold">ROL: TAAKDRAGER</div>
+          </div>
+
+          <!-- KANAAL EN ROL KEUZE -->
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <button id="role-toggle-btn" onclick="toggleRole()" class="bg-blue-600 hover:bg-blue-500 font-bold p-2.5 rounded-lg col-span-2">
+              Wissel Porto Rol (OC / Taakdrager)
+            </button>
+          </div>
+
+          <!-- PTT KNOP -->
+          <button id="btn-ptt" class="w-full bg-amber-600 hover:bg-amber-500 text-white font-black py-6 rounded-2xl text-sm uppercase tracking-wider shadow-lg select-none transition">
+            <span id="ptt-label">HOUD INGEDRUKT (PTT)</span>
+          </button>
+        </div>
+
+        <!-- MUTATIE FORMULIER IN HET ASTMA-MODEL -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-xl space-y-4">
+          <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+            <div>
+              <h3 class="text-xs font-black uppercase tracking-wider text-amber-400">📝 Mutatie (ASTMA-Model)</h3>
+              <p class="text-[10px] text-slate-400">Tekst uitsluitend voor intern politiegebruik</p>
+            </div>
+            <span class="text-[10px] bg-amber-500/10 text-amber-300 border border-amber-500/20 px-2 py-0.5 rounded font-mono font-bold">BVH Standaard</span>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div>
+              <label class="block font-bold text-slate-300 mb-1">
+                <span class="text-amber-400 font-mono">A</span> - Aanleiding
+              </label>
+              <textarea id="astma-a" rows="2" placeholder="Dag datum tijd, jouw naam, jouw bevoegdheid, jouw hoedanigheid, waar was je mee bezig? Welke melding kreeg je?" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-500"></textarea>
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-300 mb-1">
+                <span class="text-amber-400 font-mono">S</span> - Situatie ter plaatse
+              </label>
+              <textarea id="astma-s" rows="2" placeholder="Wat zie ter plaatse?" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-500"></textarea>
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-300 mb-1">
+                <span class="text-amber-400 font-mono">T</span> - Toedracht (De Gouden W's)
+              </label>
+              <textarea id="astma-t" rows="3" placeholder="Noteer in de verleden tijd wat er gebeurde. Geef antwoord op de vragen: Wie, wat, waar, waarom, wanneer, waarmee, op welke wijze..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-500"></textarea>
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-300 mb-1">
+                <span class="text-amber-400 font-mono">M</span> - Maatregelen
+              </label>
+              <textarea id="astma-m" rows="2" placeholder="Ondernomen acties: vermaning, waarschuwingsgesprek, ID-controle..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-500"></textarea>
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-300 mb-1">
+                <span class="text-amber-400 font-mono">A</span> - Afhandeling
+              </label>
+              <textarea id="astma-afh" rows="2" placeholder="Vervolg: heenzending, terugkoppeling OC, afspraken wijkagent..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-500"></textarea>
+            </div>
+
+            <button onclick="submitAstmaMutation()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-3 rounded-xl text-xs uppercase tracking-wider transition shadow-lg">
+              ASTMA-Mutatie Definitief Opslaan
+            </button>
+          </div>
+
+          <!-- Ingediende mutaties overzicht -->
+          <div class="pt-3 border-t border-slate-800">
+            <h4 class="text-[11px] font-bold text-slate-400 mb-2">Ingevoerde mutaties binnen klas <span id="mut-class-label"></span></h4>
+            <div id="mutations-list" class="space-y-2 max-h-48 overflow-y-auto text-xs pr-1">
+              <span class="text-slate-600 italic text-[11px]">Nog geen mutaties ingeleverd.</span>
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </main>
+  </div>
+
+
+  <!-- =========================================================================
+       JAVASCRIPT LOGICA
+       ========================================================================= -->
+  <script>
+    /* =========================================================================
+       CONFIGURATIE
+       ========================================================================= */
+    // ===>>> 1. GROQ API KEY <<<===
+    const GROQ_API_KEY = "HIER_JE_GROQ_API_KEY_INVULLEN"; // <-- PLAK HIER JE GROQ API KEY
+
+    // ===>>> 2. FIREBASE CONFIG <<<===
+    const firebaseConfig = {
+      apiKey: "AIzaSyBEod8zm1jvvkmPbe6cA_SQo2U_esC9yTY",
+      authDomain: "aangiftebotje.firebaseapp.com",
+      databaseURL: "https://aangiftebotje-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "aangiftebotje",
+      storageBucket: "aangiftebotje.firebasestorage.app",
+      messagingSenderId: "825633841222",
+      appId: "1:825633841222:web:15d93d08e2b719285dea47"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    /* =========================================================================
+       ACADEMIE LOCATIES & CASUSSEN
+       ========================================================================= */
+    const ACADEMY_LOCATIONS = [
+      "a: De receptie",
+      "b: Hal 5e etage",
+      "c: Ronde leerruimte 4e etage",
+      "d: Hal bij Onderwijs Ondersteuning",
+      "e: De balie, op de tweede etage"
+    ];
+
+    const CASUSSEN = {
+      1: {
+        id: 1,
+        title: "Overlast rondom DA-drogisterij",
+        text: "Je wordt aangesproken door een man, die je uit de DA-drogist ziet komen. De man wil informatie met jullie delen over de overlast rondom zijn DA-drogisterij aan de Leusderweg in Amersfoort.",
+        characterName: "Meneer Van Dijk (Eigenaar DA)",
+        characterRole: "Winkeleigenaar DA Leusderweg",
+        systemPrompt: `Je bent meneer Henk van Dijk (56 jaar), eigenaar van de DA-drogist aan de Leusderweg in Amersfoort.
+Taalstijl: Je praat plat Utrechts/Amersfoorts. Je slikt consequent de letter 't' in aan het einde van woorden en werkwoorden (bijv: "nie", "da's", "hebbie", "wee'k nie", "krag", "wa zeggie", "gaa", "kom", "zitte").
+Houding: Je bent meewerkend en bezorgd over je winkel.
+Inhoudelijke gegevens die je weet als de agent er gestructureerd naar vraagt (Gouden W's):
+- Wie: Een groep van 4 tot 5 jongeren van een jaar of 15-17. Eentje heeft een opvallende rode jas aan (The North Face) en rijdt op een zwarte scooter.
+- Wat: Ze hangen dagelijks voor de zaak, blowen (sterke wietlucht), schelden klanten uit en trappen fietsen omver.
+- Waar: Direct voor de ingang en bij de fietsenrekken van de DA aan de Leusderweg.
+- Waarom: Verveling. Als Henk er wat van zegt, schelden ze hem uit voor 'ouwe lul'.
+- Wanneer: Vrijwel elke doordeweekse dag tussen 15:30 en 18:00 uur (wanneer de scholen uitgaan).
+- Waarmee: Zwarte snorscooter, fatbikes, wietzakjes.
+- Op welke wijze: Ze blokkeren doelbewust het trottoir en blazen rook naar binnen.
+Antwoord kort en bondig op de specifieke vraag van de agent.`
+      },
+      2: {
+        id: 2,
+        title: "IGP Foutparkeren Winkelgebied",
+        text: "Winkeliers en bezoekers hebben geklaagd over foutgeparkeerde auto’s rondom het winkelgebied. Dit zorgt voor onveilige situaties voor het winkelend publiek. De winkeliersvereniging heeft samen met de wijkagent een plan gemaakt. De wijkagent heeft afgesproken dat de politie vier weken lang extra aandacht zal besteden aan foutparkeren rondom het winkelgebied. Hierbij zal vier weken lang waarschuwend worden opgetreden. Vandaag is de eerste dag van het plan. Je krijgt de volgende IGP-opdracht mee:\nControleer op foutparkeren rondom het winkelgebied en voer waar nodig een waarschuwingsgesprek.",
+        characterName: "Bestuurder Gerard (Foutparkeerder)",
+        characterRole: "Aangesproken bestuurder op het trottoir",
+        systemPrompt: `Je bent Gerard (48 jaar), een automobilist die zojuist zijn grijze Volkswagen Golf half op de stoep en laad-en-losstrook heeft gezet.
+Taalstijl: Plat Amersfoorts/Utrechts (laat consequent de laatste 't' vallen: "da's", "nie", "wou'k", "hebbie", "wee'je", "kom", "nie zo moelijk doen jochie").
+Houding: In het begin gehaast en geïrriteerd ("ik sta hier net een minuutje hoor!"). Als de agent rustig blijft en vraagt naar de reden, werk je mee.
+Inhoudelijke gegevens:
+- Wie: Gerard van Veen, woont in Amersfoort-Zuid.
+- Wat/Waarom: Moest met spoed een zwaar pakket ophalen bij de Primera. Kon geen leeg vak vinden.
+- Waar: Trottoir voor de hoofdingang winkelpromenade.
+- Wanneer: Zojuist op de middag.
+- Waarmee: Grijze VW Golf, kenteken 12-TFD-4.
+- Op welke wijze: Volledig met twee wielen op de stoeprand waardoor kinderwagens er niet langs kunnen.
+Als de agent een waarschuwend gesprek voert conform de actie, toon je begrip en parkeer je hem netjes om.`
+      },
+      3: {
+        id: 3,
+        title: "Overlast Hangplek Winkelgebied",
+        text: "De wijkagent vraagt om extra aandacht te besteden voor deze hangplek in het winkelgebied. De laatste weken hebben verschillende bezoekers en winkeliers melding gemaakt van overlast (harde muziek, scooters die af- en aanrijden, geschreeuw en afval). De melders spreken steeds over een groep ‘Turkse’ jongeren*.\n\n(*hier wordt bewust een etniciteit genoemd om vragen op te roepen m.b.t. het optreden van de agent).",
+        characterName: "Buurtbewoner Wim",
+        characterRole: "Omwonende / Melder van de overlast",
+        systemPrompt: `Je bent Wim (62 jaar), bewoner boven het plein.
+Taalstijl: Plat Amersfoorts/Utrechts (geen 't' op het einde: "da kenne we nie hebbe", "ze zitte maar", "hebbie da gezien").
+Houding: Blij dat de politie er is.
+Let op bij etniciteit: Als de agent doorvraagt naar de groep ('Turkse jongeren'), nuanceer je direct: "Nou ja, buurlui zeie da 't Turkse jonges ware, maar ik wee't nie heur! Het zijn gewon jonges van allerlei afkoms' door elkaar. Ze drage allemaal donkere trainingspakkies."
+Gouden W's gegevens:
+- Wie: 6 tot 8 jongeren van 16-20 jaar.
+- Wat: Keiharde muziek, zonnebloempitten en energyblikjes op de grond, gevaarlijk scheuren met scooters.
+- Waar: De bankjes bij het fonteintje midden op het plein.
+- Wanneer: Vrijwel elke avond van 19:00 tot 22:30 uur.
+- Waarmee: Grote JBL bluetooth speaker, een blauwe Piaggio Zip scooter zonder achterlicht.
+- Op welke wijze: Ze intimideren voorbijgangers door op hen af te rijden met de scooter.`
+      },
+      4: {
+        id: 4,
+        title: "OC Melding: Verdachte rugtas & Zwarte auto",
+        text: "Tijdens de surveillance krijgen jullie van het OC de melding om te gaan naar het winkelcentrum. De melder gaf aan dat hij twee verdachte personen zag staan. De ene persoon zou een rugtas aan de andere persoon hebben overgegeven nadat die persoon uit een winkel kwam. De melder vertrouwt het niet, maar durft zelf niet te gaan kijken. De melder geeft een duidelijk signalement van de twee personen.\n\nDe melder zou ook gezien hebben dat een van de personen de rugtas achter in een daar geparkeerde auto heeft gelegd. Het zou moeten gaan om een zwarte auto. Het merk en kenteken zijn niet bekend. Het verzoek van het OC is om ter plaats te gaan, te kijken wat er aan de hand is en een terugkoppeling te geven.",
+        characterName: "Getuige Frank",
+        characterRole: "Winkelend publiek ter plaatse",
+        systemPrompt: `Je bent getuige Frank (39 jaar).
+Taalstijl: Amersfoorts dialect (laat 't' weg: "ik zag 't nie zitte", "da's nie pluis", "hebbie hem gezien", "da's gewon link").
+Houding: Zenuwachtig maar uiterst behulpzaam.
+Gouden W's gegevens:
+- Wie (Signalement 2 personen):
+  Persoon 1: Man, circa 25 jaar, 1.85m, licht getint, zwarte gewatteerde jas met bontkraag, grijze joggingbroek.
+  Persoon 2: Man, circa 20 jaar, 1.75m, blank, blond opgeschoren haar, donkerblauwe spijkerjas.
+- Wat: Persoon 1 gaf een zware zwarte sportrugtas (Nike) aan Persoon 2. Persoon 2 dumpte deze snel in de kofferbak van een auto.
+- Waar: Parkeerdek B, vak 42.
+- Waarmee (Auto): Zwarte Audi A3, kenteken begint met '8-KZX-..'.
+- Wanneer: Zojuist, hooguit 6 minuten geleden.
+- Op welke wijze: Heel heimelijk, om zich heen kijkend alsof ze bang waren betrapt te worden. Persoon 2 zit nu binnen in het koffiezaakje!`
+      },
+      5: {
+        id: 5,
+        title: "IGP Fietsendiefstallen & Aanspreken Jongere",
+        text: "Tijdens je middagdienst geeft de OPCO je de opdracht om te gaan surveilleren in het centrum van je werkgebied. Het is jou bekend dat er in dat centrum veel Marokkaanse jongeren rondhangen*. De laatste tijd worden er veel fietsen weggenomen in het centrum. Er zijn diverse aangiftes van fietsdiefstal geweest. Je hebt een IGP-opdracht gekregen met summiere informatie. De fietsdiefstallen vinden vooral plaats tussen 14 en 19 uur.\n\nJe surveilleert samen met je collega (uit elkaar met zicht op elkaar). Jij ziet een jongen aan komen fietsen. Hij heeft zijn muts van zijn hoodie over zijn hoofd getrokken. Als hij dichterbij komt, zie je dat hij een licht getinte huidskleur heeft. Jij wil hem aanspreken, omdat hij daar niet mag fietsen.\n\nOp het moment dat jij hem een stopteken geeft, roept de jongen naar jou: ”Wat, wat, wat?” Je controleert de persoon en de fiets. Na zijn ID-bewijs gezien te hebben en hem een waarschuwing te hebben gegeven, mag hij verder lopen met zijn fiets. Je zet niets in het politiesysteem.\n\n(*hier wordt bewust een etniciteit genoemd om vragen op te roepen m.b.t. het optreden van de agent).",
+        characterName: "Jongere Tarik",
+        characterRole: "Aangesproken jongere op de fiets",
+        systemPrompt: `Je bent Tarik (17 jaar). Je fietste door de voetgangerszone met je muts op tegen de regen.
+Taalstijl: Straattaal gemengd met Amersfoorts dialect ("wrm hou je me aan dan?", "ik doe tog niks verkeerd", "da's me vaders fies ja").
+Houding: Eerst verontwaardigd ("Wat, wat, wat?! Waarom pak je mij?!"). Als de agent rustig blijft en uitlegt dat het om het fietsverbod in het voetgangersgebied gaat, kalmeer je.
+Gouden W's gegevens:
+- Wie: Tarik el-Idrissi, 17 jaar, scholier.
+- Wat: Fietste waar het niet mocht.
+- Waar: Midden in het voetgangersgebied van het winkelcentrum.
+- Waarom: Had haast om thuis te eten en wilde niet omlopen.
+- Waarmee: Zwarte Gazelle Esprit van zijn vader. Hij heeft gewoon de fietssleutel en kan aantonen dat de fiets van het gezin is.
+- Op welke wijze: Zag het bord voetgangerszone wel, maar negeerde het gemakshalve.
+Toont netjes zijn ID-kaart als de agent professioneel blijft.`
+      }
+    };
+
+    /* =========================================================================
+       STATE VARIABELEN
+       ========================================================================= */
+    let currentClass = 'ALPHA';
+    let currentCouple = 'KOPPEL-01';
+    let currentRole = 'TAAKDRAGER'; // 'TAAKDRAGER' of 'MEDEWERKER-OC'
+    let currentChannel = 'ALPHA_KOPPEL-01';
+    let currentCase = null;
+    let assignedLocation = '';
+    let isTerPlaatse = false;
+    let chatHistory = [];
+    let lastVoiceTimestamp = Date.now();
+
+    // Porto Web Audio & Recorder State
+    let audioCtx = null;
+    let micStream = null;
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let isRecording = false;
+
+    /* =========================================================================
+       NAVIGATIE TUSSEN SCHERMEN
+       ========================================================================= */
+    function goToInstructionMutatie() {
+      currentClass = document.getElementById('select-class').value;
+      currentCouple = document.getElementById('select-couple').value;
+      currentRole = document.getElementById('select-role').value;
+      currentChannel = `${currentClass}_${currentCouple}`;
+
+      document.getElementById('view-login').classList.add('hidden');
+      document.getElementById('view-instruction-mutatie').classList.remove('hidden');
+    }
+
+    function backToLogin() {
+      document.getElementById('view-instruction-mutatie').classList.add('hidden');
+      document.getElementById('view-login').classList.remove('hidden');
+    }
+
+    function goToInstructionRoles() {
+      document.getElementById('view-instruction-mutatie').classList.add('hidden');
+      document.getElementById('view-instruction-roles').classList.remove('hidden');
+    }
+
+    async function startAppSession() {
+      document.getElementById('view-instruction-roles').classList.add('hidden');
+      document.getElementById('view-app').classList.remove('hidden');
+
+      // Topbar & Porto LCD updates
+      document.getElementById('topbar-info').textContent = `KLAS: ${currentClass} | ${currentCouple}`;
+      document.getElementById('topbar-role').textContent = `Rol: ${currentRole}`;
+      document.getElementById('lcd-channel').textContent = `CH: ${currentCouple}`;
+      document.getElementById('lcd-role').textContent = `ROL: ${currentRole}`;
+      document.getElementById('mut-class-label').textContent = currentClass;
+
+      // Koppel-data synchroniseren in Firebase (Casus & Academie-locatie)
+      await syncCoupleData();
+
+      // UI aanpassen aan rol
+      setupRoleUI();
+
+      // Listeners activeren
+      listenForIncomingRadio();
+      listenForMutations();
+      listenForUnitStatus();
+    }
+
+    function logoutStudent() {
+      db.ref(`${currentChannel}/voiceMsg`).off();
+      db.ref(`classes/${currentClass}/mutaties`).off();
+      db.ref(`classes/currentClass/couples/{currentCouple}/status`).off();
+
+      document.getElementById('view-app').classList.add('hidden');
+      document.getElementById('view-login').classList.remove('hidden');
+    }
+
+    /* =========================================================================
+       KOPPEL SYNCHRONISATIE (CASUS, LOCATIE & STATUS IN FIREBASE)
+       ========================================================================= */
+    async function syncCoupleData() {
+      const coupleRef = db.ref(`classes/currentClass/couples/{currentCouple}`);
+      const snap = await coupleRef.once('value');
+      let data = snap.val() || {};
+
+      // 1. Casus toewijzen indien nog niet aanwezig
+      if (!data.caseId || !CASUSSEN[data.caseId]) {
+        data.caseId = Math.floor(Math.random() * 5) + 1;
+      }
+
+      // 2. Academie-locatie toewijzen indien nog niet aanwezig
+      if (!data.location) {
+        data.location = ACADEMY_LOCATIONS[Math.floor(Math.random() * ACADEMY_LOCATIONS.length)];
+      }
+
+      // 3. Status initialiseren
+      if (!data.status) {
+        data.status = 'ONDERWEG';
+      }
+
+      await coupleRef.set(data);
+
+      currentCase = CASUSSEN[data.caseId];
+      assignedLocation = data.location;
+      isTerPlaatse = (data.status === 'TER_PLAATSE');
+
+      renderAppUI();
+    }
+
+    function setupRoleUI() {
+      const btnTerPlaatse = document.getElementById('btn-ter-plaatse');
+      const caseRoleTip = document.getElementById('case-role-tip');
+      const caseBody = document.getElementById('case-body');
+      const caseBadge = document.getElementById('case-badge');
+
+      if (currentRole === 'MEDEWERKER-OC') {
+        // OC ziet de volledige casus direct om door te geven via de porto
+        if (currentCase) {
+          caseBody.textContent = currentCase.text;
+          caseBadge.textContent = `CASUS #${currentCase.id}`;
+        }
+        caseRoleTip.textContent = "ℹ️ Als OC-medewerker instrueer je de taakdrager via de C2000-porto over de locatie en casusgegevens.";
+        btnTerPlaatse.classList.add('hidden'); // Alleen de agent op straat klikt op ter plaatse
+      } else {
+        // TAAKDRAGER: OC-MELDING VOLLEDIG AFGESCHERMD! Moet via de portofoon vernomen worden.
+        caseBadge.textContent = "BERICHT VIA OC";
+        caseBody.innerHTML = `
+          <div class="space-y-2 py-1">
+            <span class="text-amber-400 font-bold flex items-center gap-2">
+              <span>📻</span> Melding via C2000 portofoon
+            </span>
+            <p class="text-slate-400 italic text-xs leading-relaxed">
+              De inhoud van de casus is afgeschermd voor de taakdrager. Luister goed naar de portofoon: de medewerker van het Operationeel Centrum geeft de toedracht en bijzonderheden mondeling aan jou door!
+            </p>
+          </div>
+        `;
+        caseRoleTip.textContent = "ℹ️ Verplaats je naar de academie-locatie. Luister goed naar het OC via de portofoon!";
+        btnTerPlaatse.classList.remove('hidden');
+      }
+    }
+
+    function renderAppUI() {
+      document.getElementById('academy-location-display').textContent = assignedLocation;
+      document.getElementById('bot-character-name').textContent = currentCase.characterName;
+      document.getElementById('bot-character-desc').textContent = currentCase.characterRole;
+
+      setupRoleUI();
+      updateStatusUI(isTerPlaatse);
+    }
+
+    async function setTerPlaatse() {
+      isTerPlaatse = true;
+      await db.ref(`classes/currentClass/couples/{currentCouple}/status`).set('TER_PLAATSE');
+      updateStatusUI(true);
+    }
+
+    function listenForUnitStatus() {
+      db.ref(`classes/currentClass/couples/{currentCouple}/status`).on('value', snap => {
+        const status = snap.val();
+        isTerPlaatse = (status === 'TER_PLAATSE');
+        updateStatusUI(isTerPlaatse);
+      });
+    }
+
+    function updateStatusUI(terPlaatse) {
+      const badge = document.getElementById('unit-status-badge');
+      const text = document.getElementById('unit-status-text');
+      const lockedBox = document.getElementById('chatbot-locked');
+      const chatMessages = document.getElementById('chat-messages');
+      const chatInputBar = document.getElementById('chat-input-bar');
+      const btnTerPlaatse = document.getElementById('btn-ter-plaatse');
+
+      if (terPlaatse) {
+        badge.textContent = "TER PLAATSE";
+        badge.className = "px-3 py-1 text-xs font-black uppercase rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
+        text.textContent = `Eenheid is gearriveerd op locatie: ${assignedLocation}.`;
+        
+        lockedBox.classList.add('hidden');
+        chatMessages.classList.remove('hidden');
+        chatInputBar.classList.remove('hidden');
+
+        if (btnTerPlaatse) btnTerPlaatse.classList.add('hidden');
+
+        if (chatHistory.length === 0) {
+          initChatGreeting();
+        }
+      } else {
+        badge.textContent = "ONDERWEG";
+        badge.className = "px-3 py-1 text-xs font-black uppercase rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20";
+        text.textContent = `Onderweg naar ${assignedLocation}... Luister naar de porto!`;
+
+        lockedBox.classList.remove('hidden');
+        chatMessages.classList.add('hidden');
+        chatInputBar.classList.add('hidden');
+        if (currentRole === 'TAAKDRAGER') {
+          btnTerPlaatse.classList.remove('hidden');
+        }
+      }
+    }
+
+    function initChatGreeting() {
+      let greeting = "Goededag agent...";
+      if (currentCase.id === 1) greeting = "Mogguh agent, fijn da'k jullie zie lopen hier op de Leusderweg. 'T is weer raak hoor met die jeug'...";
+      if (currentCase.id === 2) greeting = "Ja hallo agent, wa's er aan de hand? Ik sta hier net een tel hoor!";
+      if (currentCase.id === 3) greeting = "Dag politie, goed da' jullie er zijn. Die herrie hier op 't plein is gewon nie meer normaal...";
+      if (currentCase.id === 4) greeting = "Pst, agent! Frank hier, ik heb net 't OC gebeld. Ze zitte nu in de koffiezaak, maar die auto me' die tas staat er nog!";
+      if (currentCase.id === 5) greeting = "Wat, wat, wat?! Waarom hou je me aan dan?! Ik fiets hier gewon naar huis man!";
+
+      addBotMessage(greeting);
+    }
+
+    /* =========================================================================
+       CHATBOT LOGICA MET GROQ API
+       ========================================================================= */
+    async function sendChatMessage() {
+      const input = document.getElementById('chat-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      addUserMessage(text);
+      input.value = '';
+
+      if (!GROQ_API_KEY || GROQ_API_KEY.includes("HIER_JE_GROQ")) {
+        addBotMessage("⚠️ Systeem: Vul eerst de geldige Groq API Key in de code in om de betrokkene te kunnen uitvragen.");
+        return;
+      }
+
+      const typingId = addTypingIndicator();
+
+      try {
+        const messagesPayload = [
+          { role: "system", content: currentCase.systemPrompt },
+          ...chatHistory
+        ];
+
+        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${GROQ_API_KEY}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            model: "llama-3.3-70b-versatile",
+            messages: messagesPayload,
+            temperature: 0.6,
+            max_tokens: 300
+          })
+        });
+
+        const data = await response.json();
+        removeTypingIndicator(typingId);
+
+        if (data.choices && data.choices[0]) {
+          const reply = data.choices[0].message.content;
+          addBotMessage(reply);
+        } else {
+          addBotMessage("... (De betrokkene kijkt je vragend aan)");
+        }
+      } catch (err) {
+        removeTypingIndicator(typingId);
+        addBotMessage("⚠️ Fout bij verbinden met Groq API: " + err.message);
+      }
+    }
+
+    function addUserMessage(msg) {
+      chatHistory.push({ role: "user", content: msg });
+      const container = document.getElementById('chat-messages');
+      const bubble = document.createElement('div');
+      bubble.className = "flex justify-end";
+      bubble.innerHTML = `<div class="bg-blue-600 text-white rounded-2xl rounded-tr-none px-3.5 py-2 max-w-[85%] font-medium">${escapeHtml(msg)}</div>`;
+      container.appendChild(bubble);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function addBotMessage(msg) {
+      chatHistory.push({ role: "assistant", content: msg });
+      const container = document.getElementById('chat-messages');
+      const bubble = document.createElement('div');
+      bubble.className = "flex justify-start";
+      bubble.innerHTML = `<div class="bg-slate-800 border border-slate-700 text-slate-200 rounded-2xl rounded-tl-none px-3.5 py-2 max-w-[85%] leading-relaxed">${escapeHtml(msg)}</div>`;
+      container.appendChild(bubble);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function addTypingIndicator() {
+      const id = 'typing-' + Date.now();
+      const container = document.getElementById('chat-messages');
+      const bubble = document.createElement('div');
+      bubble.id = id;
+      bubble.className = "flex justify-start text-slate-500 italic text-[11px] px-2";
+      bubble.textContent = `${currentCase.characterName} antwoordt...`;
+      container.appendChild(bubble);
+      container.scrollTop = container.scrollHeight;
+      return id;
+    }
+
+    function removeTypingIndicator(id) {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    }
+
+    /* =========================================================================
+       C2000 PORTO LOGICA (AUDIO / CHIRP / SQUELCH / PTT)
+       ========================================================================= */
+    function getAudioContext() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      return audioCtx;
+    }
+
+    function playRadioChirp() {
+      try {
+        const ctx = getAudioContext();
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(920, now);
+        osc.frequency.setValueAtTime(1250, now + 0.08);
+
+        gain.gain.setValueAtTime(0.18, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.18);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.18);
+      } catch(e) {}
+    }
+
+    function playSquelchNoise() {
+      try {
+        const ctx = getAudioContext();
+        const duration = 0.11;
+        const bufferSize = ctx.sampleRate * duration;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+
+        const noise = ctx.createBufferSource();
+        noise.buffer = buffer;
+
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.value = 1400;
+        filter.Q.value = 2;
+
+        const gain = ctx.createGain();
+        gain.gain.setValueAtTime(0.12, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
+
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+        noise.start();
+      } catch(e) {}
+    }
+
+    async function initMicrophone() {
+      if (!micStream) {
+        micStream = await navigator.mediaDevices.getUserMedia({
+          audio: { echoCancellation: true, noiseSuppression: false, autoGainControl: true }
+        });
+      }
+    }
+
+    async function startVoiceRecording() {
+      if (isRecording) return;
+      try {
+        await initMicrophone();
+      } catch (err) {
+        alert("Microfoon vereist: " + err.message);
+        return;
+      }
+
+      isRecording = true;
+      audioChunks = [];
+
+      document.getElementById('btn-ptt').classList.add('ptt-active');
+      document.getElementById('ptt-label').textContent = "● SPREEK NU...";
+      document.getElementById('lcd-status').textContent = "● TX (ZENDEN)";
+      document.getElementById('lcd-title').textContent = "AAN HET ZENDEN";
+
+      playRadioChirp();
+
+      const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus') 
+        ? 'audio/webm;codecs=opus' 
+        : (MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 'audio/mp4');
+
+      mediaRecorder = new MediaRecorder(micStream, { mimeType });
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data.size > 0) audioChunks.push(e.data);
+      };
+      mediaRecorder.onstop = uploadVoicePayload;
+      mediaRecorder.start();
+    }
+
+    function stopVoiceRecording() {
+      if (!isRecording) return;
+      isRecording = false;
+
+      document.getElementById('btn-ptt').classList.remove('ptt-active');
+      document.getElementById('ptt-label').textContent = "HOUD INGEDRUKT (PTT)";
+      document.getElementById('lcd-status').textContent = "● STAND-BY";
+      document.getElementById('lcd-title').textContent = "KANAAL OPEN";
+
+      playSquelchNoise();
+
+      setTimeout(() => {
+        if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+          mediaRecorder.stop();
+        }
+      }, 80);
+    }
+
+    function uploadVoicePayload() {
+      if (audioChunks.length === 0) return;
+      const blob = new Blob(audioChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
+      const reader = new FileReader();
+      reader.readAsDataURL(blob);
+      reader.onloadend = () => {
+        db.ref(`${currentChannel}/voiceMsg`).set({
+          audio: reader.result,
+          senderRole: currentRole,
+          timestamp: Date.now()
+        });
+      };
+    }
+
+    function listenForIncomingRadio() {
+      db.ref(`${currentChannel}/voiceMsg`).off();
+      db.ref(`${currentChannel}/voiceMsg`).on('value', snap => {
+        const data = snap.val();
+        if (!data) return;
+        if (data.timestamp > lastVoiceTimestamp && data.senderRole !== currentRole) {
+          lastVoiceTimestamp = data.timestamp;
+          playIncomingAudio(data.audio);
+        }
+      });
+    }
+
+    function playIncomingAudio(base64Audio) {
+      playRadioChirp();
+      setTimeout(() => {
+        const audio = new Audio(base64Audio);
+        document.getElementById('lcd-status').textContent = "● RX (SPRAAK)";
+        document.getElementById('lcd-title').textContent = "BERICHT ONTVANGEN";
+
+        audio.play().catch(e => console.log("Autoplay preventie:", e));
+
+        audio.onended = () => {
+          playSquelchNoise();
+          document.getElementById('lcd-status').textContent = "● STAND-BY";
+          document.getElementById('lcd-title').textContent = "KANAAL OPEN";
+        };
+      }, 200);
+    }
+
+    function toggleRole() {
+      currentRole = (currentRole === 'TAAKDRAGER') ? 'MEDEWERKER-OC' : 'TAAKDRAGER';
+      document.getElementById('lcd-role').textContent = `ROL: ${currentRole}`;
+      document.getElementById('topbar-role').textContent = `Rol: ${currentRole}`;
+      setupRoleUI();
+      playRadioChirp();
+    }
+
+    const pttBtn = document.getElementById('btn-ptt');
+    pttBtn.addEventListener('mousedown', startVoiceRecording);
+    pttBtn.addEventListener('mouseup', stopVoiceRecording);
+    pttBtn.addEventListener('touchstart', (e) => { e.preventDefault(); startVoiceRecording(); });
+    pttBtn.addEventListener('touchend', (e) => { e.preventDefault(); stopVoiceRecording(); });
+    pttBtn.addEventListener('touchcancel', (e) => { e.preventDefault(); stopVoiceRecording(); });
+
+    /* =========================================================================
+       ASTMA MUTATIE OPSLAAN & TONEN
+       ========================================================================= */
+    async function submitAstmaMutation() {
+      const a = document.getElementById('astma-a').value.trim();
+      const s = document.getElementById('astma-s').value.trim();
+      const t = document.getElementById('astma-t').value.trim();
+      const m = document.getElementById('astma-m').value.trim();
+      const afh = document.getElementById('astma-afh').value.trim();
+
+      if (!a || !s || !t || !m || !afh) {
+        alert("Vul alle 5 onderdelen van het ASTMA-model in.");
+        return;
+      }
+
+      const mutatieData = {
+        koppel: currentCouple,
+        rol: currentRole,
+        casusId: currentCase.id,
+        casusTitel: currentCase.title,
+        locatie: assignedLocation,
+        astma: {
+          aanleiding: a,
+          situatie: s,
+          toedracht: t,
+          maatregel: m,
+          afhandeling: afh
+        },
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+      };
+
+      try {
+        await db.ref(`classes/${currentClass}/mutaties`).push(mutatieData);
+        alert("Dienstmutatie conform ASTMA-model succesvol ingediend!");
+        document.getElementById('astma-a').value = '';
+        document.getElementById('astma-s').value = '';
+        document.getElementById('astma-t').value = '';
+        document.getElementById('astma-m').value = '';
+        document.getElementById('astma-afh').value = '';
+      } catch (err) {
+        alert("Fout bij opslaan: " + err.message);
+      }
+    }
+
+    function listenForMutations() {
+      db.ref(`classes/${currentClass}/mutaties`).off();
+      db.ref(`classes/${currentClass}/mutaties`).on('value', snap => {
+        const container = document.getElementById('mutations-list');
+        container.innerHTML = '';
+        const data = snap.val();
+
+        if (!data) {
+          container.innerHTML = '<span class="text-slate-600 italic text-[11px]">Nog geen mutaties ingeleverd.</span>';
+          return;
+        }
+
+        const entries = Object.values(data).reverse();
+        entries.forEach(item => {
+          const div = document.createElement('div');
+          div.className = "bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1.5 text-slate-300";
+          div.innerHTML = `
+            <div class="flex justify-between items-center text-[10px] font-bold text-amber-500">
+              <span>${escapeHtml(item.koppel)} | ${escapeHtml(item.locatie || '')}</span>
+              <span class="text-slate-500">Casus #${item.casusId}</span>
+            </div>
+            <div class="space-y-1 text-[11px]">
+              <p><strong class="text-blue-400">Aanleiding:</strong> ${escapeHtml(item.astma?.aanleiding || '')}</p>
+              <p><strong class="text-blue-400">Situatie:</strong> ${escapeHtml(item.astma?.situatie || '')}</p>
+              <p><strong class="text-blue-400">Toedracht (W's):</strong> ${escapeHtml(item.astma?.toedracht || '')}</p>
+              <p><strong class="text-blue-400">Maatregel:</strong> ${escapeHtml(item.astma?.maatregel || '')}</p>
+              <p><strong class="text-blue-400">Afhandeling:</strong> ${escapeHtml(item.astma?.afhandeling || '')}</p>
+            </div>
+          `;
+          container.appendChild(div);
+        });
+      });
+    }
+
+    /* =========================================================================
+       RESET KNOP VOOR DE DOCENT (PER KLAS)
+       ========================================================================= */
+    async function resetClassData() {
+      const confirmReset = confirm(`Weet je zeker dat je ALLE data voor klas ${currentClass} wilt wissen?\n\nDit verwijdert alle ingeleverde mutaties, gekozen locaties en koppel-casussen voor deze klas.`);
+      if (!confirmReset) return;
+
+      try {
+        await db.ref(`classes/${currentClass}`).remove();
+        await db.ref(`${currentChannel}`).remove();
+        alert(`Klas ${currentClass} is volledig gereset.`);
+        await syncCoupleData();
+      } catch (err) {
+        alert("Fout bij resetten: " + err.message);
+      }
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+  </script>
+</body>
+</html>
+
