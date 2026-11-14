@@ -417,7 +417,8 @@
     /* =========================================================================
        CONFIGURATIE & KEYS
        ========================================================================= */
-    const GROQ_API_KEY = "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";
+    // Chatbot werkt LOKAAL — geen Groq API key meer nodig.
+    // De bot antwoordt via scripted keyword-matching op basis van de 7 Gouden W's.
 
     const firebaseConfig = {
       apiKey: "AIzaSyBEod8zm1jvvkmPbe6cA_SQo2U_esC9yTY",
@@ -449,17 +450,18 @@
         text: "Je wordt aangesproken door een man, die je uit de DA-drogist ziet komen. De man wil informatie met jullie delen over de overlast rondom zijn DA-drogisterij aan de Leusderweg in Amersfoort.",
         characterName: "Meneer Van Dijk (Eigenaar DA)",
         characterRole: "Winkeleigenaar DA Leusderweg",
-        systemPrompt: `Je bent meneer Henk van Dijk (56 jaar), eigenaar van de DA-drogist aan de Leusderweg in Amersfoort.
-Taalstijl: Je praat plat Utrechts/Amersfoorts. Je slikt consequent de letter 't' in aan het einde van woorden en werkwoorden (bijv: "nie", "da's", "hebbie", "wee'k nie", "krag", "wa zeggie", "gaa", "kom", "zitte").
-Houding: Je bent meewerkend en bezorgd over je winkel. Spreek kort en direct in 2 tot 3 zinnen per beurt, precies zoals op straat.
-Inhoudelijke gegevens die je weet als de agent er gestructureerd naar vraagt (Gouden W's):
-- Wie: Een groep van 4 tot 5 jongeren van 15-17 jaar. Eentje heeft een rode The North Face jas en een zwarte scooter.
-- Wat: Hangen voor de deur, blowen (sterke wietlucht), schelden klanten uit, trappen fietsen omver.
-- Waar: Direct voor de ingang en bij de fietsenrekken van de DA Leusderweg.
-- Waarom: Pure verveling. Als ik er wat van zeg roepen ze "Bemoei je met je eigen zake, ouwe!".
-- Wanneer: Elke doordeweekse dag tussen 15:30 en 18:00 uur (wanneer scholen uitgaan).
-- Waarmee: Zwarte snorscooter, fatbikes, zakjes wiet.
-- Op welke wijze: Ze blokkeren het trottoir en blazen rook naar binnen.`
+        goudenW: {
+          wie: "Da's een groepie van vier, vijf jongelui. Jaar of vijftien, zestien. Eentje heeft zo'n opvallende rooie jas an — The North Face. En die ene rijdt op een zwarte scooter.",
+          wat: "Ze hangen hier gewoon voor de deur te blowen, joh. Ik ruik die wietlucht de hele dag. En ze schelden m'n klanten uit en trappen fietsen omver.",
+          waar: "Precies hier voor de ingang, bij de fietsenrekken van de DA aan de Leusderweg.",
+          waarom: "Verveling, niks anders. As ik d'r wat van zeg, dan roepen ze 'bemoei je met je eigen zake, ouwe!'",
+          wanneer: "Elke doordeweekse dag, tussen half vier en zessen. Precies as de scholen uitgaan.",
+          waarmee: "Een zwarte snorscooter, van die dikke fatbikes, en dus zakkies wiet.",
+          wijze: "Ze blokkeren 't hele trottoir en blazen gewoon rook naar binnen as je d'r langs wil."
+        },
+        greetings: ["Mogguh agent, fijn da'k jullie zie lopen hier op de Leusderweg."],
+        fillers: ["Hè? Wa bedoel je precies, agent?", "Nou... da wee'k nie zo gauw hoor.", "Tja, wa wil je precies wete van me?"],
+        closings: ["Nou, succes ermee agent. Ik hoop da' jullie d'r wat an kunne doen.", "Fijne dag verder hè. Laat 't me wete as je nog wat nodig heb."]
       },
       2: {
         id: 2,
@@ -467,17 +469,18 @@ Inhoudelijke gegevens die je weet als de agent er gestructureerd naar vraagt (Go
         text: "Winkeliers en bezoekers hebben geklaagd over foutgeparkeerde auto’s rondom het winkelgebied. Dit zorgt voor onveilige situaties voor het winkelend publiek. De winkeliersvereniging heeft samen met de wijkagent een plan gemaakt. De wijkagent heeft afgesproken dat de politie vier weken lang extra aandacht zal besteden aan foutparkeren rondom het winkelgebied. Hierbij zal vier weken lang waarschuwend worden opgetreden. Vandaag is de eerste dag van het plan. Je krijgt de volgende IGP-opdracht mee:\nControleer op foutparkeren rondom het winkelgebied en voer waar nodig een waarschuwingsgesprek.",
         characterName: "Bestuurder Gerard (Foutparkeerder)",
         characterRole: "Aangesproken bestuurder op het trottoir",
-        systemPrompt: `Je bent Gerard (48 jaar), een automobilist die zojuist zijn grijze Volkswagen Golf half op de stoep en laad-en-losstrook heeft gezet.
-Taalstijl: Plat Amersfoorts/Utrechts (laat consequent de laatste 't' vallen: "da's", "nie", "wou'k", "hebbie", "wee'je", "kom", "nie zo moeilijk doen jochie").
-Houding: Eerst gehaast en licht gepikeerd ("ik sta hier net een minuutje hoor!"). Als de agent kalm vraagt naar de reden, werk je mee. Spreek kort en direct (2 tot 3 zinnen).
-Inhoudelijke gegevens:
-- Wie: Gerard van Veen, woont in Amersfoort-Zuid.
-- Wat/Waarom: Moest met spoed een zwaar pakket ophalen bij de Primera. Kon geen leeg vak vinden.
-- Waar: Trottoir voor de hoofdingang van de winkelpromenade.
-- Wanneer: Zojuist op de middag.
-- Waarmee: Grijze VW Golf, kenteken 12-TFD-4.
-- Op welke wijze: Met twee wielen hoog op de stoep waardoor kinderwagens moeten uitwijken.
-Als de agent een waarschuwend gesprek voert, toon je begrip en parkeer je hem netjes om.`
+        goudenW: {
+          wie: "Gerard van Veen, woon in Amersfoort-Zuid. Da's toch genoeg voor je?",
+          wat: "Ik moes effe snel een zwaar pakket ophale bij de Primera. D'r was gien leeg vak, dus heb ik 'm hier neergezet.",
+          waar: "Op 't trottoir voor de hoofdingang van de winkelpromenade. Met twee wielen hoog op de stoep, ja.",
+          waarom: "Spoed joh! Dat pakket moes d'r snel wezen en d'r was nergens plek.",
+          wanneer: "Net, een minuutje terug. Ik sta hier nog maar kort hoor!",
+          waarmee: "M'n grijze VW Golf, kenteken 12-TFD-4. Niks mis met da autootje.",
+          wijze: "Gewoon met twee wielen op de stoep. Ja, ik weet 't, kinderwagens kenne d'r nie langs, maar ja..."
+        },
+        greetings: ["Ja hallo agent, wa's er aan de hand? Ik sta hier net een tel hoor!"],
+        fillers: ["Nou, wa wil je nou eigenlijk wete?", "Hè? Leg 's uit, agent.", "Sorry, ik snap effe nie wa je bedoelt."],
+        closings: ["Oké, oké. Ik zal d'r voortaan op lette. Fijne dag.", "Begrepen agent, ik ga d'r mee stoppe. Tot ziens."]
       },
       3: {
         id: 3,
@@ -485,17 +488,18 @@ Als de agent een waarschuwend gesprek voert, toon je begrip en parkeer je hem ne
         text: "De wijkagent vraagt om extra aandacht te besteden voor deze hangplek in het winkelgebied. De laatste weken hebben verschillende bezoekers en winkeliers melding gemaakt van overlast (harde muziek, scooters die af- en aanrijden, geschreeuw en afval). De melders spreken steeds over een groep ‘Turkse’ jongeren*.\n\n(*hier wordt bewust een etniciteit genoemd om vragen op te roepen m.b.t. het optreden van de agent).",
         characterName: "Buurtbewoner Wim",
         characterRole: "Omwonende / Melder van de overlast",
-        systemPrompt: `Je bent Wim (62 jaar), bewoner boven het plein.
-Taalstijl: Plat Amersfoorts/Utrechts (geen 't' op het einde: "da kenne we nie hebbe", "ze zitte maar", "hebbie da gezien").
-Houding: Blij dat de politie er is. Spreek in 2 tot 3 zinnen per beurt.
-Let op bij etniciteit: Als de agent doorvraagt naar de groep ('Turkse jongeren'), nuanceer je direct: "Nou ja, buurlui zeie da 't Turkse jonges ware, maar ik wee't nie heur! Het zijn gewon jonges van allerlei afkoms' door elkaar. Ze drage allemaal donkere trainingspakkies."
-Gouden W's gegevens:
-- Wie: 6 tot 8 jongeren van 16-20 jaar.
-- Wat: Keiharde muziek, zonnebloempitten en energyblikjes op de grond, hard optrekken met scooters.
-- Waar: De bankjes bij het fonteintje midden op het plein.
-- Wanneer: Vrijwel elke avond van 19:00 tot 22:30 uur.
-- Waarmee: Grote JBL bluetooth speaker, een blauwe Piaggio Zip scooter zonder achterlicht.
-- Op welke wijze: Scheuren over de stoep en intimideren voorbijgangers.`
+        goudenW: {
+          wie: "Nou ja, d'r zijn d'r zo zes tot acht, tussen de zestien en twintig. Enne... buurlui zeggen 'Turkse jonges', maar da weet ik nie hoor. 't Zijn gewoon jonges van allerlei afkomst, allemaal met donkere trainingspakies an.",
+          wat: "Keiharde muziek, zonnebloempitten en energyblikjes op de grond, en ze scheuren met scooters over de stoep.",
+          waar: "Bij de bankjes bij 't fonteintje, midden op 't plein.",
+          waarom: "Ja, wa zal ik zegge... verveling? Stoer doen voor mekaar? Ik weet 't nie precies.",
+          wanneer: "Bijna elke avond, van zeuven tot half elf.",
+          waarmee: "Een grote JBL bluetooth-speaker en een blauwe Piaggio Zip scooter zonder achterlicht.",
+          wijze: "Ze scheuren over de stoep en intimideren voorbijgangers. Laatst reden ze bijna over me voet."
+        },
+        greetings: ["Dag politie, goed da' jullie er zijn. Die herrie hier op 't plein is gewoon nie meer normaal..."],
+        fillers: ["Hè? Wat bedoel je?", "Nou, da weet ik zo nie.", "Sorry, kan je da effe anders vraege?"],
+        closings: ["Fijn da' jullie d'r wat an doen. Succes!", "Nou, bedankt hè. Ik hoop da' 't rustiger wordt."]
       },
       4: {
         id: 4,
@@ -503,18 +507,18 @@ Gouden W's gegevens:
         text: "Tijdens de surveillance krijgen jullie van het OC de melding om te gaan naar het winkelcentrum. De melder gaf aan dat hij twee verdachte personen zag staan. De ene persoon zou een rugtas aan de andere persoon hebben overgegeven nadat die persoon uit een winkel kwam. De melder vertrouwt het niet, maar durft zelf niet te gaan kijken. De melder geeft een duidelijk signalement van de twee personen.\n\nDe melder zou ook gezien hebben dat een van de personen de rugtas achter in een daar geparkeerde auto heeft gelegd. Het zou moeten gaan om een zwarte auto. Het merk en kenteken zijn niet bekend. Het verzoek van het OC is om ter plaats te gaan, te kijken wat er aan de hand is en een terugkoppeling te geven.",
         characterName: "Getuige Frank",
         characterRole: "Winkelend publiek ter plaatse",
-        systemPrompt: `Je bent getuige Frank (39 jaar).
-Taalstijl: Amersfoorts dialect (laat 't' weg: "ik zag 't nie zitte", "da's nie pluis", "hebbie hem gezien", "da's gewon link").
-Houding: Zenuwachtig maar uiterst behulpzaam. Geef korte, alerte antwoorden (2 à 3 zinnen).
-Gouden W's gegevens:
-- Wie (Signalement 2 personen):
-  Persoon 1: Man, circa 25 jaar, 1.85m, licht getint, zwarte gewatteerde jas met bontkraag, grijze joggingbroek.
-  Persoon 2: Man, circa 20 jaar, 1.75m, blank, blond opgeschoren haar, donkerblauwe spijkerjas.
-- Wat: Persoon 1 gaf een zware zwarte Nike sportrugtas aan Persoon 2. Persoon 2 dropte die direct in de achterbak van een auto.
-- Waar: Parkeerdek B, vak 42.
-- Waarmee (Auto): Zwarte Audi A3, kenteken begint met '8-KZX-..'.
-- Wanneer: Zojuist, hooguit 6 minuten geleden.
-- Op welke wijze: Heimelijk en schichtig om zich heen kijkend. Persoon 2 zit nu binnen in het koffiezaakje!`
+        goudenW: {
+          wie: "Twee mannen. Eentje, die is rond de 25, 1.85 lang, licht getint, zwarte gewatteerde jas met bontkraag, grijze joggingbroek. De ander is jonger, rond de 20, 1.75, blank, blond opgeschoren haar, donkerblauwe spijkerjas.",
+          wat: "Die eerste gaf een zware zwarte Nike-sportrugtas aan die tweede. Die tweede heeft 'm direct in de achterbak van een auto gedumpt.",
+          waar: "Parkeerdek B, vak 42. Precies waar die auto stond.",
+          waarom: "Weet ik niet, maar 't zag er nie pluis uit. Ze keken de hele tijd schichtig om zich heen.",
+          wanneer: "Net, hooguit 6 minuten terug. Ik heb gelijk 't OC gebeld.",
+          waarmee: "Een zwarte Audi A3, kenteken begint met 8-KZX-.",
+          wijze: "Heel heimelijk, alsof ze bang waren betrapt te worden. Die tweede zit nu binnen in 't koffiezaakje!"
+        },
+        greetings: ["Pst, agent! Frank hier, ik heb net 't OC gebeld."],
+        fillers: ["Hè? Sorry, wat zeg je?", "Nou, da weet ik nie precies.", "Kan je effe duidelijker zijn?"],
+        closings: ["Succes agent, hoop da' jullie ze pakke!", "Oké, ik hou 't hier in de gate. Fijne dag."]
       },
       5: {
         id: 5,
@@ -522,17 +526,18 @@ Gouden W's gegevens:
         text: "Tijdens je middagdienst geeft de OPCO je de opdracht om te gaan surveilleren in het centrum van je werkgebied. Het is jou bekend dat er in dat centrum veel Marokkaanse jongeren rondhangen*. De laatste tijd worden er veel fietsen weggenomen in het centrum. Er zijn diverse aangiftes van fietsdiefstal geweest. Je hebt een IGP-opdracht gekregen met summiere informatie. De fietsdiefstallen vinden vooral plaats tussen 14 en 19 uur.\n\nJe surveilleert samen met je collega (uit elkaar met zicht op elkaar). Jij ziet een jongen aan komen fietsen. Hij heeft zijn muts van zijn hoodie over zijn hoofd getrokken. Als hij dichterbij komt, zie je dat hij een licht getinte huidskleur heeft. Jij wil hem aanspreken, omdat hij daar niet mag fietsen.\n\nOp het moment dat jij hem een stopteken geeft, roept de jongen naar jou: ”Wat, wat, wat?” Je controleert de persoon en de fiets. Na zijn ID-bewijs gezien te hebben en hem een waarschuwing te hebben gegeven, mag hij verder lopen met zijn fiets. Je zet niets in het politiesysteem.\n\n(*hier wordt bewust een etniciteit genoemd om vragen op te roepen m.b.t. het optreden van de agent).",
         characterName: "Jongere Tarik",
         characterRole: "Aangesproken jongere op de fiets",
-        systemPrompt: `Je bent Tarik (17 jaar). Je fietste door de voetgangerszone met je capuchon op tegen de regen.
-Taalstijl: Straattaal gemengd met Amersfoorts ("wrm hou je me aan dan?", "ik doe tog niks verkeerd", "da's me vaders fies ja").
-Houding: Eerst verontwaardigd ("Wat, wat, wat?! Waarom pak je mij?!"). Als de agent rustig blijft en uitlegt dat het om het fietsverbod in het voetgangersgebied gaat, kalmeer je. Korte reacties (2 tot 3 zinnen).
-Gouden W's gegevens:
-- Wie: Tarik el-Idrissi, 17 jaar, scholier aan het MBO.
-- Wat: Fietste door voetgangersgebied waar dat verboden is.
-- Waar: Midden in het voetgangersgebied.
-- Waarom: Had haast om thuis te eten voor zessen.
-- Waarmee: Zwarte Gazelle Esprit van zijn vader. Hij heeft de fietssleutel en kan aantonen dat de fiets van zijn familie is.
-- Op welke wijze: Negeerde het bord voetgangerszone uit gemakzucht.
-Toont netjes zijn ID-bewijs zodra de agent professioneel blijft.`
+        goudenW: {
+          wie: "Tarik el-Idrissi, 17. Ik doe tog niks verkeerd man!",
+          wat: "Ik fietste gewoon door de voetgangerszone. Ja, da mag nie, oké, ik weet 't.",
+          waar: "Midden in 't voetgangersgebied van 't winkelcentrum.",
+          waarom: "Ik had gewoon haast man, moes thuis eten voor zessen.",
+          wanneer: "Net, net. Ik was gewoon onderweg naar huis.",
+          waarmee: "Me vaders zwarte Gazelle Esprit. Hier, kijk, ik heb de sleutel. Is van ons gezin.",
+          wijze: "Ja ik zag da bord wel, maar ja, ik dacht... gewoon doorfietsen."
+        },
+        greetings: ["Wat, wat, wat?! Waarom hou je me aan dan?!"],
+        fillers: ["Huh? Wa bedoel je?", "Ik snap je nie, man.", "Wa vraag je nou precies?"],
+        closings: ["Oké, oké, ik ga lopen hoor. Fijne dag.", "Ja ja, 't is al goed. Ik ga."]
       }
     };
 
@@ -549,6 +554,9 @@ Toont netjes zijn ID-bewijs zodra de agent professioneel blijft.`
     let currentRound = 1;
     let chatHistory = [];
     let lastVoiceTimestamp = Date.now();
+
+    // Onbekende-vraag-teller voor de hint-functie
+    let unknownQuestionCount = 0;
 
     // Unieke client-id per tab/sessie
     const myClientId = 'client_' + Math.random().toString(36).substring(2, 10);
@@ -663,6 +671,7 @@ Toont netjes zijn ID-bewijs zodra de agent professioneel blijft.`
       isTerPlaatse     = (data.status === 'TER_PLAATSE');
       currentRound     = data.round;
       lastRoleSwapCounter = data.roleSwapCounter || 0;
+      unknownQuestionCount = 0;
 
       renderAppUI();
     }
@@ -679,6 +688,7 @@ Toont netjes zijn ID-bewijs zodra de agent professioneel blijft.`
           currentRound = data.round;
           currentCase = CASUSSEN[data.caseId];
           assignedLocation = data.location;
+          unknownQuestionCount = 0;
 
           chatHistory = [];
           const chatContainer = document.getElementById('chat-messages');
@@ -807,7 +817,6 @@ Toont netjes zijn ID-bewijs zodra de agent professioneel blijft.`
       container.classList.remove('hidden');
 
       if (!panoramaViewer) {
-        // Wacht tot de container zichtbaar/afmetingen heeft
         setTimeout(() => {
           try {
             panoramaViewer = pannellum.viewer('panorama', {
@@ -830,19 +839,62 @@ Toont netjes zijn ID-bewijs zodra de agent professioneel blijft.`
     }
 
     function initChatGreeting() {
-      let greeting = "Goededag agent...";
-      if (currentCase.id === 1) greeting = "Mogguh agent, fijn da'k jullie zie lopen hier op de Leusderweg. 'T is weer raak hoor met die jeug'...";
-      if (currentCase.id === 2) greeting = "Ja hallo agent, wa's er aan de hand? Ik sta hier net een tel hoor!";
-      if (currentCase.id === 3) greeting = "Dag politie, goed da' jullie er zijn. Die herrie hier op 't plein is gewon nie meer normaal...";
-      if (currentCase.id === 4) greeting = "Pst, agent! Frank hier, ik heb net 't OC gebeld. Ze zitte nu in de koffiezaak, maar die auto me' die tas staat er nog!";
-      if (currentCase.id === 5) greeting = "Wat, wat, wat?! Waarom hou je me aan dan?! Ik fiets hier gewon naar huis man!";
-
+      const greeting = currentCase.greetings[0] || "Goededag agent...";
       addBotMessage(greeting);
     }
 
     /* =========================================================================
-       CHATBOT LOGICA MET GROQ API (VLOEIENDE CONVERSATIES)
+       LOKALE CHATBOT LOGICA (scripted, keyword-matching op Gouden W's)
        ========================================================================= */
+    function detectIntent(text) {
+      const t = text.toLowerCase().trim();
+      if (!t) return 'onbekend';
+
+      // Groeten en afsluiting eerst
+      if (/^(hoi|hallo|hey|goede(morgen|middag|avond)|dag agent|mogguh|goedendag|avond)\b/.test(t)) return 'groet';
+      if (/\b(bedankt|dank je|dank u|tot ziens|doei|fijne dag|tot straks|tot later)\b/.test(t)) return 'afsluiting';
+
+      // Specifieke W's — specifiekere eerst, om verkeerde matches te voorkomen
+      if (/\b(waarmee|kenteken|voertuig|auto|scooter|bus|bestelbus|motor|fiets|vervoer|middel|wapen|voorwerp)\b/.test(t)) return 'waarmee';
+      if (/\b(wanneer|hoe laat|welke dag|hoe vaak|frequentie|tijdstip|sinds wanneer|datum)\b/.test(t)) return 'wanneer';
+      if (/\b(waarom|reden|motief|doel|waarom doen)\b/.test(t)) return 'waarom';
+      if (/\b(wie|welke persoon|welke personen|signalement|beschrij(f|ving)|uiterlijk|kleding|verdachte|betrokkene|slachtoffer|jongen|man|vrouw|groep|persoon)\b/.test(t)) return 'wie';
+      if (/\b(waar( precies| gebeurt| is dat| is het| dan| vond| was)|locatie|plek|plaats|adres|straat|etage|welk plein)\b/.test(t)) return 'waar';
+      if (/\b(hoe |op welke (manier|wijze)|werkwijze|modus|manier van)\b/.test(t)) return 'wijze';
+      if (/\b(wat is er (gebeurd|aan de hand)|wat (doen|deden|deed) (ze|jij|hij|zij|die)|wat voor (overlast|probleem|feit)|vertel.*wat|wat gebeurt|wat gebeurde|wat is het probleem)\b/.test(t)) return 'wat';
+
+      // Fallback: als de zin met "wat" begint en niets anders matchte
+      if (/^wat\b/.test(t)) return 'wat';
+
+      return 'onbekend';
+    }
+
+    function localBotReply(userText) {
+      const intent = detectIntent(userText);
+
+      if (intent === 'groet') {
+        const g = currentCase.greetings || [];
+        return g[Math.floor(Math.random() * g.length)] || "Goededag agent.";
+      }
+      if (intent === 'afsluiting') {
+        const c = currentCase.closings || [];
+        return c[Math.floor(Math.random() * c.length)] || "Tot ziens agent.";
+      }
+      if (intent !== 'onbekend' && currentCase.goudenW && currentCase.goudenW[intent]) {
+        unknownQuestionCount = 0; // Reset bij een geldige W-vraag
+        return currentCase.goudenW[intent];
+      }
+
+      // Onbekende vraag → filler
+      unknownQuestionCount++;
+      if (unknownQuestionCount === 3) {
+        return "Agent, vraag me gewoon naar de wie, wat, waar, waarom, wanneer, waarmee of hoe — dan vertel ik je precies wat ik weet.";
+      }
+
+      const f = currentCase.fillers || [];
+      return f[Math.floor(Math.random() * f.length)] || "Hè? Wat bedoel je?";
+    }
+
     async function sendChatMessage() {
       const input = document.getElementById('chat-input');
       const text = input.value.trim();
@@ -851,46 +903,14 @@ Toont netjes zijn ID-bewijs zodra de agent professioneel blijft.`
       addUserMessage(text);
       input.value = '';
 
-      if (!GROQ_API_KEY || GROQ_API_KEY.includes("HIER_JE_GROQ")) {
-        addBotMessage("⚠️ Systeem: Vul eerst de geldige Groq API Key in de code in.");
-        return;
-      }
-
       const typingId = addTypingIndicator();
 
-      try {
-        const messagesPayload = [
-          { role: "system", content: currentCase.systemPrompt },
-          ...chatHistory
-        ];
-
-        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Authorization": `Bearer ${GROQ_API_KEY.trim()}`,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            model: "llama-3.3-70b-versatile",
-            messages: messagesPayload,
-            temperature: 0.65,
-            max_tokens: 250
-          })
-        });
-
-        const data = await response.json();
+      // Korte denkpauze — realistischer dan instant antwoord
+      setTimeout(() => {
         removeTypingIndicator(typingId);
-
-        if (data.choices && data.choices[0]) {
-          const reply = data.choices[0].message.content;
-          addBotMessage(reply);
-        } else {
-          addBotMessage("... (De betrokkene kijkt je vragend aan)");
-        }
-      } catch (err) {
-        removeTypingIndicator(typingId);
-        addBotMessage("⚠️ Fout bij verbinden met Groq: " + err.message);
-      }
+        const reply = localBotReply(text);
+        addBotMessage(reply);
+      }, 400 + Math.random() * 600);
     }
 
     function addUserMessage(msg) {
@@ -1277,6 +1297,7 @@ Toont netjes zijn ID-bewijs zodra de agent professioneel blijft.`
         alert(`Klas ${currentClass} is volledig gereset naar Ronde 1.`);
         currentRound = 1;
         lastRoleSwapCounter = 0;
+        unknownQuestionCount = 0;
         await syncCoupleData();
       } catch (err) {
         alert("Fout bij resetten: " + err.message);
