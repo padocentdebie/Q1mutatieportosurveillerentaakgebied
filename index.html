@@ -515,28 +515,44 @@ Toont netjes zijn ID-bewijs zodra de agent professioneel blijft.`
       }
     };
 
-    /* =========================================================================
-       STATE VARIABELEN
-       ========================================================================= */
-    let currentClass = 'ALPHA';
-    let currentCouple = 'KOPPEL-01';
-    let currentRole = 'TAAKDRAGER';
-    let currentChannel = 'ALPHA_KOPPEL-01';
-    let currentCase = null;
-    let assignedLocation = '';
-    let isTerPlaatse = false;
-    let currentRound = 1;
-    let chatHistory = [];
-    let lastVoiceTimestamp = Date.now();
+ /* ============================================================
+   STATE VARIABELEN (uitgebreid voor porto-engine + rolwissel)
+   ============================================================ */
+let currentClass = 'ALPHA';
+let currentCouple = 'KOPPEL-01';
+let currentRole = 'TAAKDRAGER';
+let currentChannel = 'ALPHA_KOPPEL-01';
+let currentCase = null;
+let assignedLocation = '';
+let isTerPlaatse = false;
+let currentRound = 1;
+let chatHistory = [];
 
-    // Porto State
-    let audioCtx = null;
-    let micStream = null;
-    let mediaRecorder = null;
-    let audioChunks = [];
-    let isRecording = false;
+// NIEUW: unieke client-id per tab/sessie
+const myClientId = 'client_' + Math.random().toString(36).substring(2, 10);
+const sessionStartTime = Date.now();
 
-    /* =========================================================================
+// NIEUW: rolwissel-teller syncen via Firebase
+let lastRoleSwapCounter = 0;
+
+// NIEUW: voice-berichten die al verwerkt zijn
+const processedVoiceKeys = new Set();
+
+// Audio
+let audioCtx = null;
+let micStream = null;
+let mediaRecorder = null;
+let audioChunks = [];
+let isRecording = false;
+
+/* ------------------------------------------------------------
+   HELPER: gecentraliseerde Firebase-paden (voorkomt typefouten)
+   ------------------------------------------------------------ */
+function couplePath()        { return `classes/${currentClass}/couples/${currentCouple}`; }
+function classMutationsPath(){ return `classes/${currentClass}/mutaties`; }
+function voicePath()         { return `${currentChannel}/voiceMsg`; }   
+    
+/* =========================================================================
        NAVIGATIE TUSSEN SCHERMEN
        ========================================================================= */
     function goToInstructionMutatie() {
@@ -561,26 +577,24 @@ Toont netjes zijn ID-bewijs zodra de agent professioneel blijft.`
       document.getElementById('view-instruction-roles').classList.remove('hidden');
     }
 
-    async function startAppSession() {
-      getAudioContext();
+   async function startAppSession() {
+  document.getElementById('view-instruction-roles').classList.add('hidden');
+  document.getElementById('view-app').classList.remove('hidden');
 
-      document.getElementById('view-instruction-roles').classList.add('hidden');
-      document.getElementById('view-app').classList.remove('hidden');
+  document.getElementById('topbar-info').textContent = `KLAS: ${currentClass} | ${currentCouple}`;
+  document.getElementById('topbar-role').textContent = `Rol: ${currentRole}`;
+  document.getElementById('lcd-channel').textContent = `CH: ${currentCouple}`;
+  document.getElementById('lcd-role').textContent = `ROL: ${currentRole}`;
+  document.getElementById('mut-class-label').textContent = currentClass;
 
-      document.getElementById('topbar-info').textContent = `KLAS: ${currentClass} | ${currentCouple}`;
-      document.getElementById('topbar-role').textContent = `Rol: ${currentRole}`;
-      document.getElementById('badge-round').textContent = `RONDE ${currentRound}`;
-      document.getElementById('lcd-channel').textContent = `CH: ${currentCouple}`;
-      document.getElementById('lcd-role').textContent = `ROL: ${currentRole}`;
-      document.getElementById('mut-class-label').textContent = currentClass;
+  await syncCoupleData();
+  setupRoleUI();
 
-      await syncCoupleData();
-      setupRoleUI();
-
-      listenForIncomingRadio();
-      listenForMutations();
-      listenForCoupleSync();
-    }
+  listenForIncomingRadio();
+  listenForMutations();
+  listenForUnitStatus();
+  listenForRoleSwap();   // ⬅️ NIEUW
+}
 
     function logoutStudent() {
       db.ref(`${currentChannel}/voiceMsg`).off();
@@ -594,33 +608,35 @@ Toont netjes zijn ID-bewijs zodra de agent professioneel blijft.`
     /* =========================================================================
        KOPPEL SYNCHRONISATIE (CASUS, LOCATIE & REALTIME ROLWISSELING)
        ========================================================================= */
-    async function syncCoupleData() {
-      const coupleRef = db.ref(`classes/currentClass/couples/{currentCouple}`);
-      const snap = await coupleRef.once('value');
-      let data = snap.val() || {};
+async function syncCoupleData() {
+  const coupleRef = db.ref(couplePath());
 
-      if (!data.caseId || !CASUSSEN[data.caseId]) {
-        data.caseId = Math.floor(Math.random() * 5) + 1;
-      }
-      if (!data.location) {
-        data.location = ACADEMY_LOCATIONS[Math.floor(Math.random() * ACADEMY_LOCATIONS.length)];
-      }
-      if (!data.status) {
-        data.status = 'ONDERWEG';
-      }
-      if (!data.round) {
-        data.round = 1;
-      }
-
-      await coupleRef.set(data);
-
-      currentCase = CASUSSEN[data.caseId];
-      assignedLocation = data.location;
-      isTerPlaatse = (data.status === 'TER_PLAATSE');
-      currentRound = data.round;
-
-      renderAppUI();
+  // Atomaire transactie: voorkomt dat 2 gelijktijdige logins elkaar overschrijven
+  await coupleRef.transaction(current => {
+    if (!current) current = {};
+    if (!current.caseId || !CASUSSEN[current.caseId]) {
+      current.caseId = Math.floor(Math.random() * 5) + 1;
     }
+    if (!current.location) {
+      current.location = ACADEMY_LOCATIONS[Math.floor(Math.random() * ACADEMY_LOCATIONS.length)];
+    }
+    if (!current.status) current.status = 'ONDERWEG';
+    if (!current.round)  current.round  = 1;
+    if (current.roleSwapCounter === undefined) current.roleSwapCounter = 0;
+    return current;
+  });
+
+  const snap = await coupleRef.once('value');
+  const data = snap.val();
+
+  currentCase      = CASUSSEN[data.caseId];
+  assignedLocation = data.location;
+  isTerPlaatse     = (data.status === 'TER_PLAATSE');
+  currentRound     = data.round;
+  lastRoleSwapCounter = data.roleSwapCounter || 0;
+
+  renderAppUI();
+}
 
     // Luistert continu naar wijzigingen in de koppel-status én activeert automatische rolwisseling!
     function listenForCoupleSync() {
@@ -703,13 +719,18 @@ Toont netjes zijn ID-bewijs zodra de agent professioneel blijft.`
       updateStatusUI(isTerPlaatse);
     }
 
-    async function setTerPlaatse() {
-      isTerPlaatse = true;
-      await db.ref(`classes/currentClass/couples/{currentCouple}`).update({
-        status: 'TER_PLAATSE'
-      });
-      updateStatusUI(true);
-    }
+  async function setTerPlaatse() {
+  isTerPlaatse = true;
+  await db.ref(`${couplePath()}/status`).set('TER_PLAATSE');
+  updateStatusUI(true);
+}
+
+function listenForUnitStatus() {
+  db.ref(`${couplePath()}/status`).on('value', snap => {
+    isTerPlaatse = (snap.val() === 'TER_PLAATSE');
+    updateStatusUI(isTerPlaatse);
+  });
+}
 
     function updateStatusUI(terPlaatse) {
       const badge = document.getElementById('unit-status-badge');
@@ -1039,13 +1060,38 @@ Toont netjes zijn ID-bewijs zodra de agent professioneel blijft.`
       };
     }
 
-    function toggleRole() {
+    /* ------------------------------------------------------------
+   Manuele rolwissel: beide koppelgenoten wisselen synchroon
+   ------------------------------------------------------------ */
+async function toggleRole() {
+  await db.ref(`${couplePath()}/roleSwapCounter`)
+          .transaction(c => (c || 0) + 1);
+}
+
+/* ------------------------------------------------------------
+   Luisteraar: bij elke verhoging wisselen BEIDE clienten
+   ------------------------------------------------------------ */
+function listenForRoleSwap() {
+  const ref = db.ref(`${couplePath()}/roleSwapCounter`);
+  ref.off();
+  ref.on('value', snap => {
+    const counter = snap.val() || 0;
+    if (counter > lastRoleSwapCounter) {
+      // Rol lokaal omdraaien
       currentRole = (currentRole === 'TAAKDRAGER') ? 'MEDEWERKER-OC' : 'TAAKDRAGER';
-      document.getElementById('lcd-role').textContent = `ROL: ${currentRole}`;
-      document.getElementById('topbar-role').textContent = `Rol: ${currentRole}`;
-      setupRoleUI();
+      updateRoleDisplay();
       playRadioChirp();
     }
+    lastRoleSwapCounter = counter;
+  });
+}
+
+function updateRoleDisplay() {
+  document.getElementById('lcd-role').textContent  = `ROL: ${currentRole}`;
+  document.getElementById('topbar-role').textContent = `Rol: ${currentRole}`;
+  setupRoleUI();
+  updateStatusUI(isTerPlaatse);
+}
 
     // Pointer events koppelen aan de PTT knop
     const pttBtn = document.getElementById('btn-ptt');
@@ -1120,66 +1166,65 @@ Toont netjes zijn ID-bewijs zodra de agent professioneel blijft.`
     }
 
     function listenForMutations() {
-      const mutRef = db.ref(`classes/${currentClass}/mutaties`);
-      mutRef.off();
-      mutRef.on('value', snap => {
-        const container = document.getElementById('mutations-list');
-        if (!container) return;
-        container.innerHTML = '';
-        const data = snap.val();
+  const ref = db.ref(classMutationsPath());
+  ref.off();
+  ref.on('value', snap => {
+    const container = document.getElementById('mutations-list');
+    container.innerHTML = '';
+    const data = snap.val();
 
-        if (!data) {
-          container.innerHTML = `<span class="text-slate-400 italic text-[11px]">Nog geen mutaties ingeleverd voor klas ${escapeHtml(currentClass)}.</span>`;
-          return;
-        }
-
-        const entries = Object.keys(data).map(k => data[k]);
-        entries.sort((x, y) => (y.timestamp || 0) - (x.timestamp || 0));
-
-        entries.forEach(item => {
-          if (!item) return;
-          const div = document.createElement('div');
-          div.className = "bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1.5 text-slate-700 shadow-sm";
-          
-          const timeStr = item.timestamp ? new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
-
-          div.innerHTML = `
-            <div class="flex justify-between items-center text-[10px] font-bold text-blue-900 border-b border-slate-200/60 pb-1">
-              <span>escapeHtml(item.koppel||'')({escapeHtml(item.rol || '')}) • R${escapeHtml(String(item.ronde || '1'))}</span>
-              <span class="text-slate-500 font-mono">timeStr?timeStr+'•':''Casus#{escapeHtml(String(item.casusId || ''))}</span>
-            </div>
-            <div class="space-y-1 text-[11px]">
-              <p><strong class="text-blue-900 font-bold">Aanleiding:</strong> <span class="whitespace-pre-line">${escapeHtml(item.astma?.aanleiding || '')}</span></p>
-              <p><strong class="text-blue-900 font-bold">Situatie:</strong> <span class="whitespace-pre-line">${escapeHtml(item.astma?.situatie || '')}</span></p>
-              <p><strong class="text-blue-900 font-bold">Toedracht (W's):</strong> <span class="whitespace-pre-line">${escapeHtml(item.astma?.toedracht || '')}</span></p>
-              <p><strong class="text-blue-900 font-bold">Maatregel:</strong> <span class="whitespace-pre-line">${escapeHtml(item.astma?.maatregel || '')}</span></p>
-              <p><strong class="text-blue-900 font-bold">Afhandeling:</strong> <span class="whitespace-pre-line">${escapeHtml(item.astma?.afhandeling || '')}</span></p>
-            </div>
-          `;
-          container.appendChild(div);
-        });
-      }, err => {
-        console.error("Mutatie livefeed error:", err);
-      });
+    if (!data) {
+      container.innerHTML = '<span class="text-slate-600 italic text-[11px]">Nog geen mutaties ingeleverd.</span>';
+      return;
     }
+
+    // Nieuwste bovenaan op basis van timestamp
+    const entries = Object.values(data)
+      .filter(Boolean)
+      .sort((x, y) => (y.timestamp || 0) - (x.timestamp || 0));
+
+    entries.forEach(item => {
+      const div = document.createElement('div');
+      div.className = "bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1.5 text-slate-300";
+      const timeStr = item.timestamp
+        ? new Date(item.timestamp).toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' })
+        : '';
+
+      div.innerHTML = `
+        <div class="flex justify-between items-center text-[10px] font-bold text-amber-500 border-b border-slate-800/60 pb-1 mb-1">
+          <span>${escapeHtml(item.koppel || '')} • ${escapeHtml(item.rol || '')} • R${escapeHtml(String(item.ronde || '1'))}</span>
+          <span class="text-slate-500 font-mono">${timeStr} • Casus #${escapeHtml(String(item.casusId || ''))}</span>
+        </div>
+        <div class="space-y-1 text-[11px]">
+          <p><strong class="text-blue-400">Aanleiding:</strong> <span class="whitespace-pre-line">${escapeHtml(item.astma?.aanleiding || '')}</span></p>
+          <p><strong class="text-blue-400">Situatie:</strong> <span class="whitespace-pre-line">${escapeHtml(item.astma?.situatie || '')}</span></p>
+          <p><strong class="text-blue-400">Toedracht:</strong> <span class="whitespace-pre-line">${escapeHtml(item.astma?.toedracht || '')}</span></p>
+          <p><strong class="text-blue-400">Maatregel:</strong> <span class="whitespace-pre-line">${escapeHtml(item.astma?.maatregel || '')}</span></p>
+          <p><strong class="text-blue-400">Afhandeling:</strong> <span class="whitespace-pre-line">${escapeHtml(item.astma?.afhandeling || '')}</span></p>
+        </div>
+      `;
+      container.appendChild(div);
+    });
+  }, err => console.error('Mutatie livefeed error:', err));
+}
 
     /* =========================================================================
        RESET KNOP VOOR DE DOCENT (PER KLAS)
        ========================================================================= */
-    async function resetClassData() {
-      const confirmReset = confirm(`Weet je zeker dat je ALLE data voor klas ${currentClass} wilt wissen?\n\nDit verwijdert alle ingeleverde mutaties, gekozen locaties en koppel-casussen voor deze klas.`);
-      if (!confirmReset) return;
-
-      try {
-        await db.ref(`classes/${currentClass}`).remove();
-        await db.ref(`${currentChannel}`).remove();
-        alert(`Klas ${currentClass} is volledig gereset naar Ronde 1.`);
-        currentRound = 1;
-        await syncCoupleData();
-      } catch (err) {
-        alert("Fout bij resetten: " + err.message);
-      }
-    }
+   async function resetClassData() {
+  const ok = confirm(`Weet je zeker dat je ALLE data voor klas ${currentClass} wilt wissen?`);
+  if (!ok) return;
+  try {
+    await db.ref(`classes/${currentClass}`).remove();
+    await db.ref(currentChannel).remove();
+    alert(`Klas ${currentClass} is gereset.`);
+    currentRound = 1;
+    lastRoleSwapCounter = 0;
+    await syncCoupleData();
+  } catch (err) {
+    alert('Fout: ' + err.message);
+  }
+}
 
     function escapeHtml(text) {
       if (!text) return '';
@@ -1760,14 +1805,15 @@ Toont netjes zijn ID-kaart als de agent professioneel blijft.`
       listenForUnitStatus();
     }
 
-    function logoutStudent() {
-      db.ref(`${currentChannel}/voiceMsg`).off();
-      db.ref(`classes/${currentClass}/mutaties`).off();
-      db.ref(`classes/currentClass/couples/{currentCouple}/status`).off();
+ function logoutStudent() {
+  db.ref(voicePath()).off();
+  db.ref(classMutationsPath()).off();
+  db.ref(`${couplePath()}/status`).off();
+  db.ref(`${couplePath()}/roleSwapCounter`).off();
 
-      document.getElementById('view-app').classList.add('hidden');
-      document.getElementById('view-login').classList.remove('hidden');
-    }
+  document.getElementById('view-app').classList.add('hidden');
+  document.getElementById('view-login').classList.remove('hidden');
+}
 
     /* =========================================================================
        KOPPEL SYNCHRONISATIE (CASUS, LOCATIE & STATUS IN FIREBASE)
@@ -2108,48 +2154,40 @@ Toont netjes zijn ID-kaart als de agent professioneel blijft.`
       }, 80);
     }
 
-    function uploadVoicePayload() {
-      if (audioChunks.length === 0) return;
-      const blob = new Blob(audioChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
-      const reader = new FileReader();
-      reader.readAsDataURL(blob);
-      reader.onloadend = () => {
-        db.ref(`${currentChannel}/voiceMsg`).set({
-          audio: reader.result,
-          senderRole: currentRole,
-          timestamp: Date.now()
-        });
-      };
-    }
+   function uploadVoicePayload() {
+  if (audioChunks.length === 0) return;
+  const blob = new Blob(audioChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
+  const reader = new FileReader();
+  reader.readAsDataURL(blob);
+  reader.onloadend = () => {
+    // push() → ieder bericht krijgt eigen key, niets wordt overschreven
+    db.ref(voicePath()).push({
+      audio: reader.result,
+      senderId: myClientId,
+      senderRole: currentRole,
+      timestamp: Date.now()
+    }).catch(err => console.error('Porto verzendfout:', err));
+  };
+}
 
-    function listenForIncomingRadio() {
-      db.ref(`${currentChannel}/voiceMsg`).off();
-      db.ref(`${currentChannel}/voiceMsg`).on('value', snap => {
-        const data = snap.val();
-        if (!data) return;
-        if (data.timestamp > lastVoiceTimestamp && data.senderRole !== currentRole) {
-          lastVoiceTimestamp = data.timestamp;
-          playIncomingAudio(data.audio);
-        }
-      });
-    }
+function listenForIncomingRadio() {
+  const ref = db.ref(voicePath());
+  ref.off();
+  ref.limitToLast(20).on('child_added', snap => {
+    const key  = snap.key;
+    const data = snap.val();
+    if (!data || processedVoiceKeys.has(key)) return;
+    processedVoiceKeys.add(key);
 
-    function playIncomingAudio(base64Audio) {
-      playRadioChirp();
-      setTimeout(() => {
-        const audio = new Audio(base64Audio);
-        document.getElementById('lcd-status').textContent = "● RX (SPRAAK)";
-        document.getElementById('lcd-title').textContent = "BERICHT ONTVANGEN";
+    // Eigen bericht overslaan
+    if (data.senderId === myClientId) return;
 
-        audio.play().catch(e => console.log("Autoplay preventie:", e));
+    // Oude berichten (van vóór deze sessie) negeren
+    if (!data.timestamp || data.timestamp < sessionStartTime) return;
 
-        audio.onended = () => {
-          playSquelchNoise();
-          document.getElementById('lcd-status').textContent = "● STAND-BY";
-          document.getElementById('lcd-title').textContent = "KANAAL OPEN";
-        };
-      }, 200);
-    }
+    playIncomingAudio(data.audio);
+  });
+}
 
     function toggleRole() {
       currentRole = (currentRole === 'TAAKDRAGER') ? 'MEDEWERKER-OC' : 'TAAKDRAGER';
@@ -2169,81 +2207,61 @@ Toont netjes zijn ID-kaart als de agent professioneel blijft.`
     /* =========================================================================
        ASTMA MUTATIE OPSLAAN & TONEN
        ========================================================================= */
-    async function submitAstmaMutation() {
-      const a = document.getElementById('astma-a').value.trim();
-      const s = document.getElementById('astma-s').value.trim();
-      const t = document.getElementById('astma-t').value.trim();
-      const m = document.getElementById('astma-m').value.trim();
-      const afh = document.getElementById('astma-afh').value.trim();
+   async function submitAstmaMutation() {
+  const a   = document.getElementById('astma-a').value.trim();
+  const s   = document.getElementById('astma-s').value.trim();
+  const t   = document.getElementById('astma-t').value.trim();
+  const m   = document.getElementById('astma-m').value.trim();
+  const afh = document.getElementById('astma-afh').value.trim();
 
-      if (!a || !s || !t || !m || !afh) {
-        alert("Vul alle 5 onderdelen van het ASTMA-model in.");
-        return;
-      }
+  if (!a || !s || !t || !m || !afh) {
+    alert('Vul alle 5 onderdelen van het ASTMA-model in.');
+    return;
+  }
 
-      const mutatieData = {
-        koppel: currentCouple,
-        rol: currentRole,
-        casusId: currentCase.id,
-        casusTitel: currentCase.title,
-        locatie: assignedLocation,
-        astma: {
-          aanleiding: a,
-          situatie: s,
-          toedracht: t,
-          maatregel: m,
-          afhandeling: afh
-        },
-        timestamp: firebase.database.ServerValue.TIMESTAMP
-      };
+  const mutatieData = {
+    koppel: currentCouple,
+    rol: currentRole,
+    ronde: currentRound,
+    casusId: currentCase ? currentCase.id : 0,
+    casusTitel: currentCase ? currentCase.title : '',
+    locatie: assignedLocation || '',
+    astma: { aanleiding: a, situatie: s, toedracht: t, maatregel: m, afhandeling: afh },
+    timestamp: firebase.database.ServerValue.TIMESTAMP
+  };
 
-      try {
-        await db.ref(`classes/${currentClass}/mutaties`).push(mutatieData);
-        alert("Dienstmutatie conform ASTMA-model succesvol ingediend!");
-        document.getElementById('astma-a').value = '';
-        document.getElementById('astma-s').value = '';
-        document.getElementById('astma-t').value = '';
-        document.getElementById('astma-m').value = '';
-        document.getElementById('astma-afh').value = '';
-      } catch (err) {
-        alert("Fout bij opslaan: " + err.message);
-      }
-    }
+  try {
+    // 1) Mutatie publiceren in de livefeed van de klas (alle studenten zien dit direct)
+    await db.ref(classMutationsPath()).push(mutatieData);
 
-    function listenForMutations() {
-      db.ref(`classes/${currentClass}/mutaties`).off();
-      db.ref(`classes/${currentClass}/mutaties`).on('value', snap => {
-        const container = document.getElementById('mutations-list');
-        container.innerHTML = '';
-        const data = snap.val();
+    // 2) Formulier leegmaken
+    ['astma-a','astma-s','astma-t','astma-m','astma-afh']
+      .forEach(id => document.getElementById(id).value = '');
 
-        if (!data) {
-          container.innerHTML = '<span class="text-slate-600 italic text-[11px]">Nog geen mutaties ingeleverd.</span>';
-          return;
-        }
+    // 3) Nieuwe casus + locatie kiezen (niet dezelfde als huidige)
+    const currentId  = currentCase ? currentCase.id : 0;
+    const otherCases = [1,2,3,4,5].filter(id => id !== currentId);
+    const nextCaseId = otherCases[Math.floor(Math.random() * otherCases.length)];
 
-        const entries = Object.values(data).reverse();
-        entries.forEach(item => {
-          const div = document.createElement('div');
-          div.className = "bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1.5 text-slate-300";
-          div.innerHTML = `
-            <div class="flex justify-between items-center text-[10px] font-bold text-amber-500">
-              <span>${escapeHtml(item.koppel)} | ${escapeHtml(item.locatie || '')}</span>
-              <span class="text-slate-500">Casus #${item.casusId}</span>
-            </div>
-            <div class="space-y-1 text-[11px]">
-              <p><strong class="text-blue-400">Aanleiding:</strong> ${escapeHtml(item.astma?.aanleiding || '')}</p>
-              <p><strong class="text-blue-400">Situatie:</strong> ${escapeHtml(item.astma?.situatie || '')}</p>
-              <p><strong class="text-blue-400">Toedracht (W's):</strong> ${escapeHtml(item.astma?.toedracht || '')}</p>
-              <p><strong class="text-blue-400">Maatregel:</strong> ${escapeHtml(item.astma?.maatregel || '')}</p>
-              <p><strong class="text-blue-400">Afhandeling:</strong> ${escapeHtml(item.astma?.afhandeling || '')}</p>
-            </div>
-          `;
-          container.appendChild(div);
-        });
-      });
-    }
+    const otherLocations = ACADEMY_LOCATIONS.filter(l => l !== assignedLocation);
+    const nextLocation   = otherLocations[Math.floor(Math.random() * otherLocations.length)];
 
+    // 4) Alles atomair updaten → activeert rolwissel + nieuwe ronde bij BEIDE koppelgenoten
+    await db.ref(couplePath()).transaction(current => {
+      if (!current) current = {};
+      current.caseId           = nextCaseId;
+      current.location         = nextLocation;
+      current.status           = 'ONDERWEG';
+      current.round            = (current.round || 1) + 1;
+      current.roleSwapCounter  = (current.roleSwapCounter || 0) + 1;
+      return current;
+    });
+
+    alert(`✅ Mutatie ingeleverd voor ronde ${currentRound}.\n\n📢 Jullie wisselen nu automatisch van rol.\nNieuwe casus & locatie zijn geactiveerd.`);
+  } catch (err) {
+    alert('Fout bij opslaan: ' + err.message);
+  }
+}
     /* =========================================================================
        RESET KNOP VOOR DE DOCENT (PER KLAS)
        ========================================================================= */
